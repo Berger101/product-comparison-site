@@ -54,13 +54,30 @@ REST_AUTH_SERIALIZERS = {
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-avqv=td*fszc!a%0odjvt$7ij__ig@02d_fi%8iscn06zm9mu='
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 'DEBUG' in os.environ
 
-ALLOWED_HOSTS = []
+# Get ALLOWED_HOSTS from environment variables, with 'localhost' as a fallback
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 
+# ALLOWED_HOSTS = [
+#     os.environ.get('ALLOWED_HOSTS',
+#                    'localhost',)
+# ]
+
+# Fetch CLIENT_ORIGIN from environment variables and split into a list
+CLIENT_ORIGINS = os.environ.get('CLIENT_ORIGIN', '').split(',')
+
+# Set CORS_ALLOWED_ORIGINS to the list of client origins
+CORS_ALLOWED_ORIGINS = [
+    *CLIENT_ORIGINS
+]
+
+# CORS_ALLOWED_ORIGINS = [
+#     os.environ.get('CLIENT_ORIGIN')
+# ]
 
 # Application definition
 
