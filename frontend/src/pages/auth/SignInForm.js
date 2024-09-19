@@ -25,13 +25,17 @@ function SignInForm() {
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("/dj-rest-auth/login/", signInData);
+      // Make login request
+      const { data } = await axios.post("/dj-rest-auth/login/", signInData);
+      // Store the token in localStorage
+      localStorage.setItem("token", data.key);
       navigate("/");
     } catch (err) {
+      // Set errors if the request fails
       setErrors(err.response?.data);
     }
   };
