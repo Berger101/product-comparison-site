@@ -25,11 +25,12 @@ function SignInForm() {
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       await axios.post("/dj-rest-auth/login/", signInData);
-      navigate.push("/");
+      navigate("/");
     } catch (err) {
       setErrors(err.response?.data);
     }
@@ -59,7 +60,7 @@ function SignInForm() {
                 onChange={handleChange}
               />
             </Form.Group>
-            {errors.username?.map((message, idx) => (
+            {errors?.username?.map((message, idx) => (
               <Alert key={idx} variant="warning">
                 {message}
               </Alert>
@@ -76,7 +77,7 @@ function SignInForm() {
                 onChange={handleChange}
               />
             </Form.Group>
-            {errors.password?.map((message, idx) => (
+            {errors?.password?.map((message, idx) => (
               <Alert key={idx} variant="warning">
                 {message}
               </Alert>
@@ -87,7 +88,7 @@ function SignInForm() {
             >
               Sign in
             </Button>
-            {errors.non_field_errors?.map((message, idx) => (
+            {errors?.non_field_errors?.map((message, idx) => (
               <Alert key={idx} variant="warning" className="mt-3">
                 {message}
               </Alert>
