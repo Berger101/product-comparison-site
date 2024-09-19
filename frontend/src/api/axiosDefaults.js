@@ -5,13 +5,35 @@ axios.defaults.baseURL = "http://localhost:8000/";
 axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
 axios.defaults.withCredentials = true;
 
+// Retrieve token from localStorage (or cookies, depending on your setup)
+const token = localStorage.getItem("token"); // You can use cookies if that's how you're storing the token
+
+// Set the Authorization header for axios instances
+if (token) {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+}
+
+// Create axios instances
 export const axiosReq = axios.create();
 export const axiosRes = axios.create();
 
- 
- // IMPORTANT!!
- // Because this React app is running in the same workspace as the API,
+// Automatically add the Authorization header to all axiosReq and axiosRes requests
+axiosReq.interceptors.request.use(
+  (config) => {
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
- // there is no need to set a separate baseURL until you reach deployment.
-
- // Setting a baseURL before you reach deployment will cause errors
+axiosRes.interceptors.request.use(
+  (config) => {
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
