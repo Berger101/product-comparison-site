@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
@@ -8,12 +7,13 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Image from "react-bootstrap/Image";
 import Container from "react-bootstrap/Container";
-
 import { Link, useNavigate } from "react-router-dom";
-
 import styles from "../../styles/SignInUpForm.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
+
+// Import the useSetCurrentUser hook to update the logged-in state
+import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
 
 function SignInForm() {
   const [signInData, setSignInData] = useState({
@@ -23,19 +23,24 @@ function SignInForm() {
   const { username, password } = signInData;
 
   const [errors, setErrors] = useState({});
-
+  const setCurrentUser = useSetCurrentUser(); // Use this hook to update user context
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      // Make login request
       const { data } = await axios.post("/dj-rest-auth/login/", signInData);
+
       // Store the token in localStorage
       localStorage.setItem("token", data.key);
+
+      // Update the user context after login
+      const userResponse = await axios.get("/dj-rest-auth/user/");
+      setCurrentUser(userResponse.data);
+
+      // Navigate to home
       navigate("/");
     } catch (err) {
-      // Set errors if the request fails
       setErrors(err.response?.data);
     }
   };
