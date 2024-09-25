@@ -109,11 +109,14 @@ function PostCreateForm() {
                 </Form.Label>
               )}
 
-              <Form.File
-                id="image-upload"
-                accept="image/*"
-                onChange={handleChangeImage}
-              />
+              <Form.Group controlId="image-upload">
+                <Form.Label>Upload Image</Form.Label>
+                <Form.Control
+                  type="file"
+                  accept="image/*"
+                  onChange={handleChangeImage}
+                />
+              </Form.Group>
             </Form.Group>
             <div className="d-md-none">{textFields}</div>
           </Container>
