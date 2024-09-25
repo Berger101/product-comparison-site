@@ -18,19 +18,23 @@ export const CurrentUserProvider = ({ children }) => {
       const { data } = await axiosRes.get("/dj-rest-auth/user/");
       setCurrentUser(data);
     } catch (err) {
-      console.log("Error fetching current user:", err);
+      if (err.response?.status === 403 || err.response?.status === 401) {
+        // User is not logged in or token is invalid
+        console.log("User is not authenticated, setting currentUser to null.");
+        setCurrentUser(null); // Clear any current user data
+      } else {
+        console.error("Error fetching current user:", err);
+      }
     }
   };
 
   useEffect(() => {
     handleMount();
-  }, []);
+  }, []); // Fetch current user on mount
 
   useEffect(() => {
     const requestInterceptor = axiosReq.interceptors.request.use(
-      (config) => {
-        return config;
-      },
+      (config) => config,
       (error) => Promise.reject(error)
     );
 
@@ -39,11 +43,12 @@ export const CurrentUserProvider = ({ children }) => {
       async (err) => {
         if (err.response?.status === 401) {
           try {
+            // Try refreshing the token
             await axios.post("/dj-rest-auth/token/refresh/");
-            return axios(err.config);
+            return axios(err.config); // Retry the original request
           } catch (error) {
-            setCurrentUser(null);
-            navigate("/signin");
+            setCurrentUser(null); // Clear user state
+            navigate("/signin"); // Redirect to sign-in if token refresh fails
           }
         }
         return Promise.reject(err);
