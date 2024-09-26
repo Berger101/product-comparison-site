@@ -6,14 +6,16 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
+import { Image } from "react-bootstrap";
 
 import Upload from "../../assets/upload.png";
 
 import styles from "../../styles/PostCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
+
 import Asset from "../../components/Asset";
-import { Image } from "react-bootstrap";
+
 import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 
@@ -30,6 +32,7 @@ function PostCreateForm() {
   const imageInput = useRef(null);
   const navigate = useNavigate();
 
+  // Handle changes in form fields
   const handleChange = (event) => {
     setPostData({
       ...postData,
@@ -37,6 +40,7 @@ function PostCreateForm() {
     });
   };
 
+  // Handle image file selection
   const handleChangeImage = (event) => {
     if (event.target.files.length) {
       URL.revokeObjectURL(image);
@@ -47,16 +51,36 @@ function PostCreateForm() {
     }
   };
 
+  // Form submission logic
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-
+    
+    // Append title and content fields
     formData.append("title", title);
     formData.append("content", content);
-    formData.append("image", imageInput.current.files[0]);
+    // formData.append("image", imageInput.current.files[0]);
+
+    // Only append the image if one is selected
+    if (imageInput.current?.files[0]) {
+      formData.append("image", imageInput.current.files[0]);
+    }
+
+    // Debugging the token
+    const token = localStorage.getItem("token");
+    // console.log("Token:", token);
 
     try {
-      const { data } = await axiosReq.post("/posts/", formData);
+      // Prepare the config with the token
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`, // Retrieve the token from local storage
+          "X-CSRFToken": document.cookie.split('; ').find(row => row.startsWith('csrftoken'))?.split('=')[1], // Set CSRF token from cookies
+        },
+      };
+
+      // Pass the config object as the third parameter in the POST request
+      const { data } = await axiosReq.post("/posts/", formData, config); // Include config here
       navigate(`/posts/${data.id}`);
     } catch (err) {
       console.log(err);
@@ -66,6 +90,7 @@ function PostCreateForm() {
     }
   };
 
+  // Form fields for title and content
   const textFields = (
     <div className="text-center">
       <Form.Group>
