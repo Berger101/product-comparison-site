@@ -16,6 +16,9 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
+// Import the useSetCurrentUser hook to update the logged-in state
+import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
+
 const SignUpForm = () => {
   const [signUpData, setSignUpData] = useState({
     username: "",
@@ -25,7 +28,7 @@ const SignUpForm = () => {
   const { username, password1, password2 } = signUpData;
 
   const [errors, setErrors] = useState({});
-
+  const setCurrentUser = useSetCurrentUser(); // Use this hook to update user context
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -38,8 +41,15 @@ const SignUpForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      // Make a POST request to register the user
       await axios.post("/dj-rest-auth/registration/", signUpData);
-      navigate("/signin");
+
+      // After registration, fetch the user data to set in the current user context
+      const { data } = await axios.get("/dj-rest-auth/user/");
+      setCurrentUser(data); // Update the user context
+
+      // Navigate to the home page or another page after successful sign-up
+      navigate("/");
     } catch (err) {
       setErrors(err.response?.data);
     }
