@@ -18,6 +18,15 @@ function CommentCreateForm(props) {
     return localStorage.getItem("token");
   };
 
+  // Function to get the CSRF token from cookies
+  const getCsrfToken = () => {
+    const csrfCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("csrftoken"))
+      ?.split("=")[1];
+    return csrfCookie;
+  };
+
   const handleChange = (event) => {
     setContent(event.target.value);
   };
@@ -27,9 +36,11 @@ function CommentCreateForm(props) {
 
     try {
       const token = getToken();
+      const csrfToken = getCsrfToken();
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-CSRFToken": csrfToken,
         },
       };
 
