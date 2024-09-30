@@ -22,11 +22,32 @@ const Comment = (props) => {
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
 
-  const { profile_id, profile_image, owner, updated_at, content } = props;
+  // Function to get the token from localStorage
+  const getToken = () => {
+    return localStorage.getItem("token");
+  };
+
+  // Function to get the CSRF token from the cookies
+  const getCsrfToken = () => {
+    const csrfCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("csrftoken"))
+      ?.split("=")[1];
+    return csrfCookie;
+  };
 
   const handleDelete = async () => {
     try {
+      const token = getToken();
+      const csrfToken = getCsrfToken();
 
+      // Pass the token and CSRF token in the headers
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-CSRFToken": csrfToken,
+        },
+      };
 
       await axiosRes.delete(`/comments/${id}/`, config);
       setPost((prevPost) => ({
