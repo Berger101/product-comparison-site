@@ -4,14 +4,13 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Avatar from "../../components/Avatar";
-import { axiosRes, axiosReq } from "../../api/axiosDefaults";
+import { axiosRes } from "../../api/axiosDefaults";
 
 const Post = (props) => {
   const {
     id,
     owner,
     profile_id,
-    profile_image,
     comments_count,
     likes_count,
     like_id,
