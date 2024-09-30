@@ -73,7 +73,20 @@ function PostEditForm() {
     }
 
     try {
-      await axiosReq.put(`/posts/${id}/`, formData);
+      const token = localStorage.getItem("token");
+      const csrfToken = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("csrftoken"))
+        ?.split("=")[1];
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-CSRFToken": csrfToken,
+        },
+      };
+
+      await axiosReq.put(`/posts/${id}/`, formData, config); // Pass the config with token in the request
       navigate(`/posts/${id}`);
     } catch (err) {
       console.log(err);
