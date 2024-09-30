@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import Button from "react-bootstrap/Button";
 
 import styles from "../../styles/CommentCreateEditForm.module.css";
 import Avatar from "../../components/Avatar";
@@ -12,17 +13,34 @@ function CommentCreateForm(props) {
   const { post, setPost, setComments, profileImage, profile_id } = props;
   const [content, setContent] = useState("");
 
+  // Function to get the token from localStorage
+  const getToken = () => {
+    return localStorage.getItem("token");
+  };
+
   const handleChange = (event) => {
     setContent(event.target.value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
-      const { data } = await axiosRes.post("/comments/", {
-        content,
-        post,
-      });
+      const token = getToken();
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axiosRes.post(
+        "/comments/",
+        {
+          content,
+          post,
+        },
+        config // Pass the config with headers
+      );
       setComments((prevComments) => ({
         ...prevComments,
         results: [data, ...prevComments.results],
@@ -58,13 +76,13 @@ function CommentCreateForm(props) {
           />
         </InputGroup>
       </Form.Group>
-      <button
+      <Button
         className={`${styles.Button} btn d-block ml-auto`}
         disabled={!content.trim()}
         type="submit"
       >
         post
-      </button>
+      </Button>
     </Form>
   );
 }
