@@ -27,25 +27,38 @@ const Post = (props) => {
   const is_owner = currentUser?.username === owner;
   const navigate = useNavigate();
 
-  const handleEdit = () => {
-    navigate(`/posts/${id}/edit`);
-  };
-
-  const handleDelete = async () => {
-    try {
-      await axiosRes.delete(`/posts/${id}/`);
-      navigate(-1);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const getCsrfToken = () => {
     const csrfCookie = document.cookie
       .split('; ')
       .find(row => row.startsWith('csrftoken'))
       ?.split('=')[1];
     return csrfCookie;
+  };
+
+  const handleEdit = () => {
+    navigate(`/posts/${id}/edit`);
+  };
+
+  const handleDelete = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const csrfToken = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken'))
+        ?.split('=')[1]; // Retrieve the CSRF token from cookies
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-CSRFToken": csrfToken,
+        },
+      };
+  
+      await axiosRes.delete(`/posts/${id}/`, config);
+      navigate(-1);
+    } catch (err) {
+      console.log(err);
+    }
   };
   
   const handleLike = async () => {
