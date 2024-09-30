@@ -10,16 +10,37 @@ function CommentEditForm(props) {
 
   const [formContent, setFormContent] = useState(content);
 
+  // Function to get the token from localStorage
+  const getToken = () => {
+    return localStorage.getItem("token");
+  };
+
   const handleChange = (event) => {
     setFormContent(event.target.value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
-      await axiosRes.put(`/comments/${id}/`, {
-        content: formContent.trim(),
-      });
+      const token = getToken();
+      const csrfToken = document.cookie.split("; ").find(row => row.startsWith("csrftoken"))?.split("=")[1];
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-CSRFToken": csrfToken,
+        },
+      };
+
+      await axiosRes.put(
+        `/comments/${id}/`,
+        {
+          content: formContent.trim(),
+        },
+        config // Pass the config with tokens
+      );
+
       setComments((prevComments) => ({
         ...prevComments,
         results: prevComments.results.map((comment) => {
@@ -32,6 +53,7 @@ function CommentEditForm(props) {
             : comment;
         }),
       }));
+
       setShowEditForm(false);
     } catch (err) {
       console.log(err);
