@@ -49,7 +49,7 @@ function ProfilePage() {
 
   const mainProfile = (
     <>
-      <Row noGutters className="px-3 text-center">
+      <Row className="px-3 text-center">
         <Col lg={3} className="text-lg-left">
           <Image
             className={styles.ProfileImage}
@@ -59,7 +59,7 @@ function ProfilePage() {
         </Col>
         <Col lg={6}>
           <h3 className="m-2">{profile?.owner}</h3>
-          <Row className="justify-content-center no-gutters">
+          <Row className="justify-content-center">
             <Col xs={3} className="my-2">
               <div>{profile?.posts_count}</div>
               <div>posts</div>
