@@ -40,15 +40,3 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.id} {self.title}'
-    
-# URL PATH from cloudinary copied
-# https://res.cloudinary.com/dmmoveeu5/image/upload/v1723554985/default_profile_vakdxh.jpg
-
-# Error 404 not found, what the url path trying to get on the site
-# https://res.cloudinary.com/dmmoveeu5/image/upload/v1/media/../default_post_vakdxh
-
-
-# what the console.log is showing the image url
-# https://res.cloudinary.com/dmmoveeu5/image/upload/v1/default_post_vakdxh
-
-# https://res.cloudinary.com/dmmoveeu5/image/upload/v1/default_post_vakdxh
