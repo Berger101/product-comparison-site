@@ -29,12 +29,37 @@ function ProfilePage() {
   const [profile] = pageProfile.results;
   const is_owner = currentUser?.username === profile?.owner;
 
+  // Function to get the token from localStorage
+  const getToken = () => {
+    return localStorage.getItem("token");
+  };
+
+  // Function to get the CSRF token from cookies
+  const getCsrfToken = () => {
+    const csrfCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("csrftoken"))
+      ?.split("=")[1];
+    return csrfCookie;
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = getToken();
+        const csrfToken = getCsrfToken();
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "X-CSRFToken": csrfToken,
+          },
+        };
+
         const [{ data: pageProfile }] = await Promise.all([
-          axiosReq.get(`/profiles/${id}/`),
+          axiosReq.get(`/profiles/${id}/`, config),
         ]);
+
         setProfileData((prevState) => ({
           ...prevState,
           pageProfile: { results: [pageProfile] },
