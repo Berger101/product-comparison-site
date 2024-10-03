@@ -7,7 +7,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
     following_id = serializers.SerializerMethodField()
-    profile_image = serializers.SerializerMethodField()
+    profile_image = serializers.ReadOnlyField(source='image.url')
 
     def get_is_owner(self, obj):
         request = self.context['request']
@@ -22,12 +22,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             # print(following)
             return following.id if following else None
         return None
-
-    # Define the get_profile_image method to return the image URL
-    def get_profile_image(self, obj):
-        if obj.image:
-            return obj.image.url
-        return None  # Return None or a default image URL if no image is set
 
     class Meta:
         model = Profile
