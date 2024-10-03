@@ -29,7 +29,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)
     image = models.ImageField(
-        upload_to='images/', default='../default_post_zblkfc', blank=True, null=True
+        upload_to='images/', default='default_profile_vakdxh', blank=True, null=True
     )
     image_filter = models.CharField(
         max_length=32, choices=image_filter_choices, default='normal'
@@ -40,3 +40,15 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.id} {self.title}'
+    
+# URL PATH from cloudinary copied
+# https://res.cloudinary.com/dmmoveeu5/image/upload/v1723554985/default_profile_vakdxh.jpg
+
+# Error 404 not found, what the url path trying to get on the site
+# https://res.cloudinary.com/dmmoveeu5/image/upload/v1/media/../default_post_vakdxh
+
+
+# what the console.log is showing the image url
+# https://res.cloudinary.com/dmmoveeu5/image/upload/v1/default_post_vakdxh
+
+# https://res.cloudinary.com/dmmoveeu5/image/upload/v1/default_post_vakdxh
