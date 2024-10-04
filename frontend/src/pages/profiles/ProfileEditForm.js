@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -10,19 +10,17 @@ import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 
 import { axiosReq } from "../../api/axiosDefaults";
-import {
-  useCurrentUser,
-  useSetCurrentUser,
-} from "../../contexts/CurrentUserContext";
+import { useCurrentUser, useSetCurrentUser } from "../../contexts/CurrentUserContext";
 
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
+import { getAuthHeaders } from "../../utils/tokenUtils";
 
 const ProfileEditForm = () => {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
   const { id } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
   const imageFile = useRef();
 
   const [profileData, setProfileData] = useState({
@@ -38,20 +36,22 @@ const ProfileEditForm = () => {
     const handleMount = async () => {
       if (currentUser?.profile_id?.toString() === id) {
         try {
-          const { data } = await axiosReq.get(`/profiles/${id}/`);
+          const config = getAuthHeaders(); // Token handling for authenticated requests
+
+          const { data } = await axiosReq.get(`/profiles/${id}/`, config);
           const { name, content, image } = data;
           setProfileData({ name, content, image });
         } catch (err) {
           console.log(err);
-          history.push("/");
+          navigate("/");
         }
       } else {
-        history.push("/");
+        navigate("/");
       }
     };
 
     handleMount();
-  }, [currentUser, history, id]);
+  }, [currentUser, navigate, id]);
 
   const handleChange = (event) => {
     setProfileData({
@@ -71,12 +71,14 @@ const ProfileEditForm = () => {
     }
 
     try {
-      const { data } = await axiosReq.put(`/profiles/${id}/`, formData);
+      const config = getAuthHeaders();
+
+      const { data } = await axiosReq.put(`/profiles/${id}/`, formData, config);
       setCurrentUser((currentUser) => ({
         ...currentUser,
         profile_image: data.image,
       }));
-      history.goBack();
+      navigate(-1);
     } catch (err) {
       console.log(err);
       setErrors(err.response?.data);
@@ -101,10 +103,7 @@ const ProfileEditForm = () => {
           {message}
         </Alert>
       ))}
-      <Button
-        className={`${btnStyles.Button} ${btnStyles.Blue}`}
-        onClick={() => history.goBack()}
-      >
+      <Button className={`${btnStyles.Button} ${btnStyles.Blue}`} onClick={() => navigate(-1)}>
         cancel
       </Button>
       <Button className={`${btnStyles.Button} ${btnStyles.Blue}`} type="submit">
@@ -130,14 +129,11 @@ const ProfileEditForm = () => {
                 </Alert>
               ))}
               <div>
-                <Form.Label
-                  className={`${btnStyles.Button} ${btnStyles.Blue} btn my-auto`}
-                  htmlFor="image-upload"
-                >
+                <Form.Label className={`${btnStyles.Button} ${btnStyles.Blue} btn my-auto`} htmlFor="image-upload">
                   Change the image
                 </Form.Label>
               </div>
-              <Form.File
+              <Form.Control
                 id="image-upload"
                 ref={imageFile}
                 accept="image/*"
