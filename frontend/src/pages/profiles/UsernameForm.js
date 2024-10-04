@@ -16,6 +16,7 @@ import {
 
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
+import { getAuthHeaders } from "../../utils/tokenUtils";
 
 const UsernameForm = () => {
   const [username, setUsername] = useState("");
@@ -38,9 +39,10 @@ const UsernameForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axiosRes.put("/dj-rest-auth/user/", {
-        username,
-      });
+      const config = getAuthHeaders();
+
+      await axiosRes.put("/dj-rest-auth/user/", { username }, config);
+
       setCurrentUser((prevUser) => ({
         ...prevUser,
         username,
