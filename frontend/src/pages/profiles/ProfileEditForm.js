@@ -11,6 +11,7 @@ import Alert from "react-bootstrap/Alert";
 
 import { axiosReq } from "../../api/axiosDefaults";
 import { useCurrentUser, useSetCurrentUser } from "../../contexts/CurrentUserContext";
+import { getAuthHeaders } from "../../utils/tokenUtils";
 
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
@@ -35,7 +36,9 @@ const ProfileEditForm = () => {
   useEffect(() => {
     const handleMount = async () => {
       try {
-        const { data } = await axiosReq.get(`/profiles/${id}/`);
+        const config = getAuthHeaders(); // Token handling for authenticated requests
+
+        const { data } = await axiosReq.get(`/profiles/${id}/`, config);
         const { name, content, image, owner } = data;
         setProfileData({ name, content, image });
         setIsOwner(currentUser?.username === owner);
@@ -81,7 +84,9 @@ const ProfileEditForm = () => {
     }
 
     try {
-      const { data } = await axiosReq.put(`/profiles/${id}/`, formData);
+      const config = getAuthHeaders(); // Token handling for authenticated requests
+
+      const { data } = await axiosReq.put(`/profiles/${id}/`, formData, config);
       setCurrentUser((currentUser) => ({
         ...currentUser,
         profile_image: data.image,
@@ -94,7 +99,7 @@ const ProfileEditForm = () => {
   };
 
   if (!isOwner) {
-    return null; // Don't render the form if the user is not the owner
+    return null;  // Don't render the form if the user is not the owner
   }
 
   const textFields = (
