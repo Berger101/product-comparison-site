@@ -30,7 +30,7 @@ const ProfileEditForm = () => {
   const { name, content, image } = profileData;
 
   const [errors, setErrors] = useState({});
-  const [isOwner, setIsOwner] = useState(false);  // track ownership
+  const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
     const handleMount = async () => {
@@ -38,7 +38,7 @@ const ProfileEditForm = () => {
         const { data } = await axiosReq.get(`/profiles/${id}/`);
         const { name, content, image, owner } = data;
         setProfileData({ name, content, image });
-        setIsOwner(currentUser?.username === owner);  // check if current user is the owner
+        setIsOwner(currentUser?.username === owner);
 
         if (currentUser?.username !== owner) {
           console.log("User is not the profile owner, redirecting to home.");
@@ -60,6 +60,16 @@ const ProfileEditForm = () => {
     });
   };
 
+  const handleChangeImage = (event) => {
+    if (event.target.files.length) {
+      URL.revokeObjectURL(image);
+      setProfileData({
+        ...profileData,
+        image: URL.createObjectURL(event.target.files[0]),
+      });
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -67,7 +77,7 @@ const ProfileEditForm = () => {
     formData.append("content", content);
 
     if (imageFile?.current?.files[0]) {
-      formData.append("image", imageFile?.current?.files[0]);
+      formData.append("image", imageFile.current.files[0]);
     }
 
     try {
@@ -84,7 +94,7 @@ const ProfileEditForm = () => {
   };
 
   if (!isOwner) {
-    return null;  // don't render the form if the user is not the owner
+    return null; // Don't render the form if the user is not the owner
   }
 
   const textFields = (
@@ -137,16 +147,10 @@ const ProfileEditForm = () => {
               </div>
               <Form.Control
                 id="image-upload"
-                ref={imageFile}
+                type="file"
                 accept="image/*"
-                onChange={(e) => {
-                  if (e.target.files.length) {
-                    setProfileData({
-                      ...profileData,
-                      image: URL.createObjectURL(e.target.files[0]),
-                    });
-                  }
-                }}
+                onChange={handleChangeImage}
+                ref={imageFile}
               />
             </Form.Group>
             <div className="d-md-none">{textFields}</div>
