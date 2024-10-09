@@ -19,8 +19,7 @@ export const CurrentUserProvider = ({ children }) => {
       setCurrentUser(data);
     } catch (err) {
       if (err.response?.status === 403 || err.response?.status === 401) {
-        // User is not logged in or token is invalid
-        console.log("User is not authenticated, setting currentUser to null.");
+
         setCurrentUser(null); // Clear any current user data
       } else {
         console.error("Error fetching current user:", err);
