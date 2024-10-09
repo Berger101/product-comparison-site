@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { axiosRes } from "../../api/axiosDefaults";
@@ -17,10 +17,6 @@ import appStyles from "../../App.module.css";
 import { getAuthHeaders } from "../../utils/tokenUtils";
 
 const UserPasswordForm = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const currentUser = useCurrentUser();
-
   const [userData, setUserData] = useState({
     new_password1: "",
     new_password2: "",
@@ -28,6 +24,35 @@ const UserPasswordForm = () => {
   const { new_password1, new_password2 } = userData;
 
   const [errors, setErrors] = useState({});
+  const [isOwner, setIsOwner] = useState(false);
+
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const currentUser = useCurrentUser();
+
+  useEffect(() => {
+    const handleMount = async () => {
+      try {
+        const { data } = await axiosRes.get(`/profiles/${id}/`);
+        const { owner } = data;  // Get the profile owner from the API response
+
+        // Check if the current user's username matches the profile owner
+        if (currentUser?.username === owner) {
+          setIsOwner(true);
+        } else {
+          console.log("User is not the profile owner, redirecting to home.");
+          navigate("/");
+        }
+      } catch (err) {
+        console.log(err);
+        navigate("/");
+      }
+    };
+
+    if (currentUser) {
+      handleMount();
+    }
+  }, [currentUser, navigate, id]);
 
   const handleChange = (event) => {
     setUserData({
@@ -35,13 +60,6 @@ const UserPasswordForm = () => {
       [event.target.name]: event.target.value,
     });
   };
-
-  useEffect(() => {
-    if (currentUser?.profile_id?.toString() !== id) {
-      // redirect user if they are not the owner of this profile
-      navigate("/");
-    }
-  }, [currentUser, navigate, id]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -55,6 +73,10 @@ const UserPasswordForm = () => {
       setErrors(err.response?.data);
     }
   };
+
+  if (!isOwner) {
+    return null;  // Don't render the form if the user is not the owner
+  }
 
   return (
     <Row>
