@@ -14,7 +14,6 @@ import { useCurrentUser, useSetCurrentUser } from "../../contexts/CurrentUserCon
 
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
-import { getAuthHeaders } from "../../utils/tokenUtils";
 
 const ProfileEditForm = () => {
   const currentUser = useCurrentUser();
@@ -31,21 +30,22 @@ const ProfileEditForm = () => {
   const { name, content, image } = profileData;
 
   const [errors, setErrors] = useState({});
+  const [isOwner, setIsOwner] = useState(false);  // track ownership
 
   useEffect(() => {
     const handleMount = async () => {
-      if (currentUser?.profile_id?.toString() === id) {
-        try {
-          const config = getAuthHeaders(); // Token handling for authenticated requests
+      try {
+        const { data } = await axiosReq.get(`/profiles/${id}/`);
+        const { name, content, image, owner } = data;
+        setProfileData({ name, content, image });
+        setIsOwner(currentUser?.username === owner);  // check if current user is the owner
 
-          const { data } = await axiosReq.get(`/profiles/${id}/`, config);
-          const { name, content, image } = data;
-          setProfileData({ name, content, image });
-        } catch (err) {
-          console.log(err);
+        if (currentUser?.username !== owner) {
+          console.log("User is not the profile owner, redirecting to home.");
           navigate("/");
         }
-      } else {
+      } catch (err) {
+        console.log(err);
         navigate("/");
       }
     };
@@ -71,9 +71,7 @@ const ProfileEditForm = () => {
     }
 
     try {
-      const config = getAuthHeaders();
-
-      const { data } = await axiosReq.put(`/profiles/${id}/`, formData, config);
+      const { data } = await axiosReq.put(`/profiles/${id}/`, formData);
       setCurrentUser((currentUser) => ({
         ...currentUser,
         profile_image: data.image,
@@ -84,6 +82,10 @@ const ProfileEditForm = () => {
       setErrors(err.response?.data);
     }
   };
+
+  if (!isOwner) {
+    return null;  // don't render the form if the user is not the owner
+  }
 
   const textFields = (
     <>
