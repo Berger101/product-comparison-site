@@ -30,7 +30,7 @@ function SignInForm() {
   const navigate = useNavigate();
 
   // Redirect if the user is already logged in
-  useRedirect("loggedIn");
+  useRedirect("loggedOut");
 
   const handleSubmit = async (event) => {
     event.preventDefault();

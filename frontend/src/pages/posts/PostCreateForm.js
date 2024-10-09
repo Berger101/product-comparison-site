@@ -15,13 +15,12 @@ import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 
 import Asset from "../../components/Asset";
-
 import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import { getAuthHeaders } from "../../utils/tokenUtils";
+import { useRedirect } from "../../hooks/useRedirect";
 
 function PostCreateForm() {
-  
   const [errors, setErrors] = useState({});
 
   const [postData, setPostData] = useState({
@@ -33,6 +32,9 @@ function PostCreateForm() {
 
   const imageInput = useRef(null);
   const navigate = useNavigate();
+
+  // Ensure the page is accessible only when logged in
+  useRedirect("loggedIn");
 
   // Handle changes in form fields
   const handleChange = (event) => {
@@ -57,22 +59,16 @@ function PostCreateForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    
-    // Append title and content fields
     formData.append("title", title);
     formData.append("content", content);
 
-    // Only append the image if one is selected
     if (imageInput.current?.files[0]) {
       formData.append("image", imageInput.current.files[0]);
     }
 
     try {
-      // Get token and CSRF token from utility
-      const config = getAuthHeaders();
-
-      // Pass the config object as the third parameter in the POST request
-      const { data } = await axiosReq.post("/posts/", formData, config); // Include config here
+      const config = getAuthHeaders();  // Retrieve headers including the token and CSRF token
+      const { data } = await axiosReq.post("/posts/", formData, config);  // Include config in the request
       navigate(`/posts/${data.id}`);
     } catch (err) {
       console.log(err);
@@ -82,7 +78,6 @@ function PostCreateForm() {
     }
   };
 
-  // Form fields for title and content
   const textFields = (
     <div className="text-center">
       <Form.Group>

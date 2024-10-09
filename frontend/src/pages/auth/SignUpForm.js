@@ -22,7 +22,7 @@ import { useRedirect } from "../../hooks/useRedirect";
 import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
 
 const SignUpForm = () => {
-  useRedirect("loggedIn");
+  useRedirect("loggedOut");
   const [signUpData, setSignUpData] = useState({
     username: "",
     password1: "",
