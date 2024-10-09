@@ -18,8 +18,10 @@ import Asset from "../../components/Asset";
 
 import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
+import { getAuthHeaders } from "../../utils/tokenUtils";
 
 function PostCreateForm() {
+  
   const [errors, setErrors] = useState({});
 
   const [postData, setPostData] = useState({
@@ -59,25 +61,15 @@ function PostCreateForm() {
     // Append title and content fields
     formData.append("title", title);
     formData.append("content", content);
-    // formData.append("image", imageInput.current.files[0]);
 
     // Only append the image if one is selected
     if (imageInput.current?.files[0]) {
       formData.append("image", imageInput.current.files[0]);
     }
 
-    // Debugging the token
-    const token = localStorage.getItem("token");
-    // console.log("Token:", token);
-
     try {
-      // Prepare the config with the token
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`, // Retrieve the token from local storage
-          "X-CSRFToken": document.cookie.split('; ').find(row => row.startsWith('csrftoken'))?.split('=')[1], // Set CSRF token from cookies
-        },
-      };
+      // Get token and CSRF token from utility
+      const config = getAuthHeaders();
 
       // Pass the config object as the third parameter in the POST request
       const { data } = await axiosReq.post("/posts/", formData, config); // Include config here
