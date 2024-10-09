@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
@@ -8,11 +9,12 @@ import Row from "react-bootstrap/Row";
 import Image from "react-bootstrap/Image";
 import Container from "react-bootstrap/Container";
 import { Link, useNavigate } from "react-router-dom";
+
 import styles from "../../styles/SignInUpForm.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
 
-// Import the useSetCurrentUser hook to update the logged-in state
+import { useRedirect } from "../../hooks/useRedirect";
 import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
 
 function SignInForm() {
@@ -23,8 +25,12 @@ function SignInForm() {
   const { username, password } = signInData;
 
   const [errors, setErrors] = useState({});
-  const setCurrentUser = useSetCurrentUser(); // Use this hook to update user context
+  const setCurrentUser = useSetCurrentUser(); 
+
   const navigate = useNavigate();
+
+  // Redirect if the user is already logged in
+  useRedirect("loggedIn");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -38,8 +44,8 @@ function SignInForm() {
       const userResponse = await axios.get("/dj-rest-auth/user/");
       setCurrentUser(userResponse.data);
 
-      // Navigate to home
-      navigate("/");
+      // Navigate to the previous page or home
+      navigate(-1);
     } catch (err) {
       setErrors(err.response?.data);
     }

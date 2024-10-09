@@ -14,12 +14,15 @@ import {
   Container,
   Alert,
 } from "react-bootstrap";
+
 import axios from "axios";
+import { useRedirect } from "../../hooks/useRedirect";
 
 // Import the useSetCurrentUser hook to update the logged-in state
 import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
 
 const SignUpForm = () => {
+  useRedirect("loggedIn");
   const [signUpData, setSignUpData] = useState({
     username: "",
     password1: "",
