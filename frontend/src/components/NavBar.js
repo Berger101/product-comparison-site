@@ -27,7 +27,7 @@ const NavBar = () => {
   const handleSignOut = async () => {
     try {
       const config = getAuthHeaders();
-      console.log("Logout request config:", config);
+      // console.log("Logout request config:", config);
 
       await axios.post("/dj-rest-auth/logout/", null, {
         ...config,
@@ -36,7 +36,7 @@ const NavBar = () => {
 
       setCurrentUser(null); // Clear current user state immediately
     } catch (err) {
-      console.error("Error signing out:", err);
+      // console.error("Error signing out:", err);
     }
   };
 
