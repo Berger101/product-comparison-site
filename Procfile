@@ -1,1 +1,1 @@
-web: gunicorn product_comparison.wsgi:application
+web: gunicorn drf_api.wsgi:application
