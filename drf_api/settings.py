@@ -63,11 +63,6 @@ DEBUG = os.environ.get('DEBUG') == '1'
 # Get ALLOWED_HOSTS from environment variables, with 'localhost' as a fallback
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 
-# ALLOWED_HOSTS = [
-#     os.environ.get('ALLOWED_HOSTS',
-#                    'localhost',)
-# ]
-
 # Fetch CLIENT_ORIGIN from environment variables and split into a list
 CLIENT_ORIGINS = os.environ.get('CLIENT_ORIGIN', '').split(',')
 
@@ -76,16 +71,10 @@ CORS_ALLOWED_ORIGINS = [
     *CLIENT_ORIGINS
 ]
 
-# CORS_ALLOWED_ORIGINS = [
-#     os.environ.get('CLIENT_ORIGIN')
-# ]
-
 # Allow credentials if needed
 CORS_ALLOW_CREDENTIALS = True
 
-# CSRF_TRUSTED_ORIGINS = [
-#     'http://localhost:3000',  # Add your React app's URL here
-# ]
+# Set CSRF trusted origins
 CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
 
 # Application definition
