@@ -10,6 +10,7 @@ import {
 import Avatar from "./Avatar";
 import axios from "axios";
 import useClickOutsideToggle from "../hooks/useClickOutsideToggle";
+import { getAuthHeaders } from "../utils/tokenUtils";
 
 const NavBar = () => {
   const currentUser = useCurrentUser();
@@ -25,21 +26,17 @@ const NavBar = () => {
 
   const handleSignOut = async () => {
     try {
-      const csrfToken = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("csrftoken="))
-        ?.split("=")[1];
+      const config = getAuthHeaders();
+      console.log("Logout request config:", config);
 
       await axios.post("/dj-rest-auth/logout/", null, {
-        headers: {
-          "X-CSRFToken": csrfToken,
-        },
-        withCredentials: true,
-      });
+        ...config,
+      withCredentials: true,
+    });
 
       setCurrentUser(null); // Clear current user state immediately
     } catch (err) {
-      console.log("Error signing out:", err);
+      console.error("Error signing out:", err);
     }
   };
 
@@ -81,7 +78,12 @@ const NavBar = () => {
   );
 
   return (
-    <Navbar expanded={expanded} className={styles.NavBar} expand="md" fixed="top">
+    <Navbar
+      expanded={expanded}
+      className={styles.NavBar}
+      expand="md"
+      fixed="top"
+    >
       <Container>
         <NavLink to="/">
           <Navbar.Brand>
@@ -89,7 +91,11 @@ const NavBar = () => {
           </Navbar.Brand>
         </NavLink>
         {currentUser && addPostIcon}
-        <Navbar.Toggle ref={ref} onClick={() => setExpanded(!expanded)} aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle
+          ref={ref}
+          onClick={() => setExpanded(!expanded)}
+          aria-controls="basic-navbar-nav"
+        />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto text-left">
             <NavLink className={getNavLinkClass("/")} to="/">
