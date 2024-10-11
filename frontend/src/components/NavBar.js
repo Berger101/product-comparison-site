@@ -30,7 +30,7 @@ const NavBar = () => {
         .find((row) => row.startsWith("csrftoken="))
         ?.split("=")[1];
 
-      await axios.post("http://localhost:8000/dj-rest-auth/logout/", null, {
+      await axios.post("/dj-rest-auth/logout/", null, {
         headers: {
           "X-CSRFToken": csrfToken,
         },
