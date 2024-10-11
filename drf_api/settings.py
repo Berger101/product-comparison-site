@@ -83,9 +83,10 @@ CORS_ALLOWED_ORIGINS = [
 # Allow credentials if needed
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',  # Add your React app's URL here
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'http://localhost:3000',  # Add your React app's URL here
+# ]
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
 
 # Application definition
 
