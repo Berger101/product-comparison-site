@@ -45,6 +45,7 @@ REST_USE_JWT = True
 JWT_AUTH_SECURE = True
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+# JWT_AUTH_SAMESITE = 'None'
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
@@ -198,10 +199,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# React build static files
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'staticfiles', 'build', 'static'),
+]
+
+# Where collectstatic collects files
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 WHITENOISE_ROOT = BASE_DIR / 'staticfiles' / 'build'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
