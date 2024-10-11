@@ -22,7 +22,7 @@ export const CurrentUserProvider = ({ children }) => {
 
         setCurrentUser(null); // Clear any current user data
       } else {
-        console.error("Error fetching current user:", err);
+        // console.error("Error fetching current user:", err);
       }
     }
   };
