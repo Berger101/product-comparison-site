@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Profile
 from followers.models import Follower
-from posts.models import Post
+from products.models import Product  # Changed import from Post to Product
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -10,8 +10,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     following_id = serializers.SerializerMethodField()
     profile_image = serializers.ReadOnlyField(source='image.url')
 
-    # count posts, followers, and following
-    posts_count = serializers.SerializerMethodField()
+    # count products, followers, and following
+    products_count = serializers.SerializerMethodField()  # Updated from posts_count
     followers_count = serializers.SerializerMethodField()
     following_count = serializers.SerializerMethodField()
 
@@ -28,9 +28,10 @@ class ProfileSerializer(serializers.ModelSerializer):
             return following.id if following else None
         return None
 
-    def get_posts_count(self, obj):
-        # Count the number of posts the profile owner has created
-        return Post.objects.filter(owner=obj.owner).count()
+    def get_products_count(self, obj):  # Updated from get_posts_count
+        # Count the number of products the profile owner has created
+        # Changed from Post to Product
+        return Product.objects.filter(owner=obj.owner).count()
 
     def get_followers_count(self, obj):
         # Count how many users are following this profile's owner
@@ -45,5 +46,5 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'owner', 'created_at', 'updated_at', 'name',
             'content', 'image', 'is_owner', 'following_id', 'profile_image',
-            'posts_count', 'followers_count', 'following_count'
+            'products_count', 'followers_count', 'following_count'  # Updated from posts_count
         ]
