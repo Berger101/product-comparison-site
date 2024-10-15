@@ -14,8 +14,8 @@ const Product = (props) => {
     profile_id,
     profile_image,
     comments_count,
-    likes_count,
-    like_id,
+    votes_count,
+    vote_id,
     title,
     content,
     image,
@@ -59,7 +59,7 @@ const Product = (props) => {
     }
   };
 
-  const handleLike = async () => {
+  const handleVote = async () => {
     try {
       const token = localStorage.getItem("token");
       const csrfToken = getCsrfToken();
@@ -71,15 +71,15 @@ const Product = (props) => {
         },
       };
 
-      const { data } = await axiosRes.post("/likes/", { product: id }, config);
+      const { data } = await axiosRes.post("/votes/", { product: id }, config);
       setProducts((prevProducts) => ({
         ...prevProducts,
         results: prevProducts.results.map((product) => {
           return product.id === id
             ? {
                 ...product,
-                likes_count: product.likes_count + 1,
-                like_id: data.id,
+                votes_count: product.votes_count + 1,
+                vote_id: data.id,
               }
             : product;
         }),
@@ -89,7 +89,7 @@ const Product = (props) => {
     }
   };
 
-  const handleUnlike = async () => {
+  const handleUnvote = async () => {
     try {
       const token = localStorage.getItem("token");
       const csrfToken = getCsrfToken();
@@ -101,15 +101,15 @@ const Product = (props) => {
         },
       };
 
-      await axiosRes.delete(`/likes/${like_id}/`, config);
+      await axiosRes.delete(`/votes/${vote_id}/`, config);
       setProducts((prevProducts) => ({
         ...prevProducts,
         results: prevProducts.results.map((product) => {
           return product.id === id
             ? {
                 ...product,
-                likes_count: product.likes_count - 1,
-                like_id: null,
+                votes_count: product.votes_count - 1,
+                vote_id: null,
               }
             : product;
         }),
@@ -148,27 +148,27 @@ const Product = (props) => {
           {is_owner ? (
             <OverlayTrigger
               placement="top"
-              overlay={<Tooltip>You can't like your own product!</Tooltip>}
+              overlay={<Tooltip>You can't vote on your own product!</Tooltip>}
             >
               <i className="far fa-heart" />
             </OverlayTrigger>
-          ) : like_id ? (
-            <span onClick={handleUnlike}>
+          ) : vote_id ? (
+            <span onClick={handleUnvote}>
               <i className={`fas fa-heart ${styles.Heart}`} />
             </span>
           ) : currentUser ? (
-            <span onClick={handleLike}>
+            <span onClick={handleVote}>
               <i className={`far fa-heart ${styles.HeartOutline}`} />
             </span>
           ) : (
             <OverlayTrigger
               placement="top"
-              overlay={<Tooltip>Log in to like products!</Tooltip>}
+              overlay={<Tooltip>Log in to vote on products!</Tooltip>}
             >
               <i className="far fa-heart" />
             </OverlayTrigger>
           )}
-          {likes_count}
+          {votes_count}
           <Link to={`/products/${id}`}>
             <i className="far fa-comments" />
           </Link>
