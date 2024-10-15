@@ -14,7 +14,8 @@ class ProductList(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Product.objects.annotate(
-        total_votes=Count('votes', distinct=True),
+        votes_count=Count('votes', distinct=True),
+        comments_count=Count('comment', distinct=True)
     ).order_by('-created_at')
 
     # Add filters for search and ordering
@@ -39,8 +40,9 @@ class ProductList(generics.ListCreateAPIView):
     ]
     # Ordering options, including votes (popularity) and date
     ordering_fields = [
-        'total_votes',
-        'created_at',
+        'votes_count',
+        'comments_count',
+        'votes__created_at',
         'price',
     ]
 
@@ -55,5 +57,6 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductSerializer
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Product.objects.annotate(
-        total_votes=Count('votes', distinct=True),
+        votes_count=Count('votes', distinct=True),
+        comments_count=Count('comment', distinct=True)
     ).order_by('-created_at')
