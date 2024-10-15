@@ -20,14 +20,14 @@ import {
 } from "../../contexts/ProfileDataContext";
 import { Button, Image } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Post from "../products/Product";
+import Product from "../products/Product";
 import { fetchMoreData } from "../../utils/utils";
 import NoResults from "../../assets/no-results.png";
 import { ProfileEditDropdown } from "../../components/MoreDropdown";
 
 function ProfilePage() {
   const [hasLoaded, setHasLoaded] = useState(false);
-  const [profilePosts, setProfilePosts] = useState({ results: [] });
+  const [profileProducts, setProfileProducts] = useState({ results: [] });
 
   const currentUser = useCurrentUser();
   const { id } = useParams();
@@ -65,17 +65,17 @@ function ProfilePage() {
           },
         };
 
-        const [{ data: pageProfile }, { data: profilePosts }] =
+        const [{ data: pageProfile }, { data: profileProducts }] =
           await Promise.all([
             axiosReq.get(`/profiles/${id}/`, config),
-            axiosReq.get(`/posts/?owner__profile=${id}`, config),
+            axiosReq.get(`/products/?owner__profile=${id}`, config),
           ]);
 
         setProfileData((prevState) => ({
           ...prevState,
           pageProfile: { results: [pageProfile] },
         }));
-        setProfilePosts(profilePosts);
+        setProfileProducts(profileProducts);
         setHasLoaded(true);
       } catch (err) {
         // console.log(err);
@@ -99,8 +99,8 @@ function ProfilePage() {
           <h3 className="m-2">{profile?.owner}</h3>
           <Row className="justify-content-center">
             <Col xs={3} className="my-2">
-              <div>{profile?.posts_count}</div>
-              <div>posts</div>
+              <div>{profile?.products_count}</div> {/* Updated */}
+              <div>products</div> {/* Updated */}
             </Col>
             <Col xs={3} className="my-2">
               <div>{profile?.followers_count}</div>
@@ -136,25 +136,28 @@ function ProfilePage() {
     </>
   );
 
-  const mainProfilePosts = (
+  const mainProfileProducts = (
     <>
       <hr />
-      <p className="text-center">{profile?.owner}'s posts</p>
-      <hr />
-      {profilePosts.results.length ? (
+      <p className="text-center">{profile?.owner}'s products</p> <hr />
+      {profileProducts.results.length ? (
         <InfiniteScroll
-          children={profilePosts.results.map((post) => (
-            <Post key={post.id} {...post} setPosts={setProfilePosts} />
+          children={profileProducts.results.map((product) => (
+            <Product
+              key={product.id}
+              {...product}
+              setProducts={setProfileProducts}
+            />
           ))}
-          dataLength={profilePosts.results.length}
+          dataLength={profileProducts.results.length}
           loader={<Asset spinner />}
-          hasMore={!!profilePosts.next}
-          next={() => fetchMoreData(profilePosts, setProfilePosts)}
+          hasMore={!!profileProducts.next}
+          next={() => fetchMoreData(profileProducts, setProfileProducts)}
         />
       ) : (
         <Asset
           src={NoResults}
-          message={`No results found, ${profile?.owner} hasn't posted yet.`}
+          message={`No results found, ${profile?.owner} hasn't posted any products yet.`}
         />
       )}
     </>
@@ -168,7 +171,7 @@ function ProfilePage() {
           {hasLoaded ? (
             <>
               {mainProfile}
-              {mainProfilePosts}
+              {mainProfileProducts}
             </>
           ) : (
             <Asset spinner />
