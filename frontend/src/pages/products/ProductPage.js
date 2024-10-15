@@ -7,7 +7,7 @@ import Container from "react-bootstrap/Container";
 import appStyles from "../../App.module.css";
 import { useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
-import Post from "./Post";
+import Post from "./Product";
 import Comment from "../comments/Comment";
 
 import CommentCreateForm from "../comments/CommentCreateForm";

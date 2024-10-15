@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 
-import Post from "./Post";
+import Post from "./Product";
 import Asset from "../../components/Asset";
 
 import appStyles from "../../App.module.css";
