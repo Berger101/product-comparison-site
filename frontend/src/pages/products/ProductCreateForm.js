@@ -10,7 +10,7 @@ import { Image } from "react-bootstrap";
 
 import Upload from "../../assets/upload.png";
 
-import styles from "../../styles/PostCreateEditForm.module.css";
+import styles from "../../styles/ProductCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 
@@ -20,15 +20,15 @@ import { axiosReq } from "../../api/axiosDefaults";
 import { getAuthHeaders } from "../../utils/tokenUtils";
 import { useRedirect } from "../../hooks/useRedirect";
 
-function PostCreateForm() {
+function ProductCreateForm() {
   const [errors, setErrors] = useState({});
 
-  const [postData, setPostData] = useState({
+  const [productData, setProductData] = useState({
     title: "",
     content: "",
     image: "",
   });
-  const { title, content, image } = postData;
+  const { title, content, image } = productData;
 
   const imageInput = useRef(null);
   const navigate = useNavigate();
@@ -38,8 +38,8 @@ function PostCreateForm() {
 
   // Handle changes in form fields
   const handleChange = (event) => {
-    setPostData({
-      ...postData,
+    setProductData({
+      ...productData,
       [event.target.name]: event.target.value,
     });
   };
@@ -48,8 +48,8 @@ function PostCreateForm() {
   const handleChangeImage = (event) => {
     if (event.target.files.length) {
       URL.revokeObjectURL(image);
-      setPostData({
-        ...postData,
+      setProductData({
+        ...productData,
         image: URL.createObjectURL(event.target.files[0]),
       });
     }
@@ -67,9 +67,9 @@ function PostCreateForm() {
     }
 
     try {
-      const config = getAuthHeaders();  // Retrieve headers including the token and CSRF token
-      const { data } = await axiosReq.post("/posts/", formData, config);  // Include config in the request
-      navigate(`/posts/${data.id}`);
+      const config = getAuthHeaders(); // Retrieve headers including the token and CSRF token
+      const { data } = await axiosReq.post("/products/", formData, config); // Include config in the request
+      navigate(`/products/${data.id}`);
     } catch (err) {
       console.log(err);
       if (err.response?.status !== 401) {
@@ -183,4 +183,4 @@ function PostCreateForm() {
   );
 }
 
-export default PostCreateForm;
+export default ProductCreateForm;

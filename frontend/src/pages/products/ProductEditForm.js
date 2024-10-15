@@ -7,23 +7,22 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import Image from "react-bootstrap/Image";
-
-import styles from "../../styles/PostCreateEditForm.module.css";
+import styles from "../../styles/ProductCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 
 import { useNavigate, useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 
-function PostEditForm() {
+function ProductEditForm() {
   const [errors, setErrors] = useState({});
 
-  const [postData, setPostData] = useState({
+  const [productData, setProductData] = useState({
     title: "",
     content: "",
     image: "",
   });
-  const { title, content, image } = postData;
+  const { title, content, image } = productData;
 
   const imageInput = useRef(null);
   const navigate = useNavigate();
@@ -32,10 +31,10 @@ function PostEditForm() {
   useEffect(() => {
     const handleMount = async () => {
       try {
-        const { data } = await axiosReq.get(`/posts/${id}/`);
+        const { data } = await axiosReq.get(`/products/${id}/`);
         const { title, content, image, is_owner } = data;
 
-        is_owner ? setPostData({ title, content, image }) : navigate("/");
+        is_owner ? setProductData({ title, content, image }) : navigate("/");
       } catch (err) {
         console.log(err);
       }
@@ -45,8 +44,8 @@ function PostEditForm() {
   }, [navigate, id]);
 
   const handleChange = (event) => {
-    setPostData({
-      ...postData,
+    setProductData({
+      ...productData,
       [event.target.name]: event.target.value,
     });
   };
@@ -54,8 +53,8 @@ function PostEditForm() {
   const handleChangeImage = (event) => {
     if (event.target.files.length) {
       URL.revokeObjectURL(image);
-      setPostData({
-        ...postData,
+      setProductData({
+        ...productData,
         image: URL.createObjectURL(event.target.files[0]),
       });
     }
@@ -86,8 +85,8 @@ function PostEditForm() {
         },
       };
 
-      await axiosReq.put(`/posts/${id}/`, formData, config); // Pass the config with token in the request
-      navigate(`/posts/${id}`);
+      await axiosReq.put(`/products/${id}/`, formData, config);
+      navigate(`/products/${id}`);
     } catch (err) {
       console.log(err);
       if (err.response?.status !== 401) {
@@ -186,4 +185,4 @@ function PostEditForm() {
   );
 }
 
-export default PostEditForm;
+export default ProductEditForm;

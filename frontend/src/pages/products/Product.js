@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/Post.module.css";
+import styles from "../../styles/Product.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ import Avatar from "../../components/Avatar";
 import { axiosRes } from "../../api/axiosDefaults";
 import { MoreDropdown } from "../../components/MoreDropdown";
 
-const Post = (props) => {
+const Product = (props) => {
   const {
     id,
     owner,
@@ -20,8 +20,8 @@ const Post = (props) => {
     content,
     image,
     updated_at,
-    postPage,
-    setPosts,
+    productPage,
+    setProducts,
   } = props;
 
   const currentUser = useCurrentUser();
@@ -30,94 +30,97 @@ const Post = (props) => {
 
   const getCsrfToken = () => {
     const csrfCookie = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('csrftoken'))
-      ?.split('=')[1];
+      .split("; ")
+      .find((row) => row.startsWith("csrftoken"))
+      ?.split("=")[1];
     return csrfCookie;
   };
 
   const handleEdit = () => {
-    navigate(`/posts/${id}/edit`);
+    navigate(`/products/${id}/edit`);
   };
 
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem("token");
-      const csrfToken = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('csrftoken'))
-        ?.split('=')[1]; // Retrieve the CSRF token from cookies
-  
+      const csrfToken = getCsrfToken();
+
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
           "X-CSRFToken": csrfToken,
         },
       };
-  
-      await axiosRes.delete(`/posts/${id}/`, config);
+
+      await axiosRes.delete(`/products/${id}/`, config);
       navigate(-1);
     } catch (err) {
       console.log(err);
     }
   };
-  
+
   const handleLike = async () => {
-    try {
-      // Ensure the Authorization token is passed with the request
-      const token = localStorage.getItem("token");
-      const csrfToken = getCsrfToken(); // Retrieve CSRF token
-  
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-CSRFToken": csrfToken, // Include CSRF token in the headers
-        },
-      };
-  
-      const { data } = await axiosRes.post("/likes/", { post: id }, config);
-      setPosts((prevPosts) => ({
-        ...prevPosts,
-        results: prevPosts.results.map((post) => {
-          return post.id === id
-            ? { ...post, likes_count: post.likes_count + 1, like_id: data.id }
-            : post;
-        }),
-      }));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  
-  const handleUnlike = async () => {
     try {
       const token = localStorage.getItem("token");
       const csrfToken = getCsrfToken();
-  
+
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
           "X-CSRFToken": csrfToken,
         },
       };
-  
-      await axiosRes.delete(`/likes/${like_id}/`, config);
-      setPosts((prevPosts) => ({
-        ...prevPosts,
-        results: prevPosts.results.map((post) => {
-          return post.id === id
-            ? { ...post, likes_count: post.likes_count - 1, like_id: null }
-            : post;
+
+      const { data } = await axiosRes.post("/likes/", { product: id }, config);
+      setProducts((prevProducts) => ({
+        ...prevProducts,
+        results: prevProducts.results.map((product) => {
+          return product.id === id
+            ? {
+                ...product,
+                likes_count: product.likes_count + 1,
+                like_id: data.id,
+              }
+            : product;
         }),
       }));
     } catch (err) {
       console.log(err);
     }
   };
-  
+
+  const handleUnlike = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const csrfToken = getCsrfToken();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-CSRFToken": csrfToken,
+        },
+      };
+
+      await axiosRes.delete(`/likes/${like_id}/`, config);
+      setProducts((prevProducts) => ({
+        ...prevProducts,
+        results: prevProducts.results.map((product) => {
+          return product.id === id
+            ? {
+                ...product,
+                likes_count: product.likes_count - 1,
+                like_id: null,
+              }
+            : product;
+        }),
+      }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
-    <Card className={styles.Post}>
+    <Card className={styles.Product}>
       <Card.Body>
         <div className="align-items-center justify-content-between">
           <Link to={`/profiles/${profile_id}`}>
@@ -126,7 +129,7 @@ const Post = (props) => {
           </Link>
           <div className="d-flex align-items-center">
             <span>{updated_at}</span>
-            {is_owner && postPage && (
+            {is_owner && productPage && (
               <MoreDropdown
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
@@ -135,17 +138,17 @@ const Post = (props) => {
           </div>
         </div>
       </Card.Body>
-      <Link to={`/posts/${id}`}>
+      <Link to={`/products/${id}`}>
         <Card.Img src={image} alt={title} />
       </Link>
       <Card.Body>
         {title && <Card.Title className="text-center">{title}</Card.Title>}
         {content && <Card.Text>{content}</Card.Text>}
-        <div className={styles.PostBar}>
+        <div className={styles.ProductBar}>
           {is_owner ? (
             <OverlayTrigger
               placement="top"
-              overlay={<Tooltip>You can't like your own post!</Tooltip>}
+              overlay={<Tooltip>You can't like your own product!</Tooltip>}
             >
               <i className="far fa-heart" />
             </OverlayTrigger>
@@ -160,13 +163,13 @@ const Post = (props) => {
           ) : (
             <OverlayTrigger
               placement="top"
-              overlay={<Tooltip>Log in to like posts!</Tooltip>}
+              overlay={<Tooltip>Log in to like products!</Tooltip>}
             >
               <i className="far fa-heart" />
             </OverlayTrigger>
           )}
           {likes_count}
-          <Link to={`/posts/${id}`}>
+          <Link to={`/products/${id}`}>
             <i className="far fa-comments" />
           </Link>
           {comments_count}
@@ -176,4 +179,4 @@ const Post = (props) => {
   );
 };
 
-export default Post;
+export default Product;

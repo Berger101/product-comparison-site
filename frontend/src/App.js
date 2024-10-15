@@ -5,11 +5,11 @@ import { Route, Routes } from "react-router-dom";
 import "./api/axiosDefaults";
 import SignUpForm from "./pages/auth/SignUpForm";
 import SignInForm from "./pages/auth/SignInForm";
-import PostCreateForm from "./pages/posts/PostCreateForm";
-import PostPage from "./pages/posts/PostPage";
-import PostsPage from "./pages/posts/PostsPage";
+import ProductCreateForm from "./pages/products/ProductCreateForm";
+import ProductPage from "./pages/products/ProductPage";
+import ProductsPage from "./pages/products/ProductsPage";
 import { useCurrentUser } from "./contexts/CurrentUserContext";
-import PostEditForm from "./pages/posts/PostEditForm";
+import ProductEditForm from "./pages/products/ProductEditForm";
 import ProfilePage from "./pages/profiles/ProfilePage";
 import UsernameForm from "./pages/profiles/UsernameForm";
 import UserPasswordForm from "./pages/profiles/UserPasswordForm";
@@ -27,14 +27,14 @@ function App() {
           <Route
             path="/"
             element={
-              <PostsPage message="No results found. Adjust the search keyword." />
+              <ProductsPage message="No results found. Adjust the search keyword." />
             }
           />
 
           <Route
             path="/feed"
             element={
-              <PostsPage
+              <ProductsPage
                 message="No results found. Adjust the search keyword or follow a user."
                 filter={`owner__followed__owner__profile=${profile_id}&`}
               />
@@ -44,8 +44,8 @@ function App() {
           <Route
             path="/liked"
             element={
-              <PostsPage
-                message="No results found. Adjust the search keyword or like a post."
+              <ProductsPage
+                message="No results found. Adjust the search keyword or like a product."
                 filter={`likes__owner__profile=${profile_id}&ordering=-likes__created_at&`}
               />
             }
@@ -53,9 +53,9 @@ function App() {
 
           <Route path="/signin" element={<SignInForm />} />
           <Route path="/signup" element={<SignUpForm />} />
-          <Route path="/posts/create" element={<PostCreateForm />} />
-          <Route path="/posts/:id" element={<PostPage />} />
-          <Route path="/posts/:id/edit" element={<PostEditForm />} />
+          <Route path="/products/create" element={<ProductCreateForm />} />
+          <Route path="/products/:id" element={<ProductPage />} />
+          <Route path="/products/:id/edit" element={<ProductEditForm />} />
           <Route path="/profiles/:id" element={<ProfilePage />} />
 
           <Route
