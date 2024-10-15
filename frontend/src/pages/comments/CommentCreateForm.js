@@ -10,7 +10,7 @@ import Avatar from "../../components/Avatar";
 import { axiosRes } from "../../api/axiosDefaults";
 
 function CommentCreateForm(props) {
-  const { post, setPost, setComments, profileImage, profile_id } = props;
+  const { product, setProduct, setComments, profileImage, profile_id } = props;
   const [content, setContent] = useState("");
 
   // Function to get the token from localStorage
@@ -48,7 +48,7 @@ function CommentCreateForm(props) {
         "/comments/",
         {
           content,
-          post,
+          product,
         },
         config // Pass the config with headers
       );
@@ -56,11 +56,11 @@ function CommentCreateForm(props) {
         ...prevComments,
         results: [data, ...prevComments.results],
       }));
-      setPost((prevPost) => ({
+      setProduct((prevProduct) => ({
         results: [
           {
-            ...prevPost.results[0],
-            comments_count: prevPost.results[0].comments_count + 1,
+            ...prevProduct.results[0],
+            comments_count: prevProduct.results[0].comments_count + 1,
           },
         ],
       }));

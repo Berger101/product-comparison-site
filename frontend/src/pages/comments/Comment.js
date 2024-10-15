@@ -17,7 +17,7 @@ const Comment = (props) => {
     updated_at,
     content,
     id,
-    setPost,
+    setProduct,
     setComments,
   } = props;
 
@@ -53,11 +53,11 @@ const Comment = (props) => {
       };
 
       await axiosRes.delete(`/comments/${id}/`, config);
-      setPost((prevPost) => ({
+      setProduct((prevProduct) => ({
         results: [
           {
-            ...prevPost.results[0],
-            comments_count: prevPost.results[0].comments_count - 1,
+            ...prevProduct.results[0],
+            comments_count: prevProduct.results[0].comments_count - 1,
           },
         ],
       }));
