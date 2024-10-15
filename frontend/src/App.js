@@ -42,11 +42,11 @@ function App() {
           />
 
           <Route
-            path="/liked"
+            path="/voted"
             element={
               <ProductsPage
-                message="No results found. Adjust the search keyword or like a product."
-                filter={`likes__owner__profile=${profile_id}&ordering=-likes__created_at&`}
+                message="No results found. Adjust the search keyword or vote a product."
+                filter={`votes__owner__profile=${profile_id}&ordering=-votes__created_at&`}
               />
             }
           />
