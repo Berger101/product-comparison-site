@@ -16,10 +16,15 @@ const Product = (props) => {
     comments_count,
     votes_count,
     vote_id,
-    title,
-    content,
+    name,
+    description,
     image,
     updated_at,
+    price,
+    category,
+    features,
+    keywords,
+    location,
     productPage,
     setProducts,
   } = props;
@@ -139,11 +144,16 @@ const Product = (props) => {
         </div>
       </Card.Body>
       <Link to={`/products/${id}`}>
-        <Card.Img src={image} alt={title} />
+        <Card.Img src={image} alt={name} />
       </Link>
       <Card.Body>
-        {title && <Card.Title className="text-center">{title}</Card.Title>}
-        {content && <Card.Text>{content}</Card.Text>}
+        {name && <Card.Title className="text-center">{name}</Card.Title>}
+        {description && <Card.Text>{description}</Card.Text>}
+        {price && <p>Price: ${price}</p>}
+        {category && <p>Category: {category}</p>}
+        {features && <p>Features: {features}</p>}
+        {keywords && <p>Keywords: {keywords}</p>}
+        {location && <p>Location: {location}</p>}
         <div className={styles.ProductBar}>
           {is_owner ? (
             <OverlayTrigger

@@ -22,13 +22,26 @@ import { useRedirect } from "../../hooks/useRedirect";
 
 function ProductCreateForm() {
   const [errors, setErrors] = useState({});
-
   const [productData, setProductData] = useState({
-    title: "",
-    content: "",
+    name: "",
+    description: "",
     image: "",
+    price: "",
+    category: "",
+    features: "",
+    keywords: "",
+    location: "",
   });
-  const { title, content, image } = productData;
+  const {
+    name,
+    description,
+    image,
+    price,
+    category,
+    features,
+    keywords,
+    location,
+  } = productData;
 
   const imageInput = useRef(null);
   const navigate = useNavigate();
@@ -59,16 +72,22 @@ function ProductCreateForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("content", content);
+
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("category", category);
+    formData.append("features", features);
+    formData.append("keywords", keywords);
+    formData.append("location", location);
 
     if (imageInput.current?.files[0]) {
       formData.append("image", imageInput.current.files[0]);
     }
 
     try {
-      const config = getAuthHeaders(); // Retrieve headers including the token and CSRF token
-      const { data } = await axiosReq.post("/products/", formData, config); // Include config in the request
+      const config = getAuthHeaders();
+      const { data } = await axiosReq.post("/products/", formData, config);
       navigate(`/products/${data.id}`);
     } catch (err) {
       console.log(err);
@@ -81,44 +100,100 @@ function ProductCreateForm() {
   const textFields = (
     <div className="text-center">
       <Form.Group>
-        <Form.Label>Title</Form.Label>
+        <Form.Label>Name</Form.Label>
         <Form.Control
           type="text"
-          name="title"
-          value={title}
+          name="name"
+          value={name}
           onChange={handleChange}
         />
       </Form.Group>
-      {errors?.title?.map((message, idx) => (
+      {errors?.name?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
           {message}
         </Alert>
       ))}
 
       <Form.Group>
-        <Form.Label>Content</Form.Label>
+        <Form.Label>Description</Form.Label>
         <Form.Control
           as="textarea"
           rows={6}
-          name="content"
-          value={content}
+          name="description"
+          value={description}
           onChange={handleChange}
         />
       </Form.Group>
-      {errors?.content?.map((message, idx) => (
+      {errors?.description?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
           {message}
         </Alert>
       ))}
 
+      <Form.Group>
+        <Form.Label>Price</Form.Label>
+        <Form.Control
+          type="text"
+          name="price"
+          value={price}
+          onChange={handleChange}
+        />
+      </Form.Group>
+      {errors?.price?.map((message, idx) => (
+        <Alert variant="warning" key={idx}>
+          {message}
+        </Alert>
+      ))}
+
+      <Form.Group>
+        <Form.Label>Category</Form.Label>
+        <Form.Control
+          type="text"
+          name="category"
+          value={category}
+          onChange={handleChange}
+        />
+      </Form.Group>
+
+      <Form.Group>
+        <Form.Label>Features</Form.Label>
+        <Form.Control
+          as="textarea"
+          rows={4}
+          name="features"
+          value={features}
+          onChange={handleChange}
+        />
+      </Form.Group>
+
+      <Form.Group>
+        <Form.Label>Keywords</Form.Label>
+        <Form.Control
+          type="text"
+          name="keywords"
+          value={keywords}
+          onChange={handleChange}
+        />
+      </Form.Group>
+
+      <Form.Group>
+        <Form.Label>Location</Form.Label>
+        <Form.Control
+          type="text"
+          name="location"
+          value={location}
+          onChange={handleChange}
+        />
+      </Form.Group>
+
       <Button
         className={`${btnStyles.Button} ${btnStyles.Blue}`}
         onClick={() => navigate(-1)}
       >
-        cancel
+        Cancel
       </Button>
       <Button className={`${btnStyles.Button} ${btnStyles.Blue}`} type="submit">
-        create
+        Create
       </Button>
     </div>
   );
