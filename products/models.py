@@ -20,7 +20,6 @@ class Product(models.Model):
     features = models.TextField(blank=True)
     keywords = models.CharField(max_length=255, blank=True)
     location = models.CharField(max_length=100, blank=True)
-    votes_count = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ['-created_at']  # Default ordering by date created
