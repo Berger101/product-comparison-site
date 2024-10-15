@@ -5,15 +5,12 @@ import { axiosRes } from "../../api/axiosDefaults";
 
 import styles from "../../styles/CommentCreateEditForm.module.css";
 
+import { getAuthHeaders } from "../../utils/tokenUtils";
+
 function CommentEditForm(props) {
   const { id, content, setShowEditForm, setComments } = props;
 
   const [formContent, setFormContent] = useState(content);
-
-  // Function to get the token from localStorage
-  const getToken = () => {
-    return localStorage.getItem("token");
-  };
 
   const handleChange = (event) => {
     setFormContent(event.target.value);
@@ -23,15 +20,7 @@ function CommentEditForm(props) {
     event.preventDefault();
 
     try {
-      const token = getToken();
-      const csrfToken = document.cookie.split("; ").find(row => row.startsWith("csrftoken"))?.split("=")[1];
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-CSRFToken": csrfToken,
-        },
-      };
+      const config = getAuthHeaders();
 
       await axiosRes.put(
         `/comments/${id}/`,

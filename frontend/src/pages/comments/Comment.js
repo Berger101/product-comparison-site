@@ -8,6 +8,7 @@ import CommentEditForm from "./CommentEditForm";
 import styles from "../../styles/Comment.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { axiosRes } from "../../api/axiosDefaults";
+import { getAuthHeaders } from "../../utils/tokenUtils";
 
 const Comment = (props) => {
   const {
@@ -25,32 +26,9 @@ const Comment = (props) => {
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
 
-  // Function to get the token from localStorage
-  const getToken = () => {
-    return localStorage.getItem("token");
-  };
-
-  // Function to get the CSRF token from the cookies
-  const getCsrfToken = () => {
-    const csrfCookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("csrftoken"))
-      ?.split("=")[1];
-    return csrfCookie;
-  };
-
   const handleDelete = async () => {
     try {
-      const token = getToken();
-      const csrfToken = getCsrfToken();
-
-      // Pass the token and CSRF token in the headers
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-CSRFToken": csrfToken,
-        },
-      };
+      const config = getAuthHeaders();
 
       await axiosRes.delete(`/comments/${id}/`, config);
       setProduct((prevProduct) => ({

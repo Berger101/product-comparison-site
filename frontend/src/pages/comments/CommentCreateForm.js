@@ -4,28 +4,15 @@ import { Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
-
 import styles from "../../styles/CommentCreateEditForm.module.css";
+
 import Avatar from "../../components/Avatar";
 import { axiosRes } from "../../api/axiosDefaults";
+import { getAuthHeaders } from "../../utils/tokenUtils";
 
 function CommentCreateForm(props) {
   const { product, setProduct, setComments, profileImage, profile_id } = props;
   const [content, setContent] = useState("");
-
-  // Function to get the token from localStorage
-  const getToken = () => {
-    return localStorage.getItem("token");
-  };
-
-  // Function to get the CSRF token from cookies
-  const getCsrfToken = () => {
-    const csrfCookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("csrftoken"))
-      ?.split("=")[1];
-    return csrfCookie;
-  };
 
   const handleChange = (event) => {
     setContent(event.target.value);
@@ -35,14 +22,7 @@ function CommentCreateForm(props) {
     event.preventDefault();
 
     try {
-      const token = getToken();
-      const csrfToken = getCsrfToken();
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-CSRFToken": csrfToken,
-        },
-      };
+      const config = getAuthHeaders();
 
       const { data } = await axiosRes.post(
         "/comments/",
