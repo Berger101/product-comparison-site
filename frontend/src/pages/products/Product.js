@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import { axiosRes } from "../../api/axiosDefaults";
 import { MoreDropdown } from "../../components/MoreDropdown";
+import { getAuthHeaders } from "../../utils/tokenUtils";
 
 const Product = (props) => {
   const {
@@ -33,29 +34,13 @@ const Product = (props) => {
   const is_owner = currentUser?.username === owner;
   const navigate = useNavigate();
 
-  const getCsrfToken = () => {
-    const csrfCookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("csrftoken"))
-      ?.split("=")[1];
-    return csrfCookie;
-  };
-
   const handleEdit = () => {
     navigate(`/products/${id}/edit`);
   };
 
   const handleDelete = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const csrfToken = getCsrfToken();
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-CSRFToken": csrfToken,
-        },
-      };
+      const config = getAuthHeaders();
 
       await axiosRes.delete(`/products/${id}/`, config);
       navigate(-1);
@@ -66,15 +51,7 @@ const Product = (props) => {
 
   const handleVote = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const csrfToken = getCsrfToken();
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-CSRFToken": csrfToken,
-        },
-      };
+      const config = getAuthHeaders();
 
       const { data } = await axiosRes.post("/votes/", { product: id }, config);
       setProducts((prevProducts) => ({
@@ -96,15 +73,7 @@ const Product = (props) => {
 
   const handleUnvote = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const csrfToken = getCsrfToken();
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-CSRFToken": csrfToken,
-        },
-      };
+      const config = getAuthHeaders();
 
       await axiosRes.delete(`/votes/${vote_id}/`, config);
       setProducts((prevProducts) => ({

@@ -13,6 +13,7 @@ import btnStyles from "../../styles/Button.module.css";
 
 import { useNavigate, useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
+import { getAuthHeaders } from "../../utils/tokenUtils";
 
 function ProductEditForm() {
   const [errors, setErrors] = useState({});
@@ -112,18 +113,7 @@ function ProductEditForm() {
     }
 
     try {
-      const token = localStorage.getItem("token");
-      const csrfToken = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("csrftoken"))
-        ?.split("=")[1];
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-CSRFToken": csrfToken,
-        },
-      };
+      const config = getAuthHeaders();
 
       await axiosReq.put(`/products/${id}/`, formData, config);
       navigate(`/products/${id}`);
