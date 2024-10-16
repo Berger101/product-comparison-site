@@ -35,8 +35,12 @@ class ProductList(generics.ListCreateAPIView):
     search_fields = [
         'owner__username',
         'name',
+        'price',
+        'description',
+        'category',
         'features',
         'keywords',
+        'location',
     ]
     # Ordering options, including votes (popularity) and date
     ordering_fields = [
