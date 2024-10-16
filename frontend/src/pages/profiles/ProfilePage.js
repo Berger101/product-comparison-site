@@ -24,6 +24,7 @@ import Product from "../products/Product";
 import { fetchMoreData } from "../../utils/utils";
 import NoResults from "../../assets/no-results.png";
 import { ProfileEditDropdown } from "../../components/MoreDropdown";
+import { getAuthHeaders } from "../../utils/tokenUtils";
 
 function ProfilePage() {
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -38,32 +39,10 @@ function ProfilePage() {
   const [profile] = pageProfile.results;
   const is_owner = currentUser?.username === profile?.owner;
 
-  // Function to get the token from localStorage
-  const getToken = () => {
-    return localStorage.getItem("token");
-  };
-
-  // Function to get the CSRF token from cookies
-  const getCsrfToken = () => {
-    const csrfCookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("csrftoken"))
-      ?.split("=")[1];
-    return csrfCookie;
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = getToken();
-        const csrfToken = getCsrfToken();
-
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "X-CSRFToken": csrfToken,
-          },
-        };
+        const config = getAuthHeaders();
 
         const [{ data: pageProfile }, { data: profileProducts }] =
           await Promise.all([
