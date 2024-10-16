@@ -25,7 +25,7 @@ function SignInForm() {
   const { username, password } = signInData;
 
   const [errors, setErrors] = useState({});
-  const setCurrentUser = useSetCurrentUser(); 
+  const setCurrentUser = useSetCurrentUser();
 
   const navigate = useNavigate();
 
@@ -42,7 +42,17 @@ function SignInForm() {
 
       // Update the user context after login
       const userResponse = await axios.get("/dj-rest-auth/user/");
-      setCurrentUser(userResponse.data);
+      const profileResponse = await axios.get(
+        `/profiles/${userResponse.data.pk}/`
+      );
+
+      setCurrentUser({
+        ...userResponse.data,
+        profile_id: profileResponse.data.id,
+        profile_image: profileResponse.data.profile_image,
+      });
+
+      // console.log(data)
 
       // Navigate to the previous page or home
       navigate(-1);
