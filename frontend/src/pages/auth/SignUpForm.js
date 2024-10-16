@@ -47,9 +47,20 @@ const SignUpForm = () => {
       // Make a POST request to register the user
       await axios.post("/dj-rest-auth/registration/", signUpData);
 
-      // After registration, fetch the user data to set in the current user context
-      const { data } = await axios.get("/dj-rest-auth/user/");
-      setCurrentUser(data); // Update the user context
+      // After registration, fetch the user data
+      const userResponse = await axios.get("/dj-rest-auth/user/");
+
+      // Fetch the profile data using the user's ID (pk)
+      const profileResponse = await axios.get(
+        `/profiles/${userResponse.data.pk}/`
+      );
+
+      // Update the current user context with both user and profile data
+      setCurrentUser({
+        ...userResponse.data,
+        profile_id: profileResponse.data.id,
+        profile_image: profileResponse.data.profile_image,
+      });
 
       // Navigate to the home page or another page after successful sign-up
       navigate("/");
