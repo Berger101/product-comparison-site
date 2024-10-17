@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from products.models import Product
 
 
-class Vote(models.Model):  # Changed from Like to Vote
+class Vote(models.Model):
     """
     Vote model, related to 'owner' and 'product'.
     'owner' is a User instance and 'product' is a Product instance.
@@ -11,7 +11,7 @@ class Vote(models.Model):  # Changed from Like to Vote
     """
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(
-        Product, related_name='votes', on_delete=models.CASCADE  # Changed likes to votes
+        Product, related_name='votes', on_delete=models.CASCADE
     )
     created_at = models.DateTimeField(auto_now_add=True)
 

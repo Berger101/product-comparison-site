@@ -1,9 +1,9 @@
 from django.db import IntegrityError
 from rest_framework import serializers
-from votes.models import Vote  # Changed from Like to Vote
+from votes.models import Vote
 
 
-class VoteSerializer(serializers.ModelSerializer):  # Changed from LikeSerializer
+class VoteSerializer(serializers.ModelSerializer):
     """
     Serializer for the Vote model
     The create method handles the unique constraint on 'owner' and 'product'
@@ -11,7 +11,7 @@ class VoteSerializer(serializers.ModelSerializer):  # Changed from LikeSerialize
     owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
-        model = Vote  # Changed from Like to Vote
+        model = Vote
         fields = ['id', 'created_at', 'owner', 'product']
 
     def create(self, validated_data):
