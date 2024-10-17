@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/Product.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -15,8 +15,9 @@ const Product = (props) => {
     profile_id,
     profile_image,
     comments_count,
-    votes_count,
     vote_id,
+    current_rating,
+    user_rating,
     name,
     description,
     image,
@@ -29,6 +30,10 @@ const Product = (props) => {
     productPage,
     setProducts,
   } = props;
+  // User's rating input
+  const [userVote, setUserVote] = useState(user_rating || 0);
+  // Average rating
+  const [averageRating, setAverageRating] = useState(current_rating || 0);
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
