@@ -59,7 +59,12 @@ const Product = (props) => {
     }
   };
 
-  const handleVote = async () => {
+  const handleUserRating = async (rating) => {
+    // If the user clicks the same rating, they can remove their rating
+    const newRating = rating === userVote ? 0 : rating;
+
+    // Temporarily show the selected user rating
+    setUserVote(newRating);
     try {
       const config = getAuthHeaders();
 
