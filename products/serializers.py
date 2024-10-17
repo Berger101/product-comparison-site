@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Product
 from votes.models import Vote
+from django.db.models import Avg
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -11,6 +12,7 @@ class ProductSerializer(serializers.ModelSerializer):
     vote_id = serializers.SerializerMethodField()
     votes_count = serializers.ReadOnlyField()
     comments_count = serializers.ReadOnlyField()
+    current_rating = serializers.SerializerMethodField()
 
     def validate_image(self, value):
         if value.size > 2 * 1024 * 1024:
@@ -35,6 +37,12 @@ class ProductSerializer(serializers.ModelSerializer):
             return vote.id if vote else None
         return None
 
+    def get_current_rating(self, obj):
+        votes = obj.votes.all()
+        if votes.exists():
+            # Calculate the average rating
+            return votes.aggregate(Avg('rating'))['rating__avg']
+        return 0  # Return 0 if no votes
     class Meta:
         model = Product
         fields = [
@@ -42,5 +50,5 @@ class ProductSerializer(serializers.ModelSerializer):
             'profile_image', 'created_at', 'updated_at',
             'name', 'description', 'image', 'price',
             'category', 'features', 'keywords', 'location',
-            'vote_id', 'votes_count', 'comments_count',
+            'vote_id', 'votes_count', 'comments_count', 'current_rating', 'user_rating'
         ]
