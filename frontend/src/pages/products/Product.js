@@ -92,14 +92,25 @@ const Product = (props) => {
               : product;
           }),
         }));
+      } else if (vote_id) {
+        // Update the vote if it exists
+        await axiosRes.put(
+          `/votes/${vote_id}/`,
+          { product: id, rating: newRating },
+          config
+        );
       setProducts((prevProducts) => ({
         ...prevProducts,
         results: prevProducts.results.map((product) => {
           return product.id === id
             ? {
                 ...product,
-                votes_count: product.votes_count + 1,
-                vote_id: data.id,
+                  user_rating: newRating, // Update the user's own rating
+                  current_rating:
+                    (product.current_rating * product.votes_count -
+                      userVote +
+                      newRating) /
+                    product.votes_count, // Update the average rating
               }
             : product;
         }),
