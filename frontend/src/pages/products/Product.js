@@ -115,24 +115,25 @@ const Product = (props) => {
             : product;
         }),
       }));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleUnvote = async () => {
-    try {
-      const config = getAuthHeaders();
-
-      await axiosRes.delete(`/votes/${vote_id}/`, config);
+      } else {
+        // Create a new vote if none exists
+        const { data } = await axiosRes.post(
+          "/votes/",
+          { product: id, rating: newRating },
+          config
+        );
       setProducts((prevProducts) => ({
         ...prevProducts,
         results: prevProducts.results.map((product) => {
           return product.id === id
             ? {
                 ...product,
-                votes_count: product.votes_count - 1,
-                vote_id: null,
+                  user_rating: newRating, // New user rating
+                  vote_id: data.id, // Store vote_id
+                  current_rating:
+                    (product.current_rating * product.votes_count + newRating) /
+                    (product.votes_count + 1), // Update the average rating
+                  votes_count: product.votes_count + 1, // Increase vote count
               }
             : product;
         }),
