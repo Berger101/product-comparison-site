@@ -68,7 +68,30 @@ const Product = (props) => {
     try {
       const config = getAuthHeaders();
 
-      const { data } = await axiosRes.post("/votes/", { product: id }, config);
+      if (newRating === 0 && vote_id) {
+        // Delete the vote if the user wants to remove their rating
+        await axiosRes.delete(`/votes/${vote_id}/`, config);
+        setProducts((prevProducts) => ({
+          ...prevProducts,
+          results: prevProducts.results.map((product) => {
+            const remainingVotes = product.votes_count - 1;
+
+            return product.id === id
+              ? {
+                  ...product,
+                  user_rating: 0, // Reset the user's rating
+                  vote_id: null, // Remove vote_id
+                  current_rating:
+                    remainingVotes > 0
+                      ? (product.current_rating * product.votes_count -
+                          userVote) /
+                        remainingVotes
+                      : 0, // Update or reset the average rating
+                  votes_count: remainingVotes, // Decrease vote count
+                }
+              : product;
+          }),
+        }));
       setProducts((prevProducts) => ({
         ...prevProducts,
         results: prevProducts.results.map((product) => {
