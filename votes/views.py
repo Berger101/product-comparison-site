@@ -13,7 +13,13 @@ class VoteList(generics.ListCreateAPIView):
     queryset = Vote.objects.all()
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        # Ensure that the rating is within the allowed range (1-5)
+        rating = self.request.data.get('rating')
+        if rating and 1 <= int(rating) <= 5:
+            serializer.save(owner=self.request.user)
+        else:
+            raise serializers.ValidationError(
+                "Rating must be between 1 and 5.")
 
 
 class VoteDetail(generics.RetrieveDestroyAPIView):  # Changed from LikeDetail
