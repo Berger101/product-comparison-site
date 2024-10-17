@@ -13,6 +13,7 @@ class ProductSerializer(serializers.ModelSerializer):
     votes_count = serializers.ReadOnlyField()
     comments_count = serializers.ReadOnlyField()
     current_rating = serializers.SerializerMethodField()
+    user_rating = serializers.SerializerMethodField()
 
     def validate_image(self, value):
         if value.size > 2 * 1024 * 1024:
@@ -43,6 +44,16 @@ class ProductSerializer(serializers.ModelSerializer):
             # Calculate the average rating
             return votes.aggregate(Avg('rating'))['rating__avg']
         return 0  # Return 0 if no votes
+
+    def get_user_rating(self, obj):
+        # Get the current user's rating for the product if available
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            vote = Vote.objects.filter(owner=request.user, product=obj).first()
+            if vote:
+                return vote.rating
+        return None  # User hasn't rated the product
+
     class Meta:
         model = Product
         fields = [
