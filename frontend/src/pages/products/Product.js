@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/Product.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import { axiosRes } from "../../api/axiosDefaults";
@@ -30,6 +30,7 @@ const Product = (props) => {
     productPage,
     setProducts,
   } = props;
+
   // User's rating input
   const [userVote, setUserVote] = useState(user_rating || 0);
   // Average rating
@@ -38,6 +39,7 @@ const Product = (props) => {
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
   const navigate = useNavigate();
+
   useEffect(() => {
     // Sync userRating with current_rating when the component first loads or refreshes
     setUserVote(user_rating || 0);
@@ -65,6 +67,7 @@ const Product = (props) => {
 
     // Temporarily show the selected user rating
     setUserVote(newRating);
+
     try {
       const config = getAuthHeaders();
 
@@ -99,22 +102,22 @@ const Product = (props) => {
           { product: id, rating: newRating },
           config
         );
-      setProducts((prevProducts) => ({
-        ...prevProducts,
-        results: prevProducts.results.map((product) => {
-          return product.id === id
-            ? {
-                ...product,
+        setProducts((prevProducts) => ({
+          ...prevProducts,
+          results: prevProducts.results.map((product) => {
+            return product.id === id
+              ? {
+                  ...product,
                   user_rating: newRating, // Update the user's own rating
                   current_rating:
                     (product.current_rating * product.votes_count -
                       userVote +
                       newRating) /
                     product.votes_count, // Update the average rating
-              }
-            : product;
-        }),
-      }));
+                }
+              : product;
+          }),
+        }));
       } else {
         // Create a new vote if none exists
         const { data } = await axiosRes.post(
@@ -122,26 +125,28 @@ const Product = (props) => {
           { product: id, rating: newRating },
           config
         );
-      setProducts((prevProducts) => ({
-        ...prevProducts,
-        results: prevProducts.results.map((product) => {
-          return product.id === id
-            ? {
-                ...product,
+        setProducts((prevProducts) => ({
+          ...prevProducts,
+          results: prevProducts.results.map((product) => {
+            return product.id === id
+              ? {
+                  ...product,
                   user_rating: newRating, // New user rating
                   vote_id: data.id, // Store vote_id
                   current_rating:
                     (product.current_rating * product.votes_count + newRating) /
                     (product.votes_count + 1), // Update the average rating
                   votes_count: product.votes_count + 1, // Increase vote count
-              }
-            : product;
-        }),
-      }));
+                }
+              : product;
+          }),
+        }));
+      }
     } catch (err) {
       console.log(err);
     }
   };
+
   const renderStars = (rating, onClickHandler) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -204,30 +209,6 @@ const Product = (props) => {
         </div>
 
         <div className={styles.ProductBar}>
-          {is_owner ? (
-            <OverlayTrigger
-              placement="top"
-              overlay={<Tooltip>You can't vote on your own product!</Tooltip>}
-            >
-              <i className="far fa-heart" />
-            </OverlayTrigger>
-          ) : vote_id ? (
-            <span onClick={handleUnvote}>
-              <i className={`fas fa-heart ${styles.Heart}`} />
-            </span>
-          ) : currentUser ? (
-            <span onClick={handleVote}>
-              <i className={`far fa-heart ${styles.HeartOutline}`} />
-            </span>
-          ) : (
-            <OverlayTrigger
-              placement="top"
-              overlay={<Tooltip>Log in to vote on products!</Tooltip>}
-            >
-              <i className="far fa-heart" />
-            </OverlayTrigger>
-          )}
-          {votes_count}
           <Link to={`/products/${id}`}>
             <i className="far fa-comments" />
           </Link>
