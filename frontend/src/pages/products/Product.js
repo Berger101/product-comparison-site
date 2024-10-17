@@ -33,6 +33,11 @@ const Product = (props) => {
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
   const navigate = useNavigate();
+  useEffect(() => {
+    // Sync userRating with current_rating when the component first loads or refreshes
+    setUserVote(user_rating || 0);
+    setAverageRating(current_rating || 0);
+  }, [user_rating, current_rating]);
 
   const handleEdit = () => {
     navigate(`/products/${id}/edit`);
