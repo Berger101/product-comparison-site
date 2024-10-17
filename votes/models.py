@@ -13,6 +13,7 @@ class Vote(models.Model):
     product = models.ForeignKey(
         Product, related_name='votes', on_delete=models.CASCADE
     )
+    rating = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
