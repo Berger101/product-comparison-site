@@ -123,6 +123,23 @@ const Product = (props) => {
         {features && <p>Features: {features}</p>}
         {keywords && <p>Keywords: {keywords}</p>}
         {location && <p>Location: {location}</p>}
+
+        {/* User's own rating */}
+        <div className={styles.RatingContainer}>
+          <p>Your rating:</p>
+          <div className={styles.Stars}>
+            {renderStars(userVote, handleUserRating)}
+          </div>
+        </div>
+
+        {/* Average rating */}
+        <div className={styles.RatingContainer}>
+          <p>Average rating:</p>
+          <div className={styles.Stars}>
+            {renderStars(averageRating, () => {})}
+          </div>
+        </div>
+
         <div className={styles.ProductBar}>
           {is_owner ? (
             <OverlayTrigger
