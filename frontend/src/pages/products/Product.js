@@ -92,6 +92,19 @@ const Product = (props) => {
       console.log(err);
     }
   };
+  const renderStars = (rating, onClickHandler) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <span
+          key={i}
+          className={`fa-star ${i <= rating ? "fas" : "far"} ${styles.Star}`}
+          onClick={() => onClickHandler(i)}
+        />
+      );
+    }
+    return stars;
+  };
 
   return (
     <Card className={styles.Product}>
