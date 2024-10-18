@@ -186,6 +186,30 @@ const Product = (props) => {
         </div>
 
         <Card.Title className={`${styles.ProductName} mb-1`}>{name}</Card.Title>
+
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          {/* User's own rating */}
+          <div className={`${styles.RatingContainer}`}>
+            <p className="mb-1">Your rating:</p>
+            <div className={styles.Star}>
+              {renderStars(userVote, handleUserRating)}
+            </div>
+          </div>
+
+          {/* Average rating and number of users who rated */}
+          <div className={`${styles.RatingContainer}`}>
+            <p className="mb-1">
+              Average rating:{" "}
+              {totalVotes > 0
+                ? `${averageRating.toFixed(1)} (${totalVotes} ratings)`
+                : "No ratings yet"}
+            </p>
+            <div className={styles.StarAverage}>
+              {renderStars(averageRating, () => {})}
+            </div>
+          </div>
+        </div>
+        
         <Card.Text className={`${styles.ProductDescription} mb-2`}>
           {description}
         </Card.Text>
@@ -202,28 +226,9 @@ const Product = (props) => {
           </p>
         </div>
 
-        {/* User's own rating */}
-        <div className={`${styles.RatingContainer} mb-3`}>
-          <p className="mb-1">Your rating:</p>
-          <div className={styles.Star}>
-            {renderStars(userVote, handleUserRating)}
-          </div>
-        </div>
-
-        {/* Average rating and number of users who rated */}
-        <div className={styles.RatingContainer}>
-          <p className="mb-1">
-            Average rating:{" "}
-            {totalVotes > 0
-              ? `${averageRating.toFixed(1)} (${totalVotes} ratings)`
-              : "No ratings yet"}
-          </p>
-          <div className={styles.StarAverage}>
-            {renderStars(averageRating, () => {})}
-          </div>
-        </div>
         
       </Card.Body>
+
       <Card.Footer className="d-flex justify-content-between align-items-center p-2">
         <span className="text-muted">{updated_at}</span>
         <Link to={`/products/${id}`}>
