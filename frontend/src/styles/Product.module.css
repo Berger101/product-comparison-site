@@ -1,28 +1,62 @@
 .Product {
-  background-color: #ffffff;
-  border: 1px solid #dadadf;
-  border-radius: 2px;
-  margin-bottom: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
   text-align: center;
 }
 
-.Product figure,
-h5 {
-  margin: 0 0;
+.Product:hover {
+  transform: scale(1.02);
+}
+
+.ProductImage {
+  object-fit: cover;
+  height: 250px;
+  width: 100%;
+}
+
+.ProductName {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.ProductDescription {
+  font-size: 0.9rem;
+  color: #555;
+  height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ProductDetail {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.RatingContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .Star {
-  color: #f85032;
+  color: #f8c146;
   cursor: pointer;
   transition: color 0.3s;
 }
 
 .Star:hover {
-  color: #2142b2;
+  color: #e67e22;
 }
 
 .StarAverage {
-  pointer-events: none !important;
-  color: #f85032;
-  transition: color 0.3s;
+  color: #f8c146;
+  pointer-events: none;
+}
+
+.CardFooter {
+  background-color: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  font-size: 0.8rem;
 }
