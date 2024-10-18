@@ -166,39 +166,53 @@ const Product = (props) => {
   };
 
   return (
-    <Card className={styles.Product}>
-      <Card.Body>
-        <div className="align-items-center justify-content-between">
-          <Link to={`/profiles/${profile_id}`}>
-            <Avatar src={profile_image} height={55} />
-            {owner}
-          </Link>
-          <div className="d-flex align-items-center">
-            <span>{updated_at}</span>
-            {is_owner && productPage && (
-              <MoreDropdown
-                handleEdit={handleEdit}
-                handleDelete={handleDelete}
-              />
-            )}
-          </div>
-        </div>
-      </Card.Body>
+    <Card className={`${styles.Product} shadow-sm mb-4`}>
       <Link to={`/products/${id}`}>
-        <Card.Img src={image} alt={name} />
+        <Card.Img
+          src={image}
+          alt={name}
+          className={`${styles.ProductImage} rounded-top`}
+        />
       </Link>
-      <Card.Body>
-        {name && <Card.Title className="text-center">{name}</Card.Title>}
-        {description && <Card.Text>{description}</Card.Text>}
-        {price && <p>Price: ${price}</p>}
-        {category && <p>Category: {category}</p>}
-        {features && <p>Features: {features}</p>}
-        {keywords && <p>Keywords: {keywords}</p>}
-        {location && <p>Location: {location}</p>}
+      <Card.Body className="p-3">
+        <div className="d-flex justify-content-between align-items-center mb-2">
+          <Link to={`/profiles/${profile_id}`} className="text-decoration-none">
+            <div className="d-flex align-items-center">
+              <Avatar src={profile_image} height={40} />
+              <span className="ms-2">{owner}</span>
+            </div>
+          </Link>
+          {is_owner && productPage && (
+            <MoreDropdown handleEdit={handleEdit} handleDelete={handleDelete} />
+          )}
+        </div>
+
+        <Card.Title className={`${styles.ProductName} mb-1`}>{name}</Card.Title>
+        <Card.Text className={`${styles.ProductDescription} mb-2`}>
+          {description}
+        </Card.Text>
+
+        <div className="mb-3">
+          <p className={`${styles.ProductDetail}`}>
+            <strong>Price:</strong> ${price}
+          </p>
+          <p className={`${styles.ProductDetail}`}>
+            <strong>Category:</strong> {category}
+          </p>
+          <p className={`${styles.ProductDetail}`}>
+            <strong>Features:</strong> {features}
+          </p>
+          <p className={`${styles.ProductDetail}`}>
+            <strong>Keywords:</strong> {keywords}
+          </p>
+          <p className={`${styles.ProductDetail}`}>
+            <strong>Location:</strong> {location}
+          </p>
+        </div>
 
         {/* User's own rating */}
-        <div className={styles.RatingContainer}>
-          <p>Your rating:</p>
+        <div className={`${styles.RatingContainer} mb-3`}>
+          <p className="mb-1">Your rating:</p>
           <div className={styles.Star}>
             {renderStars(userVote, handleUserRating)}
           </div>
@@ -206,7 +220,7 @@ const Product = (props) => {
 
         {/* Average rating and number of users who rated */}
         <div className={styles.RatingContainer}>
-          <p>
+          <p className="mb-1">
             Average rating:{" "}
             {totalVotes > 0
               ? `${averageRating.toFixed(1)} (${totalVotes} ratings)`
@@ -216,14 +230,14 @@ const Product = (props) => {
             {renderStars(averageRating, () => {})}
           </div>
         </div>
-
-        <div className={styles.ProductBar}>
-          <Link to={`/products/${id}`}>
-            <i className="far fa-comments" />
-          </Link>
-          {comments_count}
-        </div>
+        
       </Card.Body>
+      <Card.Footer className="d-flex justify-content-between align-items-center p-2">
+        <span className="text-muted">{updated_at}</span>
+        <Link to={`/products/${id}`}>
+          <i className="far fa-comments me-1"></i> {comments_count}
+        </Link>
+      </Card.Footer>
     </Card>
   );
 };
