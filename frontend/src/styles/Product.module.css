@@ -1,4 +1,4 @@
-.Post {
+.Product {
   background-color: #ffffff;
   border: 1px solid #dadadf;
   border-radius: 2px;
@@ -6,19 +6,23 @@
   text-align: center;
 }
 
-.Post figure,
+.Product figure,
 h5 {
   margin: 0 0;
 }
 
-.Heart {
+.Star {
   color: #f85032;
+  cursor: pointer;
+  transition: color 0.3s;
 }
 
-.Heart:hover {
+.Star:hover {
   color: #2142b2;
 }
 
-.HeartOutline:hover {
+.StarAverage {
+  pointer-events: none !important;
   color: #f85032;
+  transition: color 0.3s;
 }

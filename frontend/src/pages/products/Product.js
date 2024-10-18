@@ -199,7 +199,7 @@ const Product = (props) => {
         {/* User's own rating */}
         <div className={styles.RatingContainer}>
           <p>Your rating:</p>
-          <div className={styles.Stars}>
+          <div className={styles.Star}>
             {renderStars(userVote, handleUserRating)}
           </div>
         </div>
@@ -212,7 +212,7 @@ const Product = (props) => {
               ? `${averageRating.toFixed(1)} (${totalVotes} ratings)`
               : "No ratings yet"}
           </p>
-          <div className={styles.Stars}>
+          <div className={styles.StarAverage}>
             {renderStars(averageRating, () => {})}
           </div>
         </div>
