@@ -209,24 +209,27 @@ const Product = (props) => {
             </div>
           </div>
         </div>
-        
+
         <Card.Text className={`${styles.ProductDescription} mb-2`}>
           {description}
         </Card.Text>
 
-        <div className="mb-3">
-          <p className={`${styles.ProductDetail}`}>
+        {/* Flex container for price and category */}
+        <div className="d-flex justify-content-center mb-3">
+          <p className={`${styles.ProductDetail} me-4`}>
             <strong>Price:</strong> ${price}
           </p>
-          <p className={`${styles.ProductDetail}`}>
+          <p className={`${styles.ProductDetail} ml-2`}>
             <strong>Category:</strong> {category}
           </p>
+        </div>
+
+        {/* Location below the price and category */}
+        <div className="mb-3">
           <p className={`${styles.ProductDetail}`}>
             <strong>Location:</strong> {location}
           </p>
         </div>
-
-        
       </Card.Body>
 
       <Card.Footer className="d-flex justify-content-between align-items-center p-2">
