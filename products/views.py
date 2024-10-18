@@ -38,8 +38,6 @@ class ProductList(generics.ListCreateAPIView):
         'price',
         'description',
         'category',
-        'features',
-        'keywords',
         'location',
     ]
     # Ordering options, including votes (popularity) and date

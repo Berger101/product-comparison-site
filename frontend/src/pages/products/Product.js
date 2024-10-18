@@ -25,8 +25,6 @@ const Product = (props) => {
     updated_at,
     price,
     category,
-    features,
-    keywords,
     location,
     productPage,
     setProducts,
@@ -198,12 +196,6 @@ const Product = (props) => {
           </p>
           <p className={`${styles.ProductDetail}`}>
             <strong>Category:</strong> {category}
-          </p>
-          <p className={`${styles.ProductDetail}`}>
-            <strong>Features:</strong> {features}
-          </p>
-          <p className={`${styles.ProductDetail}`}>
-            <strong>Keywords:</strong> {keywords}
           </p>
           <p className={`${styles.ProductDetail}`}>
             <strong>Location:</strong> {location}
