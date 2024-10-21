@@ -218,9 +218,12 @@ const Product = (props) => {
           <p className={`${styles.ProductDetail} me-4`}>
             <strong>Price:</strong> ${price}
           </p>
-          <p className={`${styles.ProductDetail} ml-2`}>
-            <strong>Category:</strong> {category}
-          </p>
+
+          <Link to={`/categories/${category}`} className="text-decoration-none">
+            <p className={`${styles.ProductDetail} ml-2`}>
+              <strong>Category:</strong> {category}
+            </p>
+          </Link>
         </div>
       </Card.Body>
 
