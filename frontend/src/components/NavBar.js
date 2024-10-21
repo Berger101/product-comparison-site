@@ -46,11 +46,8 @@ const NavBar = () => {
 
   const loggedInIcons = (
     <>
-      <NavLink className={getNavLinkClass("/feed")} to="/feed">
-        <i className="fas fa-stream"></i> Feed
-      </NavLink>
-      <NavLink className={getNavLinkClass("/voted")} to="/voted">
-        <i className="fas fa-heart"></i> Voted
+      <NavLink className={getNavLinkClass("/voted")} to="/categories">
+        <i className="fas fa-heart"></i> Categories
       </NavLink>
       <NavLink className={styles.NavLink} to="/" onClick={handleSignOut}>
         <i className="fas fa-sign-out-alt"></i> Sign out
