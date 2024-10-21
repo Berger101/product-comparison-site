@@ -25,7 +25,6 @@ const Product = (props) => {
     updated_at,
     price,
     category,
-    location,
     productPage,
     setProducts,
   } = props;
@@ -221,13 +220,6 @@ const Product = (props) => {
           </p>
           <p className={`${styles.ProductDetail} ml-2`}>
             <strong>Category:</strong> {category}
-          </p>
-        </div>
-
-        {/* Location below the price and category */}
-        <div className="mb-3">
-          <p className={`${styles.ProductDetail}`}>
-            <strong>Location:</strong> {location}
           </p>
         </div>
       </Card.Body>
