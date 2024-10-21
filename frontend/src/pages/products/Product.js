@@ -221,7 +221,7 @@ const Product = (props) => {
 
           <Link to={`/categories/${category}`} className="text-decoration-none">
             <p className={`${styles.ProductDetail} ml-2`}>
-              <strong>Category:</strong> {category}
+              <strong>Category:</strong> {category.charAt(0).toUpperCase() + category.slice(1)}
             </p>
           </Link>
         </div>
