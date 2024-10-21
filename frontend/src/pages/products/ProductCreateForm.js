@@ -148,11 +148,16 @@ function ProductCreateForm() {
       <Form.Group>
         <Form.Label>Category</Form.Label>
         <Form.Control
-          type="text"
+          as="select"
           name="category"
           value={category}
           onChange={handleChange}
-        />
+        >
+          <option value="electronics">Electronics</option>
+          <option value="clothing">Clothing</option>
+          <option value="books">Books</option>
+          <option value="shoes">Shoes</option>
+        </Form.Control>
       </Form.Group>
 
       <Form.Group>
