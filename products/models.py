@@ -24,7 +24,6 @@ class Product(models.Model):
     price = models.DecimalField(
         max_digits=10, decimal_places=2)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
-    location = models.CharField(max_length=100, blank=True)
 
     class Meta:
         ordering = ['-created_at']  # Default ordering by date created

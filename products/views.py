@@ -29,7 +29,6 @@ class ProductList(generics.ListCreateAPIView):
         'owner__profile',
         'category',
         'price',
-        'location',
     ]
     # Add fields for search functionality
     search_fields = [
@@ -38,7 +37,6 @@ class ProductList(generics.ListCreateAPIView):
         'price',
         'description',
         'category',
-        'location',
     ]
     # Ordering options, including votes (popularity) and date
     ordering_fields = [

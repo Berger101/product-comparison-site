@@ -60,6 +60,6 @@ class ProductSerializer(serializers.ModelSerializer):
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
             'name', 'description', 'image', 'price',
-            'category', 'location',
-            'vote_id', 'votes_count', 'comments_count', 'current_rating', 'user_rating'
+            'category', 'vote_id', 'votes_count', 'comments_count',
+            'current_rating', 'user_rating'
         ]
