@@ -8,7 +8,7 @@ import SignInForm from "./pages/auth/SignInForm";
 import ProductCreateForm from "./pages/products/ProductCreateForm";
 import ProductPage from "./pages/products/ProductPage";
 import ProductsPage from "./pages/products/ProductsPage";
-import { useCurrentUser } from "./contexts/CurrentUserContext";
+// import { useCurrentUser } from "./contexts/CurrentUserContext";
 import ProductEditForm from "./pages/products/ProductEditForm";
 import ProfilePage from "./pages/profiles/ProfilePage";
 import UsernameForm from "./pages/profiles/UsernameForm";
@@ -16,8 +16,8 @@ import UserPasswordForm from "./pages/profiles/UserPasswordForm";
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 
 function App() {
-  const currentUser = useCurrentUser();
-  const profile_id = currentUser?.profile_id || "";
+  // const currentUser = useCurrentUser();
+  // const profile_id = currentUser?.profile_id || "";
 
   return (
     <div className={styles.App}>
@@ -28,26 +28,6 @@ function App() {
             path="/"
             element={
               <ProductsPage message="No results found. Adjust the search keyword." />
-            }
-          />
-
-          <Route
-            path="/feed"
-            element={
-              <ProductsPage
-                message="No results found. Adjust the search keyword or follow a user."
-                filter={`owner__followed__owner__profile=${profile_id}&`}
-              />
-            }
-          />
-
-          <Route
-            path="/voted"
-            element={
-              <ProductsPage
-                message="No results found. Adjust the search keyword or vote a product."
-                filter={`votes__owner__profile=${profile_id}&ordering=-votes__created_at&`}
-              />
             }
           />
 
