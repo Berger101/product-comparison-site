@@ -1,0 +1,23 @@
+.CategoriesPage {
+  padding: 20px;
+  text-align: center;
+}
+
+.CategoryList {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.CategoryItem {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #000;
+}
+
+.CategoryItem:hover {
+  background-color: #f0f0f0;
+}
