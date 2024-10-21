@@ -14,6 +14,8 @@ import ProfilePage from "./pages/profiles/ProfilePage";
 import UsernameForm from "./pages/profiles/UsernameForm";
 import UserPasswordForm from "./pages/profiles/UserPasswordForm";
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
+import CategoriesPage from "./pages/categories/CategoriesPage";
+import CategoryProductsPage from "./pages/categories/CategoryProductsPage";
 
 function App() {
   // const currentUser = useCurrentUser();
@@ -29,6 +31,12 @@ function App() {
             element={
               <ProductsPage message="No results found. Adjust the search keyword." />
             }
+          />
+
+          <Route path="/categories" element={<CategoriesPage />} />
+          <Route
+            path="/categories/:category"
+            element={<CategoryProductsPage />}
           />
 
           <Route path="/signin" element={<SignInForm />} />
