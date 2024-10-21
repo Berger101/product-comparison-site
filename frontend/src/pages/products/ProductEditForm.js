@@ -24,9 +24,6 @@ function ProductEditForm() {
     image: "",
     price: "",
     category: "",
-    features: "",
-    keywords: "",
-    location: "",
   });
   const {
     name,
@@ -34,9 +31,6 @@ function ProductEditForm() {
     image,
     price,
     category,
-    features,
-    keywords,
-    location,
   } = productData;
 
   const imageInput = useRef(null);
@@ -53,9 +47,6 @@ function ProductEditForm() {
           image,
           price,
           category,
-          features,
-          keywords,
-          location,
           is_owner,
         } = data;
 
@@ -66,9 +57,6 @@ function ProductEditForm() {
               image,
               price,
               category,
-              features,
-              keywords,
-              location,
             })
           : navigate("/");
       } catch (err) {
@@ -104,9 +92,6 @@ function ProductEditForm() {
     formData.append("description", description);
     formData.append("price", price);
     formData.append("category", category);
-    formData.append("features", features);
-    formData.append("keywords", keywords);
-    formData.append("location", location);
 
     if (imageInput?.current?.files[0]) {
       formData.append("image", imageInput.current.files[0]);
@@ -188,52 +173,6 @@ function ProductEditForm() {
         </Form.Control>
       </Form.Group>
       {errors?.category?.map((message, idx) => (
-        <Alert variant="warning" key={idx}>
-          {message}
-        </Alert>
-      ))}
-
-      <Form.Group>
-        <Form.Label>Features</Form.Label>
-        <Form.Control
-          as="textarea"
-          rows={3}
-          name="features"
-          value={features}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      {errors?.features?.map((message, idx) => (
-        <Alert variant="warning" key={idx}>
-          {message}
-        </Alert>
-      ))}
-
-      <Form.Group>
-        <Form.Label>Keywords</Form.Label>
-        <Form.Control
-          type="text"
-          name="keywords"
-          value={keywords}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      {errors?.keywords?.map((message, idx) => (
-        <Alert variant="warning" key={idx}>
-          {message}
-        </Alert>
-      ))}
-
-      <Form.Group>
-        <Form.Label>Location</Form.Label>
-        <Form.Control
-          type="text"
-          name="location"
-          value={location}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      {errors?.location?.map((message, idx) => (
         <Alert variant="warning" key={idx}>
           {message}
         </Alert>

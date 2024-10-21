@@ -28,9 +28,6 @@ function ProductCreateForm() {
     image: "",
     price: "",
     category: "",
-    features: "",
-    keywords: "",
-    location: "",
   });
   const {
     name,
@@ -38,9 +35,6 @@ function ProductCreateForm() {
     image,
     price,
     category,
-    features,
-    keywords,
-    location,
   } = productData;
 
   const imageInput = useRef(null);
@@ -77,9 +71,6 @@ function ProductCreateForm() {
     formData.append("description", description);
     formData.append("price", price);
     formData.append("category", category);
-    formData.append("features", features);
-    formData.append("keywords", keywords);
-    formData.append("location", location);
 
     if (imageInput.current?.files[0]) {
       formData.append("image", imageInput.current.files[0]);
@@ -158,37 +149,6 @@ function ProductCreateForm() {
           <option value="books">Books</option>
           <option value="shoes">Shoes</option>
         </Form.Control>
-      </Form.Group>
-
-      <Form.Group>
-        <Form.Label>Features</Form.Label>
-        <Form.Control
-          as="textarea"
-          rows={4}
-          name="features"
-          value={features}
-          onChange={handleChange}
-        />
-      </Form.Group>
-
-      <Form.Group>
-        <Form.Label>Keywords</Form.Label>
-        <Form.Control
-          type="text"
-          name="keywords"
-          value={keywords}
-          onChange={handleChange}
-        />
-      </Form.Group>
-
-      <Form.Group>
-        <Form.Label>Location</Form.Label>
-        <Form.Control
-          type="text"
-          name="location"
-          value={location}
-          onChange={handleChange}
-        />
       </Form.Group>
 
       <Button
