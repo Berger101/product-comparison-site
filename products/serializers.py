@@ -54,6 +54,12 @@ class ProductSerializer(serializers.ModelSerializer):
                 return vote.rating
         return None  # User hasn't rated the product
 
+    def validate_category(self, value):
+        allowed_categories = ['electronics', 'clothing', 'books', 'shoes']
+        if value not in allowed_categories:
+            raise serializers.ValidationError("Invalid category.")
+        return value
+
     class Meta:
         model = Product
         fields = [
