@@ -27,15 +27,9 @@ function ProductCreateForm() {
     description: "",
     image: "",
     price: "",
-    category: "",
+    category: "electronics",
   });
-  const {
-    name,
-    description,
-    image,
-    price,
-    category,
-  } = productData;
+  const { name, description, image, price, category } = productData;
 
   const imageInput = useRef(null);
   const navigate = useNavigate();
