@@ -60,7 +60,7 @@ function ProductEditForm() {
             })
           : navigate("/");
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     };
 
@@ -103,10 +103,10 @@ function ProductEditForm() {
       await axiosReq.put(`/products/${id}/`, formData, config);
       navigate(`/products/${id}`);
     } catch (err) {
-      console.log(err);
-      if (err.response?.status !== 401) {
-        setErrors(err.response?.data);
-      }
+      // console.log(err);
+      // if (err.response?.status !== 401) {
+      //   setErrors(err.response?.data);
+      // }
     }
   };
 
