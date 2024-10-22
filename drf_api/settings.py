@@ -103,7 +103,6 @@ INSTALLED_APPS = [
     'products',
     'comments',
     'votes',
-    'followers',
     'favorites',
 ]
 SITE_ID = 1

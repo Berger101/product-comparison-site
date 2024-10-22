@@ -16,7 +16,6 @@ urlpatterns = [
     path('api/', include('products.urls')),
     path('api/', include('comments.urls')),
     path('api/', include('votes.urls')),
-    path('api/', include('followers.urls')),
     path('api/', include('favorites.urls')),
 ]
 
