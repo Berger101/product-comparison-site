@@ -5,16 +5,16 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Link } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import { Button } from "react-bootstrap";
-import { useSetProfileData } from "../../contexts/ProfileDataContext";
+import { useSetProfileData } from "../../contexts/FavoriteDataContext";
 
 const Profile = (props) => {
   const { profile, mobile, imageSize = 55 } = props;
-  const { id, following_id, image, owner } = profile;
+  const { id, favorite_id, image, owner } = profile;
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
 
-  const { handleFollow, handleUnfollow } = useSetProfileData();
+  const { handleFavorite, handleUnfavorite } = useSetProfileData();
 
   return (
     <div
@@ -32,17 +32,17 @@ const Profile = (props) => {
         {!mobile &&
           currentUser &&
           !is_owner &&
-          (following_id ? (
+          (favorite_id ? (
             <Button
               className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-              onClick={() => handleUnfollow(profile)}
+              onClick={() => handleUnfavorite(profile)}
             >
               unfollow
             </Button>
           ) : (
             <Button
               className={`${btnStyles.Button} ${btnStyles.Black}`}
-              onClick={() => handleFollow(profile)}
+              onClick={() => handleFavorite(profile)}
             >
               follow
             </Button>
