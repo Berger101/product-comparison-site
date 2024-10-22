@@ -2,26 +2,13 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { axiosReq, axiosRes } from "../api/axiosDefaults";
 import { useCurrentUser } from "./CurrentUserContext";
 import { favoriteHelper, unfavoriteHelper } from "../utils/utils";
+import { getAuthHeaders } from "../../utils/tokenUtils";
 
 const FavoriteDataContext = createContext();
 const SetFavoriteDataContext = createContext();
 
 export const useFavoritesData = () => useContext(FavoriteDataContext);
 export const useSetFavoritesData = () => useContext(SetFavoriteDataContext);
-
-// Helper function to get the token from localStorage
-const getToken = () => {
-  return localStorage.getItem("token");
-};
-
-// Helper function to get the CSRF token from the cookies
-const getCsrfToken = () => {
-  const csrfCookie = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("csrftoken"))
-    ?.split("=")[1];
-  return csrfCookie;
-};
 
 export const FavoriteDataProvider = ({ children }) => {
   const [favoriteData, setFavoriteData] = useState({
@@ -33,16 +20,7 @@ export const FavoriteDataProvider = ({ children }) => {
 
   const handleFavorite = async (clickedProduct) => {
     try {
-      const token = getToken();
-      const csrfToken = getCsrfToken();
-
-      // Pass the token and CSRF token in the headers
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-CSRFToken": csrfToken,
-        },
-      };
+      const config = getAuthHeaders();
 
       const { data } = await axiosRes.post("/favorites/", {
         product: clickedProduct.id,
@@ -69,16 +47,7 @@ export const FavoriteDataProvider = ({ children }) => {
 
   const handleUnfavorite = async (clickedProduct) => {
     try {
-      const token = getToken();
-      const csrfToken = getCsrfToken();
-
-      // Pass the token and CSRF token in the headers
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-CSRFToken": csrfToken,
-        },
-      };
+      const config = getAuthHeaders();
 
       await axiosRes.delete(`/favorites/${clickedProduct.favorite_id}/`, config);
 
