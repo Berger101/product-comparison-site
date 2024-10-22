@@ -10,14 +10,14 @@ import styles from "../../styles/ProfilePage.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 
-import PopularProfiles from "./PopularProfiles";
+import FavoriteProducts from "./FavoriteProducts";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import {
-  useProfileData,
-  useSetProfileData,
-} from "../../contexts/ProfileDataContext";
+  useFavoritesData,
+  useSetFavoritesData,
+} from "../../contexts/FavoriteDataContext";
 import { Button, Image } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Product from "../products/Product";
@@ -33,8 +33,9 @@ function ProfilePage() {
   const currentUser = useCurrentUser();
   const { id } = useParams();
 
-  const { setProfileData, handleFollow, handleUnfollow } = useSetProfileData();
-  const { pageProfile } = useProfileData();
+  const { setFavoritesData, handleFavorite, handleUnfavorite } =
+    useSetFavoritesData();
+  const { pageProfile } = useFavoritesData();
 
   const [profile] = pageProfile.results;
   const is_owner = currentUser?.username === profile?.owner;
@@ -50,7 +51,7 @@ function ProfilePage() {
             axiosReq.get(`/products/?owner__profile=${id}`, config),
           ]);
 
-        setProfileData((prevState) => ({
+        setFavoritesData((prevState) => ({
           ...prevState,
           pageProfile: { results: [pageProfile] },
         }));
@@ -61,7 +62,7 @@ function ProfilePage() {
       }
     };
     fetchData();
-  }, [id, setProfileData]);
+  }, [id, setFavoritesData]);
 
   const mainProfile = (
     <>
@@ -97,14 +98,14 @@ function ProfilePage() {
             (profile?.following_id ? (
               <Button
                 className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-                onClick={() => handleUnfollow(profile)}
+                onClick={() => handleUnfavorite(profile)}
               >
                 unfollow
               </Button>
             ) : (
               <Button
                 className={`${btnStyles.Button} ${btnStyles.Black}`}
-                onClick={() => handleFollow(profile)}
+                onClick={() => handleFavorite(profile)}
               >
                 follow
               </Button>
@@ -145,7 +146,7 @@ function ProfilePage() {
   return (
     <Row>
       <Col className="py-2 p-0 p-lg-2" lg={8}>
-        <PopularProfiles mobile />
+        <FavoriteProducts mobile />
         <Container className={appStyles.Content}>
           {hasLoaded ? (
             <>
@@ -158,7 +159,7 @@ function ProfilePage() {
         </Container>
       </Col>
       <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
-        <PopularProfiles />
+        <FavoriteProducts />
       </Col>
     </Row>
   );
