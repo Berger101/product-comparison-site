@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import Product from "../products/Product";
 import styles from "../../styles/CategoryProductsPage.module.css";
-import { Container } from "react-bootstrap";
+import { Container, Col } from "react-bootstrap";
 import Asset from "../../components/Asset";
 import NoResults from "../../assets/no-results.png";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -31,23 +31,28 @@ function CategoryProductsPage() {
   const categoryTitle = category.charAt(0).toUpperCase() + category.slice(1);
 
   return (
-    <Container className={styles.CategoryProductsPage}>
-      <h2 className="text-center">{categoryTitle}</h2>
+    <Container className={`${styles.CategoryProductsPage}`}>
+      <h2 className="text-center mb-4">{categoryTitle}</h2>
       {hasLoaded ? (
         categoryProducts.results.length ? (
           <InfiniteScroll
-            children={categoryProducts.results.map((product) => (
-              <Product
-                key={product.id}
-                {...product}
-                setProducts={setCategoryProducts}
-              />
-            ))}
+            className="row" // Bootstrap's row class for grid alignment
             dataLength={categoryProducts.results.length}
             loader={<Asset spinner />}
             hasMore={!!categoryProducts.next}
             next={() => fetchMoreData(categoryProducts, setCategoryProducts)}
-          />
+          >
+            {categoryProducts.results.map((product) => (
+              <Col
+                key={product.id}
+                xs={12} // Full width on mobile
+                md={6} // Two columns on medium and larger screens
+                className="mb-4"
+              >
+                <Product {...product} setProducts={setCategoryProducts} />
+              </Col>
+            ))}
+          </InfiniteScroll>
         ) : (
           <Asset
             src={NoResults}
