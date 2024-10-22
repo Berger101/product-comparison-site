@@ -1,13 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { axiosReq, axiosRes } from "../api/axiosDefaults";
-import { useCurrentUser } from "../contexts/CurrentUserContext";
-import { followHelper, unfollowHelper } from "../utils/utils";
+import { useCurrentUser } from "./CurrentUserContext";
+import { favoriteHelper, unfavoriteHelper } from "../utils/utils";
 
-const ProfileDataContext = createContext();
-const SetProfileDataContext = createContext();
+const FavoriteDataContext = createContext();
+const SetFavoriteDataContext = createContext();
 
-export const useProfileData = () => useContext(ProfileDataContext);
-export const useSetProfileData = () => useContext(SetProfileDataContext);
+export const useFavoritesData = () => useContext(FavoriteDataContext);
+export const useSetFavoritesData = () => useContext(SetFavoriteDataContext);
 
 // Helper function to get the token from localStorage
 const getToken = () => {
@@ -23,15 +23,15 @@ const getCsrfToken = () => {
   return csrfCookie;
 };
 
-export const ProfileDataProvider = ({ children }) => {
-  const [profileData, setProfileData] = useState({
+export const FavoriteDataProvider = ({ children }) => {
+  const [favoriteData, setFavoriteData] = useState({
     pageProfile: { results: [] },
-    popularProfiles: { results: [] },
+    favoriteProducts: { results: [] },
   });
 
   const currentUser = useCurrentUser();
 
-  const handleFollow = async (clickedProfile) => {
+  const handleFavorite = async (clickedProduct) => {
     try {
       const token = getToken();
       const csrfToken = getCsrfToken();
@@ -44,21 +44,21 @@ export const ProfileDataProvider = ({ children }) => {
         },
       };
 
-      const { data } = await axiosRes.post("/followers/", {
-        followed: clickedProfile.id,
+      const { data } = await axiosRes.post("/favorites/", {
+        product: clickedProduct.id,
       }, config);
 
-      setProfileData((prevState) => ({
+      setFavoriteData((prevState) => ({
         ...prevState,
         pageProfile: {
           results: prevState.pageProfile.results.map((profile) =>
-            followHelper(profile, clickedProfile, data.id)
+            favoriteHelper(profile, clickedProduct, data.id)
           ),
         },
-        popularProfiles: {
-          ...prevState.popularProfiles,
-          results: prevState.popularProfiles.results.map((profile) =>
-            followHelper(profile, clickedProfile, data.id)
+        favoriteProducts: {
+          ...prevState.favoriteProducts,
+          results: prevState.favoriteProducts.results.map((product) =>
+            favoriteHelper(product, clickedProduct, data.id)
           ),
         },
       }));
@@ -67,7 +67,7 @@ export const ProfileDataProvider = ({ children }) => {
     }
   };
 
-  const handleUnfollow = async (clickedProfile) => {
+  const handleUnfavorite = async (clickedProduct) => {
     try {
       const token = getToken();
       const csrfToken = getCsrfToken();
@@ -80,19 +80,19 @@ export const ProfileDataProvider = ({ children }) => {
         },
       };
 
-      await axiosRes.delete(`/followers/${clickedProfile.following_id}/`, config);
+      await axiosRes.delete(`/favorites/${clickedProduct.favorite_id}/`, config);
 
-      setProfileData((prevState) => ({
+      setFavoriteData((prevState) => ({
         ...prevState,
         pageProfile: {
           results: prevState.pageProfile.results.map((profile) =>
-            unfollowHelper(profile, clickedProfile, null)
+            unfavoriteHelper(profile, clickedProduct, null)
           ),
         },
-        popularProfiles: {
-          ...prevState.popularProfiles,
-          results: prevState.popularProfiles.results.map((profile) =>
-            unfollowHelper(profile, clickedProfile, null)
+        favoriteProducts: {
+          ...prevState.favoriteProducts,
+          results: prevState.favoriteProducts.results.map((product) =>
+            unfavoriteHelper(product, clickedProduct, null)
           ),
         },
       }));
@@ -104,12 +104,10 @@ export const ProfileDataProvider = ({ children }) => {
   useEffect(() => {
     const handleMount = async () => {
       try {
-        const { data } = await axiosReq.get(
-          "/profiles/?ordering=-followers_count"
-        );
-        setProfileData((prevState) => ({
+        const { data } = await axiosReq.get("/products/?ordering=-favorites_count");
+        setFavoriteData((prevState) => ({
           ...prevState,
-          popularProfiles: data,
+          favoriteProducts: data,
         }));
       } catch (err) {
         // console.log(err);
@@ -120,10 +118,10 @@ export const ProfileDataProvider = ({ children }) => {
   }, [currentUser]);
 
   return (
-    <ProfileDataContext.Provider value={profileData}>
-      <SetProfileDataContext.Provider value={{ setProfileData, handleFollow, handleUnfollow }}>
+    <FavoriteDataContext.Provider value={favoriteData}>
+      <SetFavoriteDataContext.Provider value={{ setFavoriteData, handleFavorite, handleUnfavorite }}>
         {children}
-      </SetProfileDataContext.Provider>
-    </ProfileDataContext.Provider>
+      </SetFavoriteDataContext.Provider>
+    </FavoriteDataContext.Provider>
   );
 };
