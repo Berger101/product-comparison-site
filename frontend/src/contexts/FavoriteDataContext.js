@@ -12,57 +12,51 @@ export const useSetFavoritesData = () => useContext(SetFavoriteDataContext);
 
 export const FavoriteDataProvider = ({ children }) => {
   const [favoriteData, setFavoriteData] = useState({
-    pageProfile: { results: [] }, // Stores data for the clicked profile
-    popularProfiles: { results: [] }, // Stores popular profiles or products
+    pageProfile: { results: [] },
     favoriteProducts: { results: [] },
   });
 
   const currentUser = useCurrentUser();
 
-  const handleFavorite = async (clickedProduct) => {
+  const handleFavorite = async (productId) => {
     try {
       const config = getAuthHeaders();
+      const response = await axiosRes.post(
+        "/favorites/",
+        { product: productId },
+        config
+      );
 
-      const { data } = await axiosRes.post("/favorites/", {
-        product: clickedProduct.id,
-      }, config);
-
-      setFavoriteData((prevState) => ({
-        ...prevState,
-        pageProfile: {
-          results: prevState.pageProfile.results.map((profile) =>
-            favoriteHelper(profile, clickedProduct, data.id)
-          ),
-        },
-        popularProfiles: {
-          ...prevState.popularProfiles,
-          results: prevState.popularProfiles.results.map((profile) =>
-            favoriteHelper(profile, clickedProduct, data.id)
-          ),
-        },
-      }));
+      if (response && response.data) {
+        const { data } = response;
+        setFavoriteData((prevState) => ({
+          ...prevState,
+          favoriteProducts: {
+            ...prevState.favoriteProducts,
+            results: [...prevState.favoriteProducts.results, data],
+          },
+        }));
+        return data; // Return the data so it can be used in ProductPage.js
+      } else {
+        console.error("No data returned from the backend.");
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Error in handleFavorite:", err);
     }
   };
 
-  const handleUnfavorite = async (clickedProduct) => {
+  const handleUnfavorite = async (productId, favoriteId) => {
     try {
       const config = getAuthHeaders();
 
-      await axiosRes.delete(`/favorites/${clickedProduct.favorite_id}/`, config);
+      await axiosRes.delete(`/favorites/${favoriteId}/`, config);
 
       setFavoriteData((prevState) => ({
         ...prevState,
-        pageProfile: {
-          results: prevState.pageProfile.results.map((profile) =>
-            unfavoriteHelper(profile, clickedProduct, null)
-          ),
-        },
-        popularProfiles: {
-          ...prevState.popularProfiles,
-          results: prevState.popularProfiles.results.map((profile) =>
-            unfavoriteHelper(profile, clickedProduct, null)
+        favoriteProducts: {
+          ...prevState.favoriteProducts,
+          results: prevState.favoriteProducts.results.filter(
+            (product) => product.id !== productId
           ),
         },
       }));
@@ -74,15 +68,16 @@ export const FavoriteDataProvider = ({ children }) => {
   useEffect(() => {
     const handleMount = async () => {
       try {
-        // Fetch popular profiles based on product counts or other criteria
-        const { data: popularProfilesData } = await axiosReq.get(
-          "/profiles/?ordering=-products_count"
-        );
+        if (currentUser) {
+          const { data: favoriteProductsData } = await axiosReq.get(
+            "/favorites/?user=" + currentUser.id
+          );
 
-        setFavoriteData((prevState) => ({
-          ...prevState,
-          popularProfiles: popularProfilesData,
-        }));
+          setFavoriteData((prevState) => ({
+            ...prevState,
+            favoriteProducts: favoriteProductsData,
+          }));
+        }
       } catch (err) {
         console.error(err);
       }
