@@ -15,38 +15,26 @@ export const fetchMoreData = async (resource, setResource) => {
   } catch (err) {}
 };
 
-export const followHelper = (profile, clickedProfile, following_id) => {
-  return profile.id === clickedProfile.id
-    ? // This is the profile I clicked on,
-      // update its followers count and set its following id
+export const favoriteHelper = (product, clickedProduct, favorite_id) => {
+  return product.id === clickedProduct.id
+    ? // This is the product the user clicked on,
+      // update its favorites count and set its favorite id
       {
-        ...profile,
-        followers_count: profile.followers_count + 1,
-        following_id,
+        ...product,
+        favorites_count: product.favorites_count + 1,
+        favorite_id,
       }
-    : profile.is_owner
-    ? // This is the profile of the logged in user
-      // update its following count
-      { ...profile, following_count: profile.following_count + 1 }
-    : // this is not the profile the user clicked on or the profile
-      // the user owns, so just return it unchanged
-      profile;
+    : product;
 };
 
-export const unfollowHelper = (profile, clickedProfile) => {
-  return profile.id === clickedProfile.id
-    ? // This is the profile I clicked on,
-      // update its followers count and set its following id
+export const unfavoriteHelper = (product, clickedProduct) => {
+  return product.id === clickedProduct.id
+    ? // This is the product the user clicked on,
+      // update its favorites count and remove its favorite id
       {
-        ...profile,
-        followers_count: profile.followers_count - 1,
-        following_id: null,
+        ...product,
+        favorites_count: product.favorites_count - 1,
+        favorite_id: null,
       }
-    : profile.is_owner
-    ? // This is the profile of the logged in user
-      // update its following count
-      { ...profile, following_count: profile.following_count - 1 }
-    : // this is not the profile the user clicked on or the profile
-      // the user owns, so just return it unchanged
-      profile;
+    : product;
 };
