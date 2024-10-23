@@ -15,14 +15,14 @@ class ProfileList(generics.ListAPIView):
         # Updated from post to product
         products_count=Count('owner__product', distinct=True),
         favorites_count=Count('owner__favorites', distinct=True)
-    ).order_by('-created_at')
+    ).order_by('-products_count')
     serializer_class = ProfileSerializer
     filter_backends = [
         filters.OrderingFilter,
         DjangoFilterBackend,
     ]
     filterset_fields = [
-        'owner__favorites__product__profile',
+        'owner__favorites__product',
     ]
     ordering_fields = [
         'products_count',
