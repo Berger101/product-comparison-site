@@ -2,6 +2,8 @@ from rest_framework import generics, permissions
 from drf_api.permissions import IsOwnerOrReadOnly
 from .models import Favorite
 from .serializers import FavoriteSerializer
+from rest_framework import status
+from rest_framework.response import Response
 
 
 class FavoriteListCreateView(generics.ListCreateAPIView):
@@ -16,7 +18,8 @@ class FavoriteListCreateView(generics.ListCreateAPIView):
     #     return Favorite.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        favorite = serializer.save(owner=self.request.user)
+        return Response(self.get_serializer(favorite).data, status=status.HTTP_201_CREATED)
 
 
 class FavoriteDetailView(generics.RetrieveDestroyAPIView):
