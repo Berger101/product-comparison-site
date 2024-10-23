@@ -5,7 +5,7 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Link } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import { Button } from "react-bootstrap";
-import { useSetProfileData } from "../../contexts/FavoriteDataContext";
+import { useSetFavoritesData } from "../../contexts/FavoriteDataContext";
 
 const Profile = (props) => {
   const { profile, mobile, imageSize = 55 } = props;
@@ -14,7 +14,7 @@ const Profile = (props) => {
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
 
-  const { handleFavorite, handleUnfavorite } = useSetProfileData();
+  const { handleFavorite, handleUnfavorite } = useSetFavoritesData();
 
   return (
     <div
@@ -37,14 +37,14 @@ const Profile = (props) => {
               className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
               onClick={() => handleUnfavorite(profile)}
             >
-              unfollow
+              Remove Favorite
             </Button>
           ) : (
             <Button
               className={`${btnStyles.Button} ${btnStyles.Black}`}
               onClick={() => handleFavorite(profile)}
             >
-              follow
+              Add Favorite
             </Button>
           ))}
       </div>
