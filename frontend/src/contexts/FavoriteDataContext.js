@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { axiosReq, axiosRes } from "../api/axiosDefaults";
-import { useCurrentUser } from "./CurrentUserContext";
+import { useCurrentUser } from "../contexts/CurrentUserContext";
 import { favoriteHelper, unfavoriteHelper } from "../utils/utils";
-import { getAuthHeaders } from "../../utils/tokenUtils";
+import { getAuthHeaders } from "../utils/tokenUtils";
 
 const FavoriteDataContext = createContext();
 const SetFavoriteDataContext = createContext();
@@ -12,7 +12,8 @@ export const useSetFavoritesData = () => useContext(SetFavoriteDataContext);
 
 export const FavoriteDataProvider = ({ children }) => {
   const [favoriteData, setFavoriteData] = useState({
-    pageProfile: { results: [] },
+    pageProfile: { results: [] }, // Stores data for the clicked profile
+    popularProfiles: { results: [] }, // Stores popular profiles or products
     favoriteProducts: { results: [] },
   });
 
@@ -33,15 +34,15 @@ export const FavoriteDataProvider = ({ children }) => {
             favoriteHelper(profile, clickedProduct, data.id)
           ),
         },
-        favoriteProducts: {
-          ...prevState.favoriteProducts,
-          results: prevState.favoriteProducts.results.map((product) =>
-            favoriteHelper(product, clickedProduct, data.id)
+        popularProfiles: {
+          ...prevState.popularProfiles,
+          results: prevState.popularProfiles.results.map((profile) =>
+            favoriteHelper(profile, clickedProduct, data.id)
           ),
         },
       }));
     } catch (err) {
-      // console.log(err);
+      console.error(err);
     }
   };
 
@@ -58,28 +59,32 @@ export const FavoriteDataProvider = ({ children }) => {
             unfavoriteHelper(profile, clickedProduct, null)
           ),
         },
-        favoriteProducts: {
-          ...prevState.favoriteProducts,
-          results: prevState.favoriteProducts.results.map((product) =>
-            unfavoriteHelper(product, clickedProduct, null)
+        popularProfiles: {
+          ...prevState.popularProfiles,
+          results: prevState.popularProfiles.results.map((profile) =>
+            unfavoriteHelper(profile, clickedProduct, null)
           ),
         },
       }));
     } catch (err) {
-      // console.log(err);
+      console.error(err);
     }
   };
 
   useEffect(() => {
     const handleMount = async () => {
       try {
-        const { data } = await axiosReq.get("/products/?ordering=-favorites_count");
+        // Fetch popular profiles based on product counts or other criteria
+        const { data: popularProfilesData } = await axiosReq.get(
+          "/profiles/?ordering=-products_count"
+        );
+
         setFavoriteData((prevState) => ({
           ...prevState,
-          favoriteProducts: data,
+          popularProfiles: popularProfilesData,
         }));
       } catch (err) {
-        // console.log(err);
+        console.error(err);
       }
     };
 
@@ -88,7 +93,9 @@ export const FavoriteDataProvider = ({ children }) => {
 
   return (
     <FavoriteDataContext.Provider value={favoriteData}>
-      <SetFavoriteDataContext.Provider value={{ setFavoriteData, handleFavorite, handleUnfavorite }}>
+      <SetFavoriteDataContext.Provider
+        value={{ setFavoriteData, handleFavorite, handleUnfavorite }}
+      >
         {children}
       </SetFavoriteDataContext.Provider>
     </FavoriteDataContext.Provider>
