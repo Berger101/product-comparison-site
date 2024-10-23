@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Favorite
+from products.models import Product
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
@@ -8,9 +9,11 @@ class FavoriteSerializer(serializers.ModelSerializer):
     Create method handles the unique constraint on 'product' and 'user'
     """
     owner = serializers.ReadOnlyField(source='owner.username')
-    product = serializers.ReadOnlyField(source='product.name')
-    product_id = serializers.ReadOnlyField(source='product.id')
+    product = serializers.PrimaryKeyRelatedField(
+        queryset=Product.objects.all(), write_only=True
+    )
+    product_name = serializers.ReadOnlyField(source='product.name')
 
     class Meta:
         model = Favorite
-        fields = ['id', 'owner', 'product', 'product_id', 'created_at']
+        fields = ['id', 'owner', 'product', 'product_name', 'created_at']
