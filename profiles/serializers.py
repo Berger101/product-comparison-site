@@ -10,7 +10,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     favorite_id = serializers.SerializerMethodField()
     profile_image = serializers.ReadOnlyField(source='image.url')
 
-    # Count products created and favorite products
     products_count = serializers.SerializerMethodField()
     favorites_count = serializers.SerializerMethodField()
 
@@ -30,7 +29,8 @@ class ProfileSerializer(serializers.ModelSerializer):
         # Count the number of products the profile owner has created
         return Product.objects.filter(owner=obj.owner).count()
 
-    def get_favorites_count(self, obj):  # Updated method
+    def get_favorites_count(self, obj):
+        # Count the number of products favorited by others that belong to the profile owner
         return Favorite.objects.filter(product__owner=obj.owner).count()
 
     class Meta:
