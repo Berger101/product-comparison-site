@@ -16,7 +16,6 @@ import { axiosReq } from "../../api/axiosDefaults";
 import NoResults from "../../assets/no-results.png";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
-import FavoriteProducts from "../profiles/FavoriteProducts";
 
 function ProductsPage({ message, filter = "" }) {
   const [products, setProducts] = useState({ results: [] });
@@ -33,7 +32,7 @@ function ProductsPage({ message, filter = "" }) {
         setProducts(data);
         setHasLoaded(true);
       } catch (err) {
-        // console.log(err);
+        // console.error(err);
       }
     };
 
@@ -50,7 +49,6 @@ function ProductsPage({ message, filter = "" }) {
   return (
     <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2" lg={8}>
-        <FavoriteProducts mobile />
         <i className={`fas fa-search ${styles.SearchIcon}`} />
         <Form
           className={styles.SearchBar}
@@ -92,9 +90,6 @@ function ProductsPage({ message, filter = "" }) {
             <Asset spinner />
           </Container>
         )}
-      </Col>
-      <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
-        <FavoriteProducts />
       </Col>
     </Row>
   );
