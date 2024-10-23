@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { axiosReq, axiosRes } from "../api/axiosDefaults";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
-import { favoriteHelper, unfavoriteHelper } from "../utils/utils";
+import { favoriteHelper, unfavoriteHelper } from "../utils/utils"; // Make sure these are imported correctly
 import { getAuthHeaders } from "../utils/tokenUtils";
 
 const FavoriteDataContext = createContext();
@@ -21,22 +21,31 @@ export const FavoriteDataProvider = ({ children }) => {
   const handleFavorite = async (productId) => {
     try {
       const config = getAuthHeaders();
-      const response = await axiosRes.post(
-        "/favorites/",
-        { product: productId },
-        config
-      );
+      const payload = { product: productId };
+      console.log("Payload being sent:", payload);
+      const response = await axiosRes.post("/favorites/", payload, config);
 
       if (response && response.data) {
-        const { data } = response;
+        console.log("Favorite response data:", response.data);
+        const { id: favoriteId } = response.data; // Destructure the ID from the response data
+
         setFavoriteData((prevState) => ({
           ...prevState,
+          pageProfile: {
+            results: prevState.pageProfile.results.map((profile) =>
+              favoriteHelper(profile, { id: productId }, favoriteId)
+            ),
+          },
           favoriteProducts: {
             ...prevState.favoriteProducts,
-            results: [...prevState.favoriteProducts.results, data],
+            results: [
+              ...prevState.favoriteProducts.results,
+              response.data, // Add the full response data to maintain consistency
+            ],
           },
         }));
-        return data; // Return the data so it can be used in ProductPage.js
+
+        return response.data; // Return the response data so it can be used in ProductPage.js
       } else {
         console.error("No data returned from the backend.");
       }
@@ -53,6 +62,11 @@ export const FavoriteDataProvider = ({ children }) => {
 
       setFavoriteData((prevState) => ({
         ...prevState,
+        pageProfile: {
+          results: prevState.pageProfile.results.map((profile) =>
+            unfavoriteHelper(profile, { id: productId })
+          ),
+        },
         favoriteProducts: {
           ...prevState.favoriteProducts,
           results: prevState.favoriteProducts.results.filter(
@@ -61,7 +75,7 @@ export const FavoriteDataProvider = ({ children }) => {
         },
       }));
     } catch (err) {
-      console.error(err);
+      console.error("Error in handleUnfavorite:", err);
     }
   };
 
@@ -70,7 +84,7 @@ export const FavoriteDataProvider = ({ children }) => {
       try {
         if (currentUser) {
           const { data: favoriteProductsData } = await axiosReq.get(
-            "/favorites/?user=" + currentUser.id
+            `/favorites/?user=${currentUser.id}`
           );
 
           setFavoriteData((prevState) => ({
