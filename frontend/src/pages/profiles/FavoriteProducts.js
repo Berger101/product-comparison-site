@@ -28,7 +28,9 @@ const FavoriteProducts = ({ mobile }) => {
           )}
         </>
       ) : (
-        <Asset spinner />
+        <div className="text-center">
+          <p>No favorite products yet.</p>
+        </div>
       )}
     </Container>
   );
