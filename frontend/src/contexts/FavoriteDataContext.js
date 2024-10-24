@@ -1,8 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { axiosReq, axiosRes } from "../api/axiosDefaults";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
-import { favoriteHelper, unfavoriteHelper } from "../utils/utils"; // Make sure these are imported correctly
-import { getAuthHeaders } from "../utils/tokenUtils";
 
 const FavoriteDataContext = createContext();
 const SetFavoriteDataContext = createContext();
