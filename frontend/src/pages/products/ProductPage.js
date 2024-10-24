@@ -13,9 +13,6 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Asset from "../../components/Asset";
 import { fetchMoreData } from "../../utils/utils";
-import { getAuthHeaders } from "../../utils/tokenUtils";
-import { useSetFavoritesData } from "../../contexts/FavoriteDataContext";
-import btnStyles from "../../styles/Button.module.css";
 
 function ProductPage() {
   const { id } = useParams();
@@ -23,9 +20,6 @@ function ProductPage() {
   const currentUser = useCurrentUser();
   const profile_image = currentUser?.profile_image;
   const [comments, setComments] = useState({ results: [] });
-
-  // Get favorite functions from the context
-  const { handleFavorite, handleUnfavorite } = useSetFavoritesData();
 
   useEffect(() => {
     const handleMount = async () => {
@@ -43,52 +37,6 @@ function ProductPage() {
 
     handleMount();
   }, [id]);
-
-  // Function to handle favorite/unfavorite click
-  const handleFavoriteClick = async () => {
-    try {
-      const productId = product.results[0]?.id;
-
-      if (!productId) {
-        console.error("Product ID is undefined");
-        return;
-      }
-
-      if (product.results[0]?.is_favorited) {
-        const favoriteId = product.results[0]?.favorite_id;
-        if (!favoriteId) {
-          console.error("Favorite ID is undefined");
-          return;
-        }
-
-        await handleUnfavorite(productId, favoriteId);
-        setProduct((prevState) => ({
-          ...prevState,
-          results: [
-            { ...prevState.results[0], is_favorited: false, favorite_id: null },
-          ],
-        }));
-      } else {
-        const data = await handleFavorite(productId);
-        if (data && data.id) {
-          setProduct((prevState) => ({
-            ...prevState,
-            results: [
-              {
-                ...prevState.results[0],
-                is_favorited: true,
-                favorite_id: data.id,
-              },
-            ],
-          }));
-        } else {
-          console.error("No data returned from the backend when favoriting.");
-        }
-      }
-    } catch (err) {
-      console.error("Error favoriting/unfavoriting product:", err);
-    }
-  };
 
   return (
     <Row className="h-100">
@@ -127,20 +75,6 @@ function ProductPage() {
             <span>No comments... yet</span>
           )}
         </Container>
-        <Col className="text-center mt-3">
-          {currentUser && (
-            <Button
-              className={`${btnStyles.Button} ${
-                product.results[0]?.is_favorited
-                  ? btnStyles.BlackOutline
-                  : btnStyles.Black
-              }`}
-              onClick={handleFavoriteClick}
-            >
-              {product.results[0]?.is_favorited ? "Unfavorite" : "Favorite"}
-            </Button>
-          )}
-        </Col>
       </Col>
     </Row>
   );
