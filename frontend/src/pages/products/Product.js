@@ -173,7 +173,7 @@ const Product = (props) => {
     try {
       const { data } = await axiosRes.post(
         "/favorites/",
-        { product: id },
+        { product_id: id },
         config
       );
       setIsFavorited(true);
