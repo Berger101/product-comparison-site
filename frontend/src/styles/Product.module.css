@@ -55,6 +55,18 @@
   pointer-events: none;
 }
 
+.Heart {
+  color: #f85032;
+}
+
+.Heart:hover {
+  color: #2142b2;
+}
+
+.HeartOutline:hover {
+  color: #f85032;
+}
+
 .CardFooter {
   background-color: #f8f9fa;
   border-top: 1px solid #e9ecef;
