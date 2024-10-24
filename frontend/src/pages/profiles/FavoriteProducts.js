@@ -1,8 +1,8 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import appStyles from "../../App.module.css";
+import { Link } from "react-router-dom";
 import { useFavoritesData } from "../../contexts/FavoriteDataContext";
-import Product from "../products/Product";
 
 const FavoriteProducts = ({ mobile }) => {
   const { favoriteProducts } = useFavoritesData();
@@ -19,36 +19,52 @@ const FavoriteProducts = ({ mobile }) => {
           {mobile ? (
             <div className="d-flex justify-content-around">
               {favoriteProducts.results.slice(0, 4).map((favorite) => {
-                // Access product details based on API response structure
-                const product = favorite.product || favorite; // Adjust if necessary
+                const product = favorite.product || favorite;
 
                 return (
-                  <Product
-                    key={product.id}
-                    id={product.id}
-                    name={product.name}
-                    image={product.image}
-                    price={product.price}
-                    category={product.category}
-                    mobile
-                  />
+                  <div key={product.id} className="product-card mb-3">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="img-fluid"
+                    />
+                    <div className="mt-2">
+                      <h5>{product.name}</h5>
+                      <p>Price: ${product.price}</p>
+                      <p>Category: {product.category}</p>
+                    </div>
+                  </div>
                 );
               })}
             </div>
           ) : (
             favoriteProducts.results.map((favorite) => {
-              // Access product details based on API response structure
-              const product = favorite.product || favorite; // Adjust if necessary
+              const product = favorite.product || favorite;
 
               return (
-                <Product
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  image={product.image}
-                  price={product.price}
-                  category={product.category}
-                />
+                <div key={product.id} className="product-card mb-3 p-2 border rounded">
+                  <Link to={`/products/${product.id}`}>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="img-fluid"
+                    />
+                  </Link>
+                  <div className="mt-2">
+                    <h5 className="text-center">{product.name}</h5>
+                    <p>Price: ${product.price}</p>
+                    <p>
+                      Category:{" "}
+                      <Link
+                        to={`/categories/${product.category}`}
+                        className="text-decoration-none"
+                      >
+                        {product.category.charAt(0).toUpperCase() +
+                          product.category.slice(1)}
+                      </Link>
+                    </p>
+                  </div>
+                </div>
               );
             })
           )}
