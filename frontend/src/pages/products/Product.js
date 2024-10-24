@@ -27,6 +27,8 @@ const Product = (props) => {
     category,
     productPage,
     setProducts,
+    favorite_id,
+    favorites_count,
   } = props;
 
   // User's rating input
@@ -35,6 +37,8 @@ const Product = (props) => {
   const [averageRating, setAverageRating] = useState(current_rating || 0);
   // Number of users who rated the product
   const [totalVotes, setTotalVotes] = useState(votes_count || 0);
+  const [isFavorited, setIsFavorited] = useState(favorites_count > 0);
+  const [favoriteId, setFavoriteId] = useState(favorite_id);
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
@@ -45,7 +49,9 @@ const Product = (props) => {
     setUserVote(user_rating || 0);
     setAverageRating(current_rating || 0);
     setTotalVotes(votes_count || 0);
-  }, [user_rating, current_rating, votes_count]);
+    setIsFavorited(favorites_count > 0);
+    setFavoriteId(favorite_id);
+  }, [user_rating, current_rating, votes_count, favorite_id, favorites_count]);
 
   const handleEdit = () => {
     navigate(`/products/${id}/edit`);
@@ -162,6 +168,56 @@ const Product = (props) => {
     return stars;
   };
 
+  const handleFavorite = async () => {
+    const config = getAuthHeaders();
+    try {
+      const { data } = await axiosRes.post(
+        "/favorites/",
+        { product: id },
+        config
+      );
+      setIsFavorited(true);
+      setFavoriteId(data.id);
+      setProducts((prevProducts) => ({
+        ...prevProducts,
+        results: prevProducts.results.map((product) => {
+          return product.id === id
+            ? { ...product, favorite_id: data.id, favorites_count: 1 }
+            : product;
+        }),
+      }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleUnfavorite = async () => {
+    const config = getAuthHeaders();
+    try {
+      await axiosRes.delete(`/favorites/${favoriteId}/`, config);
+      setIsFavorited(false);
+      setFavoriteId(null);
+      setProducts((prevProducts) => ({
+        ...prevProducts,
+        results: prevProducts.results.map((product) => {
+          return product.id === id
+            ? { ...product, favorite_id: null, favorites_count: 0 }
+            : product;
+        }),
+      }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleFavoriteClick = () => {
+    if (isFavorited) {
+      handleUnfavorite();
+    } else {
+      handleFavorite();
+    }
+  };
+
   return (
     <Card className={`${styles.Product} shadow-sm mb-4`}>
       <Link to={`/products/${id}`}>
@@ -171,6 +227,7 @@ const Product = (props) => {
           className={`${styles.ProductImage} rounded-top`}
         />
       </Link>
+
       <Card.Body className="p-3">
         <div className="d-flex justify-content-between align-items-center mb-2">
           <Link to={`/profiles/${profile_id}`} className="text-decoration-none">
@@ -219,7 +276,10 @@ const Product = (props) => {
             <strong>Price:</strong> ${price}
           </p>
 
-          <Link to={`/categories`} className="text-decoration-none me-2 ml-2 mr-1">
+          <Link
+            to={`/categories`}
+            className="text-decoration-none me-2 ml-2 mr-1"
+          >
             <p className={`${styles.ProductDetail}`}>
               <strong>Category:</strong>
             </p>
@@ -241,6 +301,18 @@ const Product = (props) => {
       </Card.Body>
 
       <Card.Footer className="d-flex justify-content-between align-items-center p-2">
+        <Link
+          onClick={handleFavoriteClick}
+          className="text-decoration-none me-2"
+        >
+          <i
+            className={
+              isFavorited
+                ? `fas fa-heart ${styles.Heart}`
+                : `far fa-heart ${styles.HeartOutline}`
+            }
+          ></i>
+        </Link>
         <span className="text-muted">{updated_at}</span>
         <Link to={`/products/${id}`}>
           <i className="far fa-comments me-1"></i> {comments_count}
