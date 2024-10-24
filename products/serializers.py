@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Product
 from votes.models import Vote
+from favorites.models import Favorite
 from django.db.models import Avg
 
 
@@ -10,6 +11,8 @@ class ProductSerializer(serializers.ModelSerializer):
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
     vote_id = serializers.SerializerMethodField()
+    favorite_id = serializers.SerializerMethodField()
+    favorites_count = serializers.SerializerMethodField()
     votes_count = serializers.ReadOnlyField()
     comments_count = serializers.ReadOnlyField()
     current_rating = serializers.SerializerMethodField()
@@ -37,6 +40,20 @@ class ProductSerializer(serializers.ModelSerializer):
                 owner=user, product=obj).first()
             return vote.id if vote else None
         return None
+
+    def get_favorite_id(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            favorite = Favorite.objects.filter(owner=user, product=obj).first()
+            return favorite.id if favorite else None
+        return None
+
+    def get_favorites_count(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            # Check if the user has favorited this product; return 1 if true, otherwise 0
+            return Favorite.objects.filter(owner=user, product=obj).count()
+        return 0
 
     def get_current_rating(self, obj):
         votes = obj.votes.all()
@@ -66,6 +83,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
             'name', 'description', 'image', 'price',
-            'category', 'vote_id', 'votes_count', 'comments_count',
+            'category', 'vote_id', 'favorite_id', 'votes_count',
+            'favorites_count', 'comments_count',
             'current_rating', 'user_rating'
         ]
