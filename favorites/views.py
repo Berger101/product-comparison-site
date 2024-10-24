@@ -2,33 +2,36 @@ from rest_framework import generics, permissions
 from drf_api.permissions import IsOwnerOrReadOnly
 from .models import Favorite
 from .serializers import FavoriteSerializer
-from rest_framework import status
-from rest_framework.response import Response
+from django.db import IntegrityError
 
 
-class FavoriteListCreateView(generics.ListCreateAPIView):
+class FavoriteList(generics.ListCreateAPIView):
     """
-    View for listing a user's favorites and allowing them to add new ones.
+    List favorites or create a favorite if logged in.
     """
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = FavoriteSerializer
-    queryset = Favorite.objects.all()
 
-    # def get_queryset(self):
-    #     return Favorite.objects.filter(owner=self.request.user)
+    def get_queryset(self):
+        # Return only the favorites belonging to the logged-in user
+        return Favorite.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
-        favorite = serializer.save(owner=self.request.user)
-        return Response(self.get_serializer(favorite).data, status=status.HTTP_201_CREATED)
+        try:
+            serializer.save(owner=self.request.user)
+        except IntegrityError:
+            raise serializers.ValidationError({
+                'detail': 'This product is already favorited by you.'
+            })
 
 
-class FavoriteDetailView(generics.RetrieveDestroyAPIView):
+class FavoriteDetail(generics.RetrieveDestroyAPIView):
     """
-    View for retrieving or deleting a specific favorite item.
+    Retrieve or delete a favorite.
     """
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = FavoriteSerializer
-    queryset = Favorite.objects.all()
 
-    # def get_queryset(self):
-    #     return Favorite.objects.filter(owner=self.request.user)
+    def get_queryset(self):
+        # Restrict the queryset to favorites belonging to the logged-in user only
+        return Favorite.objects.filter(owner=self.request.user)
