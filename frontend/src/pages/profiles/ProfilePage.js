@@ -74,7 +74,11 @@ function ProfilePage() {
           <Row className="justify-content-center">
             <Col xs={3} className="my-2">
               <div>{profile?.products_count}</div>
-              <div>products</div>
+              <div>Products</div>
+            </Col>
+            <Col xs={3} className="my-2">
+              <div>{profile?.favorites_count}</div>
+              <div>Favorite</div>
             </Col>
           </Row>
         </Col>
