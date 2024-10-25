@@ -60,7 +60,7 @@
 }
 
 .Heart:hover {
-  color: #2142b2;
+  color: #f00a0a;
 }
 
 .HeartOutline:hover {
@@ -68,7 +68,8 @@
 }
 
 .CardFooter {
-  background-color: #f8f9fa;
-  border-top: 1px solid #e9ecef;
+  background-color: #f0f4f8; /* Light neutral for contrast */
+  border-top: 1px solid #dadadf; /* Light border */
   font-size: 0.8rem;
+  color: #264653; /* Deep Blue */
 }
