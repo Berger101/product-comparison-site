@@ -1,0 +1,56 @@
+.Footer {
+  background-color: #264653; /* Deep Blue */
+  color: #ffffff;
+  padding: 20px 0;
+}
+
+.Footer h5 {
+  color: #E9C46A; /* Golden Yellow */
+  margin-bottom: 15px;
+}
+
+.Footer p {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.FooterLinks {
+  list-style: none;
+  padding: 0;
+}
+
+.FooterLinks li {
+  margin: 5px 0;
+}
+
+.FooterLinks a {
+  color: #E9C46A; /* Golden Yellow */
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+.FooterLinks a:hover {
+  color: #2A9D8F; /* Teal */
+}
+
+.SocialIcons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  font-size: 24px;
+}
+
+.SocialIcons a {
+  color: #E9C46A; /* Golden Yellow */
+  transition: color 0.3s ease-in-out;
+}
+
+.SocialIcons a:hover {
+  color: #F4A261; /* Muted Orange */
+}
+
+.Copyright {
+  font-size: 12px;
+  margin-top: 20px;
+  color: #ffffff;
+}
