@@ -15,16 +15,13 @@
   cursor: pointer;
 }
 
-.Button:hover:active {
-  background-color: #2142b2 !important;
-}
-
+.Button:hover:active,
 .Button:active {
-  background-color: #2142b2 !important;
+  background-color: #2A9D8F !important; /* Teal */
 }
 
 .Button:focus {
-  background-color: #2142b2;
+  background-color: #2A9D8F; /* Teal */
 }
 
 .Wide {
@@ -32,38 +29,35 @@
   width: 100%;
 }
 
+/* Blue variations (Deep Blue) */
 .Blue,
 .BlueOutline:hover,
 .Bright:hover {
-  background-color: #2142b2;
+  background-color: #264653; /* Deep Blue */
   color: #ffffff;
 }
 
 .BlueOutline,
 .Blue:hover {
-  /* border: 1px solid #2142b2; */
   background-color: #ffffff;
-  color: #2142b2;
+  color: #264653; /* Deep Blue */
 }
 
+/* Black variations for contrast */
 .Black,
 .BlackOutline:hover {
-  /* background-color: #242a3d;
-  color: white; */
-  background-color: #242a3d;
-  color: aliceblue;
+  background-color: #242a3d; /* Darker shade for contrast */
+  color: #f8f8f8; /* Light color for readability */
 }
 
 .Black:hover,
 .BlackOutline {
-  /* background-color: #dadadf;
-  color: #242a3d;
-  border-color: #242a3d; */
-  background-color: aliceblue;
-  color: #242a3d;
+  background-color: #f8f8f8; /* Light neutral */
+  color: #242a3d; /* Darker shade for contrast */
 }
 
+/* Bright button styled with Muted Orange */
 .Bright {
-  background-color: #2ed9ff;
-  color: #2142b2;
+  background-color: #F4A261; /* Muted Orange */
+  color: #264653; /* Deep Blue */
 }

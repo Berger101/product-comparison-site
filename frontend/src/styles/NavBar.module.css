@@ -1,12 +1,28 @@
 .NavBar {
-  background-color: #ffffff;
-  border: 1px solid #dadadf;
+  background-color: #264653; /* Deep Blue */
+  border: 1px solid #2A9D8F; /* Teal */
 }
 
 .NavLink {
   padding: 5px;
+  color: #E9C46A; /* Golden Yellow */
+  transition: color ease-in-out 0.3s;
+}
+
+.NavLink:hover {
+  color: #F4A261 !important; /* Muted Orange */
+  text-decoration: none;
 }
 
 .Active i {
-  color: #2142b2;
+  color: #2A9D8F; /* Teal */
+}
+
+.NavIcon {
+  color: #E9C46A; /* Golden Yellow */
+  font-size: 1.2rem;
+}
+
+.NavIcon:hover {
+  color: #F4A261; /* Muted Orange */
 }
