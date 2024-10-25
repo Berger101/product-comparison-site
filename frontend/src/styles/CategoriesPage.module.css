@@ -12,12 +12,12 @@
 
 .CategoryItem {
   padding: 10px 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #dadadf;
   border-radius: 5px;
   text-decoration: none;
   color: #000;
 }
 
 .CategoryItem:hover {
-  background-color: #f0f0f0;
+  background-color: #264653;
 }

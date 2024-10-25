@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import Product from "../products/Product";
-import styles from "../../styles/CategoryProductsPage.module.css";
 import { Container, Row, Col } from "react-bootstrap";
 import Asset from "../../components/Asset";
 import NoResults from "../../assets/no-results.png";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { fetchMoreData } from "../../utils/utils";
 
 function CategoryProductsPage() {
   const { category } = useParams();
