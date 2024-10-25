@@ -1,6 +1,11 @@
 .CategoryProductsPage {
-  min-height: 80vh;
-  padding: 0 15px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.ProductItem {
+  width: 100% !important;
 }
 
 .InfiniteScrollWrapper {
