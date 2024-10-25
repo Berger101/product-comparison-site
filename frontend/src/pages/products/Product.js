@@ -271,32 +271,31 @@ const Product = (props) => {
         </Card.Text>
 
         {/* Flex container for price and category */}
-        <div className="d-flex justify-content-center mb-3">
-          <p className={`${styles.ProductDetail} me-4`}>
+        <div className="d-flex justify-content-between mb-3">
+          <p className={`${styles.ProductDetail}`}>
             <strong>Price:</strong> ${price}
           </p>
 
-          <Link
-            to={`/categories`}
-            className="text-decoration-none me-2 ml-2 mr-1"
-          >
-            <p className={`${styles.ProductDetail}`}>
-              <strong>Category:</strong>
-            </p>
-          </Link>
-
-          {category ? (
-            <Link
-              to={`/categories/${category}`}
-              className="text-decoration-none"
-            >
-              <p className={`${styles.ProductDetail}`}>
-                {category.charAt(0).toUpperCase() + category.slice(1)}
+          <div className="d-flex align-items-center">
+            <Link to={`/categories`} className="text-decoration-none me-2">
+              <p className={`${styles.ProductDetail} mr-1`}>
+                <strong>Category:</strong>
               </p>
             </Link>
-          ) : (
-            <p className={`${styles.ProductDetail}`}>N/A</p>
-          )}
+
+            {category ? (
+              <Link
+                to={`/categories/${category}`}
+                className="text-decoration-none"
+              >
+                <p className={`${styles.ProductDetail}`}>
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                </p>
+              </Link>
+            ) : (
+              <p className={`${styles.ProductDetail}`}>N/A</p>
+            )}
+          </div>
         </div>
       </Card.Body>
 
