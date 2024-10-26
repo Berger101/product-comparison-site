@@ -1,12 +1,13 @@
 .Row {
   height: calc(100vh - 81px);
 }
+
 .Input {
   background: #ffffff;
-  border: 1px solid #f0f1f9;
+  border: 1px solid #f0f1f9; /* Golden Yellow */
   box-sizing: border-box;
   border-radius: 2px;
-  color: #7177a1;
+  color: #264653; /* Deep Blue */
   text-align: center;
   padding: 10px;
 }
@@ -19,7 +20,7 @@
   text-align: center;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #2142b2;
+  color: #2A9D8F; /* Teal */
 }
 
 .Link {
@@ -30,11 +31,12 @@
 }
 
 .Link span {
-  color: #ff9254;
+  color: #F4A261; /* Muted Orange */
 }
 
 .Container {
   padding: 30px 10px;
+  background-color: #f0f4f8; /* Slightly lighter background to add depth */
 }
 
 .SignInCol {
