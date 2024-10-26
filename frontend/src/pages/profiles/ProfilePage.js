@@ -52,7 +52,7 @@ function ProfilePage() {
         setProfileProducts(profileProducts);
         setHasLoaded(true);
       } catch (err) {
-        console.error(err);
+        // console.error(err);
       }
     };
     fetchData();
@@ -83,6 +83,7 @@ function ProfilePage() {
           </Row>
         </Col>
       </Row>
+      {profile?.content && <Col className="p-3 text-center">{profile.content}</Col>}
     </>
   );
 
