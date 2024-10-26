@@ -13,6 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "../../styles/SignInUpForm.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
+import signInImage from "../../assets/signin.jpg";
 
 import { useRedirect } from "../../hooks/useRedirect";
 import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
@@ -132,7 +133,7 @@ function SignInForm() {
       >
         <Image
           className={`${appStyles.FillerImage}`}
-          src={"https://codeinstitute.s3.amazonaws.com/AdvancedReact/hero.jpg"}
+          src={signInImage}
         />
       </Col>
     </Row>

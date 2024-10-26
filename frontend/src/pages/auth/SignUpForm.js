@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "../../styles/SignInUpForm.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
+import signUpImage from "../../assets/signup.jpg";
 
 import {
   Form,
@@ -153,7 +154,7 @@ const SignUpForm = () => {
       >
         <Image
           className={`${appStyles.FillerImage}`}
-          src={"https://codeinstitute.s3.amazonaws.com/AdvancedReact/hero2.jpg"}
+          src={signUpImage}
         />
       </Col>
     </Row>
