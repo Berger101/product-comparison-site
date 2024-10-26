@@ -1,12 +1,12 @@
 .Form {
   border: none;
-  border-bottom: 2px #00d1ff solid;
+  border-bottom: 2px solid #00A896 !important; /* Light Teal */
 }
 
 .Button {
   border: none;
-  background-color: #242a3d;
-  color: aliceblue;
+  background-color: #E9C46A !important; /* Deep Blue */
+  color: black !important;
   border-radius: 100px;
   padding: 4px 10px;
   min-width: 75px;
@@ -15,6 +15,6 @@
 
 .Button:hover {
   cursor: pointer;
-  background-color: aliceblue;
-  color: #242a3d;
+  background-color: #F4A261 !important; /* Light Yellow */
+  color: #264653 !important; /* Deep Blue for contrast */
 }
