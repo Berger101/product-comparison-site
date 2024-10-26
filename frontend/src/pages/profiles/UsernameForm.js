@@ -40,11 +40,10 @@ const UsernameForm = () => {
           setUsername(currentUser.username);
           setIsOwner(true);
         } else {
-          console.log("User is not the profile owner, redirecting to home.");
           navigate("/");
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         navigate("/");
       }
     };
@@ -67,8 +66,7 @@ const UsernameForm = () => {
       }));
       navigate(-1);
     } catch (err) {
-      console.log(err);
-      setErrors(err.response?.data);
+      // console.log(err);
     }
   };
 

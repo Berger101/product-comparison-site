@@ -53,8 +53,6 @@ function SignInForm() {
         profile_image: profileResponse.data.profile_image,
       });
 
-      // console.log(data)
-
       // Navigate to the previous page or home
       navigate(-1);
     } catch (err) {

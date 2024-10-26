@@ -104,9 +104,6 @@ function ProductEditForm() {
       navigate(`/products/${id}`);
     } catch (err) {
       // console.log(err);
-      // if (err.response?.status !== 401) {
-      //   setErrors(err.response?.data);
-      // }
     }
   };
 

@@ -44,11 +44,10 @@ const ProfileEditForm = () => {
         setIsOwner(currentUser?.username === owner);
 
         if (currentUser?.username !== owner) {
-          console.log("User is not the profile owner, redirecting to home.");
           navigate("/");
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         navigate("/");
       }
     };
@@ -93,8 +92,7 @@ const ProfileEditForm = () => {
       }));
       navigate(-1);
     } catch (err) {
-      console.log(err);
-      setErrors(err.response?.data);
+      // console.log(err);
     }
   };
 

@@ -76,12 +76,6 @@ function ProductCreateForm() {
       navigate(`/products/${data.id}`);
     } catch (err) {
       // console.log(err);
-      // if (err.response?.status === 400) {
-      //   console.log("Error data:", err.response.data);
-      // }
-      // if (err.response?.status !== 401) {
-      //   setErrors(err.response?.data);
-      // }
     }
   };
 

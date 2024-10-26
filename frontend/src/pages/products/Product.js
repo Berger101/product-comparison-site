@@ -64,7 +64,7 @@ const Product = (props) => {
       await axiosRes.delete(`/products/${id}/`, config);
       navigate(-1);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
@@ -150,7 +150,7 @@ const Product = (props) => {
         }));
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
@@ -187,7 +187,7 @@ const Product = (props) => {
         }),
       }));
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
@@ -206,7 +206,7 @@ const Product = (props) => {
         }),
       }));
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
