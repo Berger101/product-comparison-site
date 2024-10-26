@@ -16,8 +16,6 @@ export const FavoriteDataProvider = ({ children }) => {
 
   const currentUser = useCurrentUser();
 
-  
-
   useEffect(() => {
     const handleMount = async () => {
       try {
@@ -41,9 +39,7 @@ export const FavoriteDataProvider = ({ children }) => {
 
   return (
     <FavoriteDataContext.Provider value={favoriteData}>
-      <SetFavoriteDataContext.Provider
-        value={{ setFavoriteData }}
-      >
+      <SetFavoriteDataContext.Provider value={{ setFavoriteData }}>
         {children}
       </SetFavoriteDataContext.Provider>
     </FavoriteDataContext.Provider>
