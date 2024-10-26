@@ -20,7 +20,7 @@ import { getAuthHeaders } from "../../utils/tokenUtils";
 
 const UsernameForm = () => {
   const [username, setUsername] = useState("");
-  const [errors] = useState({});
+  const [errors, setErrors] = useState({});
   const [isOwner, setIsOwner] = useState(false);  // track if the user is the owner
 
   const navigate = useNavigate();
@@ -67,10 +67,7 @@ const UsernameForm = () => {
       navigate(-1);
     } catch (err) {
       // console.log(err);
-<<<<<<< HEAD
       setErrors(err.response?.data);
-=======
->>>>>>> 9a194b6ccff039ec0b262e52262d95632a2902a7
     }
   };
 

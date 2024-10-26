@@ -23,7 +23,7 @@ const UserPasswordForm = () => {
   });
   const { new_password1, new_password2 } = userData;
 
-  const [errors] = useState({});
+  const [errors, setErrors] = useState({});
   const [isOwner, setIsOwner] = useState(false);
 
   const navigate = useNavigate();
@@ -69,10 +69,7 @@ const UserPasswordForm = () => {
       navigate(-1);
     } catch (err) {
       // console.log(err);
-<<<<<<< HEAD
       setErrors(err.response?.data);
-=======
->>>>>>> 9a194b6ccff039ec0b262e52262d95632a2902a7
     }
   };
 

@@ -90,15 +90,11 @@ function ProductEditForm() {
       await axiosReq.put(`/products/${id}/`, formData, config);
       navigate(`/products/${id}`);
     } catch (err) {
-<<<<<<< HEAD
       if (err.response?.data) {
         setErrors(err.response.data);
       } else {
         // console.log(err);
       }
-=======
-      // console.log(err);
->>>>>>> 9a194b6ccff039ec0b262e52262d95632a2902a7
     }
   };
 

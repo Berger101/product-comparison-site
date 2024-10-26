@@ -75,15 +75,11 @@ function ProductCreateForm() {
       const { data } = await axiosReq.post("/products/", formData, config);
       navigate(`/products/${data.id}`);
     } catch (err) {
-<<<<<<< HEAD
       if (err.response?.data) {
         setErrors(err.response.data); // Set errors from server response
       } else {
         // console.log(err);
       }
-=======
-      // console.log(err);
->>>>>>> 9a194b6ccff039ec0b262e52262d95632a2902a7
     }
   };
 

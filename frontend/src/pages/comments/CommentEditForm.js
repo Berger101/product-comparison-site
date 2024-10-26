@@ -50,11 +50,7 @@ function CommentEditForm(props) {
       setShowEditForm(false);
       setErrors({}); // Clear errors on successful submit
     } catch (err) {
-<<<<<<< HEAD
       setErrors(err.response?.data || {}); // Set error messages
-=======
-      // console.log(err);
->>>>>>> 9a194b6ccff039ec0b262e52262d95632a2902a7
     }
   };
 
