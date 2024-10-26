@@ -6,7 +6,7 @@ import Asset from "../../components/Asset";
 import styles from "../../styles/ProfilePage.module.css";
 import appStyles from "../../App.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import {
   useFavoritesData,
@@ -26,23 +26,23 @@ function ProfilePage() {
   const [profileProducts, setProfileProducts] = useState({ results: [] });
 
   const currentUser = useCurrentUser();
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const { setFavoriteData } = useSetFavoritesData();
   const { pageProfile } = useFavoritesData();
 
   const [profile] = pageProfile.results;
-  const is_owner = currentUser?.username === profile?.owner;
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (profileId) => {
       try {
         const config = getAuthHeaders();
 
         const [{ data: pageProfile }, { data: profileProducts }] =
           await Promise.all([
-            axiosReq.get(`/profiles/${id}/`, config),
-            axiosReq.get(`/products/?owner__profile=${id}`, config),
+            axiosReq.get(`/profiles/${profileId}/`, config),
+            axiosReq.get(`/products/?owner__profile=${profileId}`, config),
           ]);
 
         setFavoriteData((prevState) => ({
@@ -52,12 +52,20 @@ function ProfilePage() {
         setProfileProducts(profileProducts);
         setHasLoaded(true);
       } catch (err) {
-        // console.error(err);
+        console.error(err);
       }
     };
-    fetchData();
-  }, [id, setFavoriteData]);
 
+    // If current user's profile ID does not match the URL ID, redirect and fetch their profile data
+    if (currentUser?.profile_id && currentUser.profile_id !== Number(id)) {
+      navigate(`/profiles/${currentUser.profile_id}`);
+      fetchData(currentUser.profile_id); // Fetch the correct profile data after redirection
+    } else if (currentUser?.profile_id === Number(id)) {
+      fetchData(id); // Fetch data only if IDs match
+    }
+  }, [id, setFavoriteData, currentUser, navigate]);
+
+  // Render the profile and product components as before
   const mainProfile = (
     <>
       {profile?.is_owner && <ProfileEditDropdown id={profile?.id} />}
@@ -83,14 +91,17 @@ function ProfilePage() {
           </Row>
         </Col>
       </Row>
-      {profile?.content && <Col className="p-3 text-center">{profile.content}</Col>}
+      {profile?.content && (
+        <Col className="p-3 text-center">{profile.content}</Col>
+      )}
     </>
   );
 
   const mainProfileProducts = (
     <>
       <hr />
-      <p className="text-center">{profile?.owner}'s products</p> <hr />
+      <p className="text-center">{profile?.owner}'s products</p>
+      <hr />
       {profileProducts.results.length ? (
         <InfiniteScroll
           children={profileProducts.results.map((product) => (
