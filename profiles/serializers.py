@@ -30,8 +30,8 @@ class ProfileSerializer(serializers.ModelSerializer):
         return Product.objects.filter(owner=obj.owner).count()
 
     def get_favorites_count(self, obj):
-        # Count the number of products favorited by others that belong to the profile owner
-        return Favorite.objects.filter(product__owner=obj.owner).count()
+        # Count the number of products favorited by the profile owner
+        return Favorite.objects.filter(owner=obj.owner).count()
 
     class Meta:
         model = Profile
