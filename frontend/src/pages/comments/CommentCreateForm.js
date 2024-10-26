@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import styles from "../../styles/CommentCreateEditForm.module.css";
+import Alert from "react-bootstrap/Alert";
 
 import Avatar from "../../components/Avatar";
 import { axiosRes } from "../../api/axiosDefaults";
@@ -13,6 +14,7 @@ import { getAuthHeaders } from "../../utils/tokenUtils";
 function CommentCreateForm(props) {
   const { product, setProduct, setComments, profileImage, profile_id } = props;
   const [content, setContent] = useState("");
+  const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
     setContent(event.target.value);
@@ -45,8 +47,9 @@ function CommentCreateForm(props) {
         ],
       }));
       setContent("");
+      setErrors({}); // Clear errors on successful submit
     } catch (err) {
-      console.log(err);
+      setErrors(err.response?.data || {}); // Set error messages
     }
   };
 
@@ -67,6 +70,14 @@ function CommentCreateForm(props) {
           />
         </InputGroup>
       </Form.Group>
+
+      {/* Display errors if any */}
+      {errors?.content?.map((message, idx) => (
+        <Alert variant="warning" key={idx}>
+          {message}
+        </Alert>
+      ))}
+
       <Button
         className={`${styles.Button} btn d-block ml-auto font-weight-bold`}
         disabled={!content.trim()}

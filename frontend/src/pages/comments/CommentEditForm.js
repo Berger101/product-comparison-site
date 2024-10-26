@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
 import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
+
 import { axiosRes } from "../../api/axiosDefaults";
 
 import styles from "../../styles/CommentCreateEditForm.module.css";
@@ -11,6 +13,8 @@ function CommentEditForm(props) {
   const { id, content, setShowEditForm, setComments } = props;
 
   const [formContent, setFormContent] = useState(content);
+
+  const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
     setFormContent(event.target.value);
@@ -44,8 +48,9 @@ function CommentEditForm(props) {
       }));
 
       setShowEditForm(false);
+      setErrors({}); // Clear errors on successful submit
     } catch (err) {
-      console.log(err);
+      setErrors(err.response?.data || {}); // Set error messages
     }
   };
 
@@ -60,6 +65,14 @@ function CommentEditForm(props) {
           rows={2}
         />
       </Form.Group>
+
+      {/* Display errors if any */}
+      {errors?.content?.map((message, idx) => (
+        <Alert variant="warning" key={idx}>
+          {message}
+        </Alert>
+      ))}
+
       <div className="text-right">
         <button
           className={styles.Button}

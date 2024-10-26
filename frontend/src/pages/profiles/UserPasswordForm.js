@@ -40,11 +40,10 @@ const UserPasswordForm = () => {
         if (currentUser?.username === owner) {
           setIsOwner(true);
         } else {
-          console.log("User is not the profile owner, redirecting to home.");
           navigate("/");
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         navigate("/");
       }
     };
@@ -69,7 +68,7 @@ const UserPasswordForm = () => {
       await axiosRes.post("/dj-rest-auth/password/change/", userData, config);
       navigate(-1);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setErrors(err.response?.data);
     }
   };
