@@ -23,7 +23,7 @@ const UserPasswordForm = () => {
   });
   const { new_password1, new_password2 } = userData;
 
-  const [errors, setErrors] = useState({});
+  const [errors] = useState({});
   const [isOwner, setIsOwner] = useState(false);
 
   const navigate = useNavigate();

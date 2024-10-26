@@ -30,7 +30,7 @@ const ProfileEditForm = () => {
   });
   const { name, content, image } = profileData;
 
-  const [errors, setErrors] = useState({});
+  const [errors] = useState({});
   const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
