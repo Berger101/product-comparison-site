@@ -190,4 +190,92 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ---
 
+## Deployment on Heroku
+To deploy the Product Comparison Site on Heroku, follow these steps:
+
+### Prerequisites
+- Ensure you have a Heroku account. Sign up at Heroku if you don't have one.
+- Prerequisites
+- Python 3.x
+- Django
+- Cloudinary account (for image storage)
+
+**Steps to Deploy**
+- Login to Heroku:
+- Create a new Heroku app:
+- Add a PostgreSQL database to your app:
+
+1. **Set up environment variables:**
+- In your local project directory, create a .env file and add your environment variables (e.g., Database URL, Django secret key, Cloudinary URL). You also need to set them directly in Heroku when deploying.
+
+```console
+os.environ.setdefault("DATABASE_URL", "your-database-url")
+os.environ.setdefault("DJANGO_SECRET_KEY", "your-secret-key")
+os.environ.setdefault("CLOUDINARY_URL", "your-cloudinary-url")
+```
+
+2. **Prepare your project for Heroku deployment:**
+- Create a Procfile in the root of your project:
+
+```console
+web: gunicorn your_project_name.wsgi:application
+```
+
+- Create requirements.txt:
+
+```console
+pip freeze > requirements.txt
+```
+
+- Update settings.py to use PostgreSQL database URL set in env.py:
+
+```console
+DATABASES = {
+    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}
+```
+
+- Update settings.py with trusted origins
+
+```console
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.herokuapp.com",
+]
+```
+
+- Add static files configuration in settings.py:
+
+```console
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'staticfiles', 'build', 'static'),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+```
+
+- Install gunicorn and dj-database-url:
+
+```console
+pip3 install gunicorn dj-database-url
+```
+
+3. **Initialize a Git repository if you haven't already:**
+
+```console
+git init
+```
+
+- Commit your changes:
+
+```console
+git add .
+git commit -m "Prepare for Heroku deployment"
+```
+
+- In Heroku dashboard in the settings of you're app update the config vars to match the .env file in you're project directory and add your environment variables (e.g., Database URL, Django secret key, Cloudinary URL), excatly to match.
+- In Heroku dashboard where you created your new app in the deploy tab conntect your github and then deploy your branch.
+- Open your deployed app in the browser:
+
+---
+
 This README provides an overview of the application, its core functionality, design details, technologies, and testing methodologies. Please adjust any specific project information and feature descriptions based on the actual implementation.
