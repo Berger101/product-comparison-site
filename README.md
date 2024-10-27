@@ -38,6 +38,27 @@ This site is a **Product Comparison Web Application** that allows users to brows
 
 ---
 
+### CRUD Functionality
+
+The site provides **full CRUD functionality** for products and comments:
+
+1. **Create**
+   - Users can create new product entries, including uploading images, setting a price, and selecting a category.
+   - Users can add comments on products and rate them.
+
+2. **Read**
+   - Users can browse all products or filter by category.
+   - Individual product detail pages show complete information, ratings, comments, and related actions.
+
+3. **Update**
+   - Users can edit products they've created, adjusting details like name, description, and price.
+   - Profile information can be updated directly on the profile page.
+
+4. **Delete**
+   - Users can delete products and comments they have created.
+
+---
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
