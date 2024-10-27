@@ -98,6 +98,25 @@ The following technologies are used to build and deploy the project:
 
 ---
 
+### Testing
+
+Testing for the application includes **manual testing** and **automated tests** for the backend.
+
+1. **Manual Testing**
+   - Each feature, including creating, editing, and deleting products, comments, and profiles, has been tested on multiple browsers and devices to ensure compatibility and responsiveness.
+   - Manual tests for form validation, login authentication, and API request handling.
+   - Test the rating, favoriting, and commenting systems to ensure correct updates to the UI and database.
+
+2. **Automated Testing**
+   - Basic unit tests for backend views and serializers in Django.
+   - Tests cover product creation, editing, and permission handling to verify secure and correct behavior.
+   - Continuous integration with GitHub Actions ensures that tests run automatically for each commit.
+
+3. **User Testing**
+   - Feedback has been gathered from users to identify any usability issues, which have been resolved to enhance the user experience.
+
+---
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
