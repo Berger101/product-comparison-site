@@ -76,6 +76,28 @@ The design uses a color palette with a calm, professional aesthetic:
 
 ---
 
+### Technologies Used
+
+The following technologies are used to build and deploy the project:
+
+#### Frontend
+   - **React**: Frontend framework for a modular, interactive UI.
+   - **React Bootstrap**: Used for responsive layout and pre-styled components.
+   - **Axios**: For handling API requests between the frontend and backend.
+   - **FontAwesome**: Provides icons for actions like editing, deleting, and navigating.
+
+#### Backend
+   - **Django & Django REST Framework**: RESTful backend, providing secure and structured data handling.
+   - **PostgreSQL**: Database for storing product, user, and comment data.
+   - **Cloudinary**: Cloud storage service used to store and retrieve media files like product images.
+
+#### Deployment
+   - **Heroku**: Used for deploying both the Django backend and React frontend.
+   - **Whitenoise**: For serving static files efficiently in a production environment.
+   - **GitHub**: Version control and project management.
+
+---
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
