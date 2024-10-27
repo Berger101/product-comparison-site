@@ -12,6 +12,32 @@ This site is a **Product Comparison Web Application** that allows users to brows
 
 ---
 
+### Features
+
+1. **User Authentication**
+   - Secure signup, login, and logout functionality.
+   - Profile page with editable personal information.
+
+2. **Product Management**
+   - Users can create new products, including details such as name, description, price, and category.
+   - Each product has a detail view with features for rating, favoriting, and commenting.
+
+3. **Interactive Product Comparison**
+   - Users can rate products from 1 to 5 stars and see an average rating based on all ratings.
+   - Users can add products to a "favorites" list for easy comparison.
+
+4. **Category and Search Options**
+   - Products are categorized (e.g., electronics, clothing, books, shoes) for easier browsing.
+   - Search functionality to filter products by keywords and categories.
+
+5. **Commenting System**
+   - Users can leave comments on products and view other users' comments for discussion and feedback.
+
+6. **Responsive Design**
+   - Mobile-friendly layout that adjusts based on screen size for seamless use on all devices.
+
+---
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
