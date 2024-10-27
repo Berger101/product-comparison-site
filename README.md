@@ -9,6 +9,11 @@ This site is a **Product Comparison Web Application** that allows users to brows
 - [Design and Color Scheme](#design-and-color-scheme)
 - [Technologies Used](#technologies-used)
 - [Testing](#testing)
+- [Deployment on Heroku](#deployment-on-heroku)
+- [Local Deployment](#local-deployment)
+- [Known Issues and Future Improvements](#known-issues-and-future-improvements)
+- [Credits](#credits)
+- [License](#license)
 
 ---
 
@@ -307,7 +312,6 @@ python manage.py createsuperuser
 ```
 
 5. **Run the development server:**
-
 - Open up / split two terminals, one for Django and one for React
 
 ```console
@@ -318,9 +322,34 @@ npm start
 ```
 
 6. **Navigate to the project in your browser:**
-
 - http://127.0.0.1:8000/ - Django app
 - http://127.0.0.1:3000/ - React app
+
+---
+
+## Known Issues and Future Improvements
+
+**Known Issues:**
+- Describe any known issues here.
+
+**Future Improvements:**
+- Testing application with Django testing
+- Improving code functionality in different areas
+- Improving categories section with new exciting categories
+- Implement site to compare on other products on other sites
+
+---
+
+## Credits
+
+**Content**
+  - Some of the text for the README.md file were taken from <a href="https://chat.openai.com/">ChatGPT</a>
+  - Much of the backend taken from <a href="https://github.com/Code-Institute-Solutions/drf-api">Django drf-api</a>
+  - Much of the frontend taken from <a href="https://github.com/mr-fibonacci/moments">React moments</a>
+  - Styling taken from <a href="https://github.com/mr-fibonacci/moments">React moments</a>
+
+## License
+- This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
 
