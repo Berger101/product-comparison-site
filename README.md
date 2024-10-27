@@ -1,4 +1,18 @@
-# Getting Started with Create React App
+# Product Comparison Site
+
+This site is a **Product Comparison Web Application** that allows users to browse, create, and manage products across various categories. Registered users can log in to compare products by viewing details, leaving comments, and favoriting products they like.
+
+## Table of Contents
+
+- [Features](#features)
+- [CRUD Functionality](#crud-functionality)
+- [Design and Color Scheme](#design-and-color-scheme)
+- [Technologies Used](#technologies-used)
+- [Testing](#testing)
+
+---
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
