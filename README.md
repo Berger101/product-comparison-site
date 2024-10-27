@@ -215,7 +215,9 @@ To deploy the Product Comparison Site on Heroku, follow these steps:
 
 ```console
 os.environ.setdefault("DATABASE_URL", "your-database-url")
+
 os.environ.setdefault("DJANGO_SECRET_KEY", "your-secret-key")
+
 os.environ.setdefault("CLOUDINARY_URL", "your-cloudinary-url")
 ```
 
@@ -252,9 +254,11 @@ CSRF_TRUSTED_ORIGINS = [
 
 ```console
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'staticfiles', 'build', 'static'),
 ]
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 ```
 
