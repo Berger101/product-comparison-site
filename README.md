@@ -59,6 +59,23 @@ The site provides **full CRUD functionality** for products and comments:
 
 ---
 
+### Design and Color Scheme
+
+#### Color Scheme: Cool and Calming Palette
+The design uses a color palette with a calm, professional aesthetic:
+   - **Deep Blue (#264653)**: Primary background color, used for the navbar and footer.
+   - **Golden Yellow (#E9C46A)**: Accents for buttons, highlights, and icons.
+   - **Teal (#2A9D8F)**: Used in active elements, such as hovering over icons or navigation links.
+   - **Muted Orange (#F4A261)**: Accent color for alerts, buttons, and notifications.
+   - **Light Background (#f8f8f8)**: Main background for content, creating a clean and modern look.
+
+#### Layout and Typography
+   - **Font**: The primary font is *DM Sans*, chosen for its readability and modern appearance.
+   - **Grid System**: The app uses Bootstrap's grid system for a responsive layout that scales well across devices.
+   - **Images**: High-quality product images are used for each product entry, with placeholders for products without images.
+
+---
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
