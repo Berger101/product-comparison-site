@@ -278,4 +278,50 @@ git commit -m "Prepare for Heroku deployment"
 
 ---
 
+## Local Deployment
+
+1. **Clone the repository:**
+
+```console
+git clone https://github.com/yourusername/product-comparison-site.git
+cd product-comparison-site
+```
+
+2. **Install the Required Dependencies**
+
+```console
+pip install -r requirements.txt
+```
+
+3. **Set up the database:**
+
+```console
+python manage.py makemigrations
+python manage.py migrate
+```
+
+4. **Create a superuser:**
+
+```console
+python manage.py createsuperuser
+```
+
+5. **Run the development server:**
+
+- Open up / split two terminals, one for Django and one for React
+
+```console
+python manage.py runserver
+
+cd frontend
+npm start
+```
+
+6. **Navigate to the project in your browser:**
+
+- http://127.0.0.1:8000/ - Django app
+- http://127.0.0.1:3000/ - React app
+
+---
+
 This README provides an overview of the application, its core functionality, design details, technologies, and testing methodologies. Please adjust any specific project information and feature descriptions based on the actual implementation.
