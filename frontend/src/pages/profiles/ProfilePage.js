@@ -139,7 +139,14 @@ function ProfilePage() {
           )}
         </Container>
       </Col>
+
+      {/* Sidebar for large screens */}
       <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
+        <FavoriteProducts />
+      </Col>
+
+      {/* Favorite products below profile for tablet and mobile screens */}
+      <Col xs={13} className="d-lg-none mt-3">
         <FavoriteProducts />
       </Col>
     </Row>
