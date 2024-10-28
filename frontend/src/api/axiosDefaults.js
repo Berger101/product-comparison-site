@@ -5,7 +5,16 @@ import axios from "axios";
 //axios.defaults.baseURL = "http://localhost:8000/api"; // Uncomment in local dev if needed
 // axios.defaults.baseURL = "/api";
 
-axios.defaults.baseURL = "/api";
+// axios.defaults.baseURL = "/api";
+
+axios.defaults.baseURL = process.env.NODE_ENV === 'production'
+  ? "/api"
+  : "http://localhost:8000/api";
+
+
+// axios.defaults.baseURL = process.env.NODE_ENV === 'development'
+//   ? "http://localhost:8000/api"
+//   : "/api";
 
 axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
 axios.defaults.withCredentials = true; // Ensures cookies are sent with requests
