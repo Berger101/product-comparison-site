@@ -16,7 +16,7 @@ import { getAuthHeaders } from "../../utils/tokenUtils";
 
 function ProductPage() {
   const { id } = useParams();
-  const [product, setProduct] = useState(null); // Use a direct object for product
+  const [product, setProduct] = useState({ results: [] });
   const currentUser = useCurrentUser();
   const profile_image = currentUser?.profile_image;
   const [comments, setComments] = useState({ results: [] });
@@ -35,7 +35,7 @@ function ProductPage() {
 
         console.log("Product Data:", productData);
 
-        setProduct(productData); // Directly set the product data
+        setProduct({ results: [productData] });
         setComments(commentsData);
       } catch (err) {
         console.log(err);
@@ -48,8 +48,12 @@ function ProductPage() {
   return (
     <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2" lg={8}>
-        {product ? ( // Only render Product if data exists
-          <Product {...product} setProducts={setProduct} productPage />
+        {product.results.length ? ( // Check if product data exists
+          <Product
+            {...product.results[0]}
+            setProducts={setProduct}
+            productPage
+          />
         ) : (
           <Asset spinner /> // Show loading if product is undefined
         )}
