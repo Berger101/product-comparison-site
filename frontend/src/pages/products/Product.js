@@ -257,8 +257,8 @@ const Product = (props) => {
             <p className="mb-1">
               Average rating:{" "}
               {totalVotes > 0
-                ? `${averageRating.toFixed(1)} (${totalVotes} ratings)`
-                : "No ratings yet"}
+                ? `${averageRating.toFixed(1)} (${totalVotes})`
+                : "(0)"}
             </p>
             <div className={styles.StarAverage}>
               {renderStars(averageRating, () => {})}
