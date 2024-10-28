@@ -14,7 +14,7 @@ import styles from "../../styles/ProductsPage.module.css";
 import { useLocation } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import NoResults from "../../assets/no-results.png";
-import InfiniteScroll from "react-infinite-scroll-component";
+import CustomInfiniteScroll from "../../components/CustomInfiniteScroll";
 import { fetchMoreData } from "../../utils/utils";
 
 function ProductsPage({ message, filter = "" }) {
@@ -66,7 +66,7 @@ function ProductsPage({ message, filter = "" }) {
           {hasLoaded ? (
             <>
               {products.results.length ? (
-                <InfiniteScroll
+                <CustomInfiniteScroll
                   dataLength={products.results.length}
                   loader={<Asset spinner />}
                   hasMore={!!products.next}
@@ -74,12 +74,18 @@ function ProductsPage({ message, filter = "" }) {
                 >
                   <Row className="mt-4">
                     {products.results.map((product) => (
-                      <Col key={product.id} lg={4} md={6} xs={12} className="mb-4">
+                      <Col
+                        key={product.id}
+                        lg={4}
+                        md={6}
+                        xs={12}
+                        className="mb-4"
+                      >
                         <Product {...product} setProducts={setProducts} />
                       </Col>
                     ))}
                   </Row>
-                </InfiniteScroll>
+                </CustomInfiniteScroll>
               ) : (
                 <Container className={appStyles.Content}>
                   <Asset src={NoResults} message={message} />
