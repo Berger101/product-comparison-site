@@ -2,6 +2,10 @@
 
 This site is a **Product Comparison Web Application** that allows users to browse, create, and manage products across various categories. Registered users can log in to compare products by viewing details, leaving comments, and favoriting products they like.
 
+## Wireframes
+
+<img src="frontend/src/assets/wireframedesktop.png" width="400" height="440"> <img src="frontend/src/assets/wireframemobile.png" width="300" height="400">
+
 ## Table of Contents
 
 - [Features](#features)
