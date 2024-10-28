@@ -5,6 +5,8 @@ import Product from "../products/Product";
 import { Container, Row, Col } from "react-bootstrap";
 import Asset from "../../components/Asset";
 import NoResults from "../../assets/no-results.png";
+import { fetchMoreData } from "../../utils/utils";
+import CustomInfiniteScroll from "../../components/CustomInfiniteScroll";
 
 function CategoryProductsPage() {
   const { category } = useParams();
@@ -30,17 +32,32 @@ function CategoryProductsPage() {
   return (
     <Container>
       <Row className="justify-content-center">
-        <Col lg={8} className="py-2 p-0 p-lg-2 m-0">
+        <Col lg={13} className="py-2 p-0 p-lg-2 m-0">
           <h2 className="text-center mb-4">{categoryTitle}</h2>
           {hasLoaded ? (
             categoryProducts.results.length ? (
-              categoryProducts.results.map((product) => (
-                <Row key={product.id} className="mb-4">
-                  <Col className="py-0 p-0 p-lg-2 m-0">
-                    <Product {...product} setProducts={setCategoryProducts} />
-                  </Col>
+              <CustomInfiniteScroll
+                dataLength={categoryProducts.results.length}
+                next={() =>
+                  fetchMoreData(categoryProducts, setCategoryProducts)
+                }
+                hasMore={!!categoryProducts.next}
+                loader={<Asset spinner />}
+              >
+                <Row className="mt-4">
+                  {categoryProducts.results.map((product) => (
+                    <Col
+                      key={product.id}
+                      lg={4}
+                      md={6}
+                      xs={12}
+                      className="mb-4"
+                    >
+                      <Product {...product} setProducts={setCategoryProducts} />
+                    </Col>
+                  ))}
                 </Row>
-              ))
+              </CustomInfiniteScroll>
             ) : (
               <Asset
                 src={NoResults}
