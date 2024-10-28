@@ -3,6 +3,12 @@
   overflow: hidden;
   transition: transform 0.3s ease-in-out;
   text-align: center;
+  margin: auto !important; /* Centering */
+}
+
+.ProductContainer {
+  width: 100%;
+  margin: auto;
 }
 
 .Product:hover {
@@ -72,4 +78,11 @@
   border-top: 1px solid #dadadf; /* Light border */
   font-size: 0.8rem;
   color: #264653; /* Deep Blue */
+}
+
+@media (min-width: 992px) { /* Larger screens */
+  .ProductContainer {
+    max-width: 100%;
+    margin: auto;
+  }
 }
