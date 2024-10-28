@@ -23,6 +23,8 @@ function ProductPage() {
 
   useEffect(() => {
     const handleMount = async () => {
+      console.log(`/products/${id}`);
+      
       try {
         const config = getAuthHeaders();
         const [{ data: productData }, { data: commentsData }] =
@@ -30,6 +32,9 @@ function ProductPage() {
             axiosReq.get(`/products/${id}`, config),
             axiosReq.get(`/comments/?product=${id}`, config),
           ]);
+
+        console.log("Product Data:", productData);
+
         setProduct(productData); // Directly set the product data
         setComments(commentsData);
       } catch (err) {
