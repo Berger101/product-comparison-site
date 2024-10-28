@@ -47,51 +47,53 @@ function ProductsPage({ message, filter = "" }) {
   }, [filter, query, pathname]);
 
   return (
-    <Row className="h-100">
-      <Col className="py-2 p-0 p-lg-2" lg={8}>
-        <i className={`fas fa-search ${styles.SearchIcon}`} />
-        <Form
-          className={styles.SearchBar}
-          onSubmit={(event) => event.preventDefault()}
-        >
-          <Form.Control
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            type="text"
-            className="mr-sm-2"
-            placeholder="Search products"
-          />
-        </Form>
+    <Container fluid className="px-2">
+      <Row className="justify-content-center">
+        <Col lg={13}>
+          <i className={`fas fa-search ${styles.SearchIcon}`} />
+          <Form
+            className={styles.SearchBar}
+            onSubmit={(event) => event.preventDefault()}
+          >
+            <Form.Control
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              type="text"
+              placeholder="Search products"
+            />
+          </Form>
 
-        {hasLoaded ? (
-          <>
-            {products.results.length ? (
-              <InfiniteScroll
-                children={products.results.map((product) => (
-                  <Product
-                    key={product.id}
-                    {...product}
-                    setProducts={setProducts}
-                  />
-                ))}
-                dataLength={products.results.length}
-                loader={<Asset spinner />}
-                hasMore={!!products.next}
-                next={() => fetchMoreData(products, setProducts)}
-              />
-            ) : (
-              <Container className={appStyles.Content}>
-                <Asset src={NoResults} message={message} />
-              </Container>
-            )}
-          </>
-        ) : (
-          <Container className={appStyles.Content}>
-            <Asset spinner />
-          </Container>
-        )}
-      </Col>
-    </Row>
+          {hasLoaded ? (
+            <>
+              {products.results.length ? (
+                <InfiniteScroll
+                  dataLength={products.results.length}
+                  loader={<Asset spinner />}
+                  hasMore={!!products.next}
+                  next={() => fetchMoreData(products, setProducts)}
+                >
+                  <Row className="mt-4">
+                    {products.results.map((product) => (
+                      <Col key={product.id} lg={4} md={6} xs={12} className="mb-4">
+                        <Product {...product} setProducts={setProducts} />
+                      </Col>
+                    ))}
+                  </Row>
+                </InfiniteScroll>
+              ) : (
+                <Container className={appStyles.Content}>
+                  <Asset src={NoResults} message={message} />
+                </Container>
+              )}
+            </>
+          ) : (
+            <Container className={appStyles.Content}>
+              <Asset spinner />
+            </Container>
+          )}
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
