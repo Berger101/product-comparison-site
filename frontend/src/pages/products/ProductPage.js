@@ -15,7 +15,7 @@ import { fetchMoreData } from "../../utils/utils";
 
 function ProductPage() {
   const { id } = useParams();
-  const [product, setProduct] = useState({ results: [] });
+  const [product, setProduct] = useState(null); // Use a direct object for product
   const currentUser = useCurrentUser();
   const profile_image = currentUser?.profile_image;
   const [comments, setComments] = useState({ results: [] });
@@ -23,12 +23,13 @@ function ProductPage() {
   useEffect(() => {
     const handleMount = async () => {
       try {
-        const [{ data: product }, { data: comments }] = await Promise.all([
-          axiosReq.get(`/products/${id}`),
-          axiosReq.get(`/comments/?product=${id}`),
-        ]);
-        setProduct({ results: [product] });
-        setComments(comments);
+        const [{ data: productData }, { data: commentsData }] =
+          await Promise.all([
+            axiosReq.get(`/products/${id}`),
+            axiosReq.get(`/comments/?product=${id}`),
+          ]);
+        setProduct(productData); // Directly set the product data
+        setComments(commentsData);
       } catch (err) {
         console.log(err);
       }
@@ -40,7 +41,11 @@ function ProductPage() {
   return (
     <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2" lg={8}>
-        <Product {...product.results[0]} setProducts={setProduct} productPage />
+        {product ? ( // Only render Product if data exists
+          <Product {...product} setProducts={setProduct} productPage />
+        ) : (
+          <Asset spinner /> // Show loading if product is undefined
+        )}
         <Container className={appStyles.Content}>
           {currentUser ? (
             <CommentCreateForm
