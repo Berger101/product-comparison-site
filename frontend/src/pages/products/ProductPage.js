@@ -12,6 +12,7 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import CustomInfiniteScroll from "../../components/CustomInfiniteScroll";
 import Asset from "../../components/Asset";
 import { fetchMoreData } from "../../utils/utils";
+import { getAuthHeaders } from "../../utils/tokenUtils";
 
 function ProductPage() {
   const { id } = useParams();
@@ -23,10 +24,11 @@ function ProductPage() {
   useEffect(() => {
     const handleMount = async () => {
       try {
+        const config = getAuthHeaders();
         const [{ data: productData }, { data: commentsData }] =
           await Promise.all([
-            axiosReq.get(`/products/${id}`),
-            axiosReq.get(`/comments/?product=${id}`),
+            axiosReq.get(`/products/${id}`, config),
+            axiosReq.get(`/comments/?product=${id}`, config),
           ]);
         setProduct(productData); // Directly set the product data
         setComments(commentsData);
