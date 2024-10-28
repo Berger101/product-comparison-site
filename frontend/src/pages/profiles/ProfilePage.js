@@ -13,7 +13,7 @@ import {
   useSetFavoritesData,
 } from "../../contexts/FavoriteDataContext";
 import { Image } from "react-bootstrap";
-import InfiniteScroll from "react-infinite-scroll-component";
+import CustomInfiniteScroll from "../../components/CustomInfiniteScroll";
 import Product from "../products/Product";
 import { fetchMoreData } from "../../utils/utils";
 import NoResults from "../../assets/no-results.png";
@@ -103,7 +103,7 @@ function ProfilePage() {
       <p className="text-center">{profile?.owner}'s products</p>
       <hr />
       {profileProducts.results.length ? (
-        <InfiniteScroll
+        <CustomInfiniteScroll
           children={profileProducts.results.map((product) => (
             <Product
               key={product.id}
