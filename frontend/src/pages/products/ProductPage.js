@@ -29,7 +29,7 @@ function ProductPage() {
         const config = getAuthHeaders();
         const [{ data: productData }, { data: commentsData }] =
           await Promise.all([
-            axiosReq.get(`/api/products/${id}`, config),
+            axiosReq.get(`/products/${id}`, config),
             axiosReq.get(`/comments/?product=${id}`, config),
           ]);
 
