@@ -9,7 +9,7 @@ import Product from "./Product";
 import Comment from "../comments/Comment";
 import CommentCreateForm from "../comments/CommentCreateForm";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import InfiniteScroll from "react-infinite-scroll-component";
+import CustomInfiniteScroll from "../../components/CustomInfiniteScroll";
 import Asset from "../../components/Asset";
 import { fetchMoreData } from "../../utils/utils";
 
@@ -54,7 +54,7 @@ function ProductPage() {
             "Comments"
           ) : null}
           {comments.results.length ? (
-            <InfiniteScroll
+            <CustomInfiniteScroll
               children={comments.results.map((comment) => (
                 <Comment
                   key={comment.id}
