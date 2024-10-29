@@ -123,6 +123,30 @@ Testing for the application includes **manual testing** and **automated tests** 
 
 3. **User Testing**
    - Feedback has been gathered from users to identify any usability issues, which have been resolved to enhance the user experience.
+  
+4. **Error Pages**
+- Navigated to a non-existent URL.
+- Induced a server error to test the 404 error page.
+
+5. **Browser Testing**
+- Viewed the website in different browsers.
+   - Google Chrome
+   - Mozilla Firefox
+   - Microsoft Edge
+
+6. **Responsive Design Testing**
+- Viewed the website on different devices (desktop, tablet, mobile).
+
+7. **Accessibility Testing**
+- Used tools like Lighthouse and WAVE to test accessibility.
+
+![Website Screenshot](assets/images/lighthouse.png)
+
+8. **Performance Testing**
+- Used tools like Google PageSpeed Insights to test page load times and performance.
+
+9. **Deployment Testing**
+- Deployed the application to Heroku and tested all functionalities.
 
 ---
 
