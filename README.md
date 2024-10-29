@@ -21,7 +21,7 @@ This site is a **Product Comparison Web Application** that allows users to brows
 
 ---
 
-### Features
+## Features
 
 1. **User Authentication**
    - Secure signup, login, and logout functionality.
@@ -47,7 +47,7 @@ This site is a **Product Comparison Web Application** that allows users to brows
 
 ---
 
-### CRUD Functionality
+## CRUD Functionality
 
 The site provides **full CRUD functionality** for products and comments:
 
@@ -68,7 +68,7 @@ The site provides **full CRUD functionality** for products and comments:
 
 ---
 
-### Design and Color Scheme
+## Design and Color Scheme
 
 #### Color Scheme: Cool and Calming Palette
 The design uses a color palette with a calm, professional aesthetic:
@@ -97,17 +97,29 @@ The following technologies are used to build and deploy the project:
 
 #### Backend
    - **Django & Django REST Framework**: RESTful backend, providing secure and structured data handling.
+   - **Django CORS Headers**: Manages Cross-Origin Resource Sharing (CORS) for secure requests between the frontend and backend.
+   - **dj-rest-auth**: Simplifies authentication processes, including login, registration, and token management.
+   - **django-allauth**: Provides robust authentication solutions, supporting features like social login.
+   - **django-filter**: Simplifies filtering functionality in Django REST Framework views, making it easier to search and filter data.
+   - **djangorestframework-simplejwt**: JWT-based authentication system used for secure, stateless authentication between the client and server.
+   - **dj-database-url**: Simplifies database configuration, particularly useful for managing environment-specific databases (like Heroku’s Postgres).
    - **PostgreSQL**: Database for storing product, user, and comment data.
    - **Cloudinary**: Cloud storage service used to store and retrieve media files like product images.
 
 #### Deployment
    - **Heroku**: Used for deploying both the Django backend and React frontend.
-   - **Whitenoise**: For serving static files efficiently in a production environment.
+   - **Gunicorn**: WSGI HTTP Server for running the Django application in production, providing high performance for handling requests.
    - **GitHub**: Version control and project management.
+
+#### Additional Libraries (General Support)
+   - **Whitenoise**: Serves static files efficiently in production without relying on an external file server.
+   - **cloudinary**: Integrates with Django to manage media files, providing cloud storage and retrieval.
+   - **requests and requests-oauthlib**: Used to handle external HTTP requests and OAuth flows, facilitating secure API integrations.
+   - **psycopg2-binary**: PostgreSQL adapter for Python, essential for connecting Django to the Postgres database.
 
 ---
 
-### Testing
+## Testing
 
 Testing for the application includes **manual testing** and **automated tests** for the backend.
 
@@ -123,6 +135,30 @@ Testing for the application includes **manual testing** and **automated tests** 
 
 3. **User Testing**
    - Feedback has been gathered from users to identify any usability issues, which have been resolved to enhance the user experience.
+  
+4. **Error Pages**
+   - Navigated to a non-existent URL.
+   - Induced a server error to test the 404 error page.
+
+5. **Browser Testing**
+   - Viewed the website in different browsers.
+      - Google Chrome
+      - Mozilla Firefox
+      - Microsoft Edge
+
+6. **Responsive Design Testing**
+   - Viewed the website on different devices (desktop, tablet, mobile).
+
+7. **Accessibility Testing**
+   - Used tools like Lighthouse and WAVE to test accessibility.
+
+![Website Screenshot](assets/images/lighthouse.png)
+
+8. **Performance Testing**
+   - Used tools like Google PageSpeed Insights to test page load times and performance.
+
+9. **Deployment Testing**
+   - Deployed the application to Heroku and tested all functionalities.
 
 ---
 
@@ -227,49 +263,31 @@ os.environ.setdefault("CLOUDINARY_URL", "your-cloudinary-url")
 
 2. **Prepare your project for Heroku deployment:**
 - Create a Procfile in the root of your project:
+- Create runtime.txt in the root of your project:
 
 ```console
 web: gunicorn your_project_name.wsgi:application
+
+python-you're.version
 ```
 
-- Create requirements.txt:
+- Install all dependencies from requirements text
 
 ```console
-pip freeze > requirements.txt
+pip install -r requirements.txt
 ```
 
-- Update settings.py to use PostgreSQL database URL set in env.py:
+- Update config vars in Heroku dashboard under settings in your Heroku app to use the environment variables of your project (e.g., Database URL, Django secret key, Cloudinary URL), excatly to match.
+- The config vars to update in Heroku dashboard settings is DATABASE_URL, ALLOWED_HOSTS, CLIENT_ORIGIN, CSRF_TRUSTED_ORIGINS, DEBUG, DEV and SECRET_KEY. All of these are pointed correctly in the settings.py Django app so no changes needed there.
+
+- Run npm run build in the frontend folder to remove existing static folder and move over new static folder everytime changes are made to the frontend
+- Run collectstatic to ensure all static files, including those from your Django app and any third-party apps, are gathered correctly in the staticfiles directory
 
 ```console
-DATABASES = {
-    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
-}
-```
+cd frontend
+npm run build; Remove-Item -Recurse -Force ../staticfiles/build; Move-Item -Path build -Destination ../staticfiles/
 
-- Update settings.py with trusted origins
-
-```console
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.herokuapp.com",
-]
-```
-
-- Add static files configuration in settings.py:
-
-```console
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'staticfiles', 'build', 'static'),
-]
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-```
-
-- Install gunicorn and dj-database-url:
-
-```console
-pip3 install gunicorn dj-database-url
+python manage.py collectstatic --noinput
 ```
 
 3. **Initialize a Git repository if you haven't already:**
@@ -285,7 +303,6 @@ git add .
 git commit -m "Prepare for Heroku deployment"
 ```
 
-- In Heroku dashboard in the settings of you're app update the config vars to match the .env file in you're project directory and add your environment variables (e.g., Database URL, Django secret key, Cloudinary URL), excatly to match.
 - In Heroku dashboard where you created your new app in the deploy tab conntect your github and then deploy your branch.
 - Open your deployed app in the browser:
 
@@ -306,20 +323,24 @@ cd product-comparison-site
 pip install -r requirements.txt
 ```
 
-3. **Set up the database:**
+3. **Set up enviorment variables**
+- Create env.py file in the root of your project directory and update your enviorment variables (e.g., Database URL, Django secret key, Cloudinary URL)
+- The enviorment variables to update in env.py file is DATABASE_URL, ALLOWED_HOSTS, CLIENT_ORIGIN, CSRF_TRUSTED_ORIGINS, DEBUG, DEV and SECRET_KEY. All of these are pointed correctly in the settings.py Django app so no changes needed there.
+
+4. **Set up the database:**
 
 ```console
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-4. **Create a superuser:**
+5. **Create a superuser:**
 
 ```console
 python manage.py createsuperuser
 ```
 
-5. **Run the development server:**
+6. **Run the development server:**
 - Open up / split two terminals, one for Django and one for React
 
 ```console
@@ -329,7 +350,7 @@ cd frontend
 npm start
 ```
 
-6. **Navigate to the project in your browser:**
+7. **Navigate to the project in your browser:**
 - http://127.0.0.1:8000/ - Django app
 - http://127.0.0.1:3000/ - React app
 
