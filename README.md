@@ -21,7 +21,7 @@ This site is a **Product Comparison Web Application** that allows users to brows
 
 ---
 
-### Features
+## Features
 
 1. **User Authentication**
    - Secure signup, login, and logout functionality.
@@ -47,7 +47,7 @@ This site is a **Product Comparison Web Application** that allows users to brows
 
 ---
 
-### CRUD Functionality
+## CRUD Functionality
 
 The site provides **full CRUD functionality** for products and comments:
 
@@ -68,7 +68,7 @@ The site provides **full CRUD functionality** for products and comments:
 
 ---
 
-### Design and Color Scheme
+## Design and Color Scheme
 
 #### Color Scheme: Cool and Calming Palette
 The design uses a color palette with a calm, professional aesthetic:
@@ -97,17 +97,29 @@ The following technologies are used to build and deploy the project:
 
 #### Backend
    - **Django & Django REST Framework**: RESTful backend, providing secure and structured data handling.
+   - **Django CORS Headers**: Manages Cross-Origin Resource Sharing (CORS) for secure requests between the frontend and backend.
+   - **dj-rest-auth**: Simplifies authentication processes, including login, registration, and token management.
+   - **django-allauth**: Provides robust authentication solutions, supporting features like social login.
+   - **django-filter**: Simplifies filtering functionality in Django REST Framework views, making it easier to search and filter data.
+   - **djangorestframework-simplejwt**: JWT-based authentication system used for secure, stateless authentication between the client and server.
+   - **dj-database-url**: Simplifies database configuration, particularly useful for managing environment-specific databases (like Heroku’s Postgres).
    - **PostgreSQL**: Database for storing product, user, and comment data.
    - **Cloudinary**: Cloud storage service used to store and retrieve media files like product images.
 
 #### Deployment
    - **Heroku**: Used for deploying both the Django backend and React frontend.
-   - **Whitenoise**: For serving static files efficiently in a production environment.
+   - **Gunicorn**: WSGI HTTP Server for running the Django application in production, providing high performance for handling requests.
    - **GitHub**: Version control and project management.
+
+#### Additional Libraries (General Support)
+   - **Whitenoise**: Serves static files efficiently in production without relying on an external file server.
+   - **cloudinary**: Integrates with Django to manage media files, providing cloud storage and retrieval.
+   - **requests and requests-oauthlib**: Used to handle external HTTP requests and OAuth flows, facilitating secure API integrations.
+   - **psycopg2-binary**: PostgreSQL adapter for Python, essential for connecting Django to the Postgres database.
 
 ---
 
-### Testing
+## Testing
 
 Testing for the application includes **manual testing** and **automated tests** for the backend.
 
@@ -125,28 +137,28 @@ Testing for the application includes **manual testing** and **automated tests** 
    - Feedback has been gathered from users to identify any usability issues, which have been resolved to enhance the user experience.
   
 4. **Error Pages**
-- Navigated to a non-existent URL.
-- Induced a server error to test the 404 error page.
+   - Navigated to a non-existent URL.
+   - Induced a server error to test the 404 error page.
 
 5. **Browser Testing**
-- Viewed the website in different browsers.
-   - Google Chrome
-   - Mozilla Firefox
-   - Microsoft Edge
+   - Viewed the website in different browsers.
+      - Google Chrome
+      - Mozilla Firefox
+      - Microsoft Edge
 
 6. **Responsive Design Testing**
-- Viewed the website on different devices (desktop, tablet, mobile).
+   - Viewed the website on different devices (desktop, tablet, mobile).
 
 7. **Accessibility Testing**
-- Used tools like Lighthouse and WAVE to test accessibility.
+   - Used tools like Lighthouse and WAVE to test accessibility.
 
 ![Website Screenshot](assets/images/lighthouse.png)
 
 8. **Performance Testing**
-- Used tools like Google PageSpeed Insights to test page load times and performance.
+   - Used tools like Google PageSpeed Insights to test page load times and performance.
 
 9. **Deployment Testing**
-- Deployed the application to Heroku and tested all functionalities.
+   - Deployed the application to Heroku and tested all functionalities.
 
 ---
 
