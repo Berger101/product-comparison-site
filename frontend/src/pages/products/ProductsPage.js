@@ -49,7 +49,7 @@ function ProductsPage({ message, filter = "" }) {
   return (
     <Container fluid className="px-2">
       <Row className="justify-content-center">
-        <Col lg={13}>
+        <Col lg={12}>
           <i className={`fas fa-search ${styles.SearchIcon}`} />
           <Form
             className={styles.SearchBar}
@@ -76,9 +76,9 @@ function ProductsPage({ message, filter = "" }) {
                     {products.results.map((product) => (
                       <Col
                         key={product.id}
-                        lg={4}
-                        md={6}
-                        xs={12}
+                        lg={4} // 3 columns on large screens
+                        md={6} // 2 columns on medium screens
+                        xs={12} // 1 column on small screens
                         className="mb-4"
                       >
                         <Product {...product} setProducts={setProducts} />
