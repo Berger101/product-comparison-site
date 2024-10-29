@@ -287,20 +287,24 @@ cd product-comparison-site
 pip install -r requirements.txt
 ```
 
-3. **Set up the database:**
+3. **Set up enviorment variables**
+- Create env.py file in the root of your project directory and update your enviorment variables (e.g., Database URL, Django secret key, Cloudinary URL)
+- The enviorment variables to update in env.py file is DATABASE_URL, ALLOWED_HOSTS, CLIENT_ORIGIN, CSRF_TRUSTED_ORIGINS, DEBUG, DEV and SECRET_KEY. All of these are pointed correctly in the settings.py Django app so no changes needed there.
+
+4. **Set up the database:**
 
 ```console
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-4. **Create a superuser:**
+5. **Create a superuser:**
 
 ```console
 python manage.py createsuperuser
 ```
 
-5. **Run the development server:**
+6. **Run the development server:**
 - Open up / split two terminals, one for Django and one for React
 
 ```console
@@ -310,7 +314,7 @@ cd frontend
 npm start
 ```
 
-6. **Navigate to the project in your browser:**
+7. **Navigate to the project in your browser:**
 - http://127.0.0.1:8000/ - Django app
 - http://127.0.0.1:3000/ - React app
 
