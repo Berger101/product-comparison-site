@@ -7,6 +7,7 @@ import Avatar from "../../components/Avatar";
 import { axiosRes } from "../../api/axiosDefaults";
 import { MoreDropdown } from "../../components/MoreDropdown";
 import { getAuthHeaders } from "../../utils/tokenUtils";
+import { useSetFavoritesData } from "../../contexts/FavoriteDataContext";
 
 const Product = (props) => {
   const {
@@ -33,12 +34,15 @@ const Product = (props) => {
 
   // User's rating input
   const [userVote, setUserVote] = useState(user_rating || 0);
+  
   // Average rating
   const [averageRating, setAverageRating] = useState(current_rating || 0);
   // Number of users who rated the product
   const [totalVotes, setTotalVotes] = useState(votes_count || 0);
+
   const [isFavorited, setIsFavorited] = useState(favorites_count > 0);
   const [favoriteId, setFavoriteId] = useState(favorite_id);
+  const { setFavoriteData } = useSetFavoritesData();
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
@@ -186,8 +190,16 @@ const Product = (props) => {
             : product;
         }),
       }));
+
+      // Update favorites in context
+      setFavoriteData((prevData) => ({
+        ...prevData,
+        favoriteProducts: {
+          results: [...prevData.favoriteProducts.results, data],
+        },
+      }));
     } catch (err) {
-      // console.log(err);
+      // console.error(err);
     }
   };
 
@@ -205,8 +217,18 @@ const Product = (props) => {
             : product;
         }),
       }));
+
+      // Remove from favorites in context
+      setFavoriteData((prevData) => ({
+        ...prevData,
+        favoriteProducts: {
+          results: prevData.favoriteProducts.results.filter(
+            (favorite) => favorite.product.id !== id
+          ),
+        },
+      }));
     } catch (err) {
-      // console.log(err);
+      // console.error(err);
     }
   };
 
