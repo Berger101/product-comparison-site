@@ -63,8 +63,6 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     ).order_by('-created_at')
 
     def get(self, request, *args, **kwargs):
-        print("ProductDetail view accessed for product ID:", kwargs['pk'])
-        print("Request Headers:", request.headers)
         product = self.get_object()
         serializer = self.get_serializer(product)
         return Response(serializer.data, status=status.HTTP_200_OK)
