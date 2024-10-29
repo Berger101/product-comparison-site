@@ -227,49 +227,31 @@ os.environ.setdefault("CLOUDINARY_URL", "your-cloudinary-url")
 
 2. **Prepare your project for Heroku deployment:**
 - Create a Procfile in the root of your project:
+- Create runtime.txt in the root of your project:
 
 ```console
 web: gunicorn your_project_name.wsgi:application
+
+python-you're.version
 ```
 
-- Create requirements.txt:
+- Install all dependencies from requirements text
 
 ```console
-pip freeze > requirements.txt
+pip install -r requirements.txt
 ```
 
-- Update settings.py to use PostgreSQL database URL set in env.py:
+- Update config vars in Heroku dashboard under settings in your Heroku app to use the environment variables of your project (e.g., Database URL, Django secret key, Cloudinary URL), excatly to match.
+- The config vars to update in Heroku dashboard settings is DATABASE_URL, ALLOWED_HOSTS, CLIENT_ORIGIN, CSRF_TRUSTED_ORIGINS, DEBUG, DEV and SECRET_KEY. All of these are pointed correctly in the settings.py Django app so no changes needed there.
+
+- Run npm run build in the frontend folder to remove existing static folder and move over new static folder everytime changes are made to the frontend
+- Run collectstatic to ensure all static files, including those from your Django app and any third-party apps, are gathered correctly in the staticfiles directory
 
 ```console
-DATABASES = {
-    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
-}
-```
+cd frontend
+npm run build; Remove-Item -Recurse -Force ../staticfiles/build; Move-Item -Path build -Destination ../staticfiles/
 
-- Update settings.py with trusted origins
-
-```console
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.herokuapp.com",
-]
-```
-
-- Add static files configuration in settings.py:
-
-```console
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'staticfiles', 'build', 'static'),
-]
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-```
-
-- Install gunicorn and dj-database-url:
-
-```console
-pip3 install gunicorn dj-database-url
+python manage.py collectstatic --noinput
 ```
 
 3. **Initialize a Git repository if you haven't already:**
@@ -285,7 +267,6 @@ git add .
 git commit -m "Prepare for Heroku deployment"
 ```
 
-- In Heroku dashboard in the settings of you're app update the config vars to match the .env file in you're project directory and add your environment variables (e.g., Database URL, Django secret key, Cloudinary URL), excatly to match.
 - In Heroku dashboard where you created your new app in the deploy tab conntect your github and then deploy your branch.
 - Open your deployed app in the browser:
 
