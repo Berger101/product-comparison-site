@@ -13,6 +13,7 @@ import CustomInfiniteScroll from "../../components/CustomInfiniteScroll";
 import Asset from "../../components/Asset";
 import { fetchMoreData } from "../../utils/utils";
 import { getAuthHeaders } from "../../utils/tokenUtils";
+import FavoriteProducts from "../profiles/FavoriteProducts";
 
 function ProductPage() {
   const { id } = useParams();
@@ -86,6 +87,16 @@ function ProductPage() {
             <span>No comments... yet</span>
           )}
         </Container>
+      </Col>
+
+      {/* Sidebar for large screens to show Favorite Products */}
+      <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
+        <FavoriteProducts />
+      </Col>
+
+      {/* Favorite products below for tablet and mobile screens */}
+      <Col xs={12} className="d-lg-none mt-3">
+        <FavoriteProducts />
       </Col>
     </Row>
   );
