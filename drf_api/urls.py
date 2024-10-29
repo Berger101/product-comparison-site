@@ -15,7 +15,6 @@ def custom_404(request, exception):
 
 
 urlpatterns = [
-    # path('', TemplateView.as_view(template_name='index.html')),
     path('admin/', admin.site.urls),
     path('api/api-auth/', include('rest_framework.urls')),
     path('dj-rest-auth/logout/', logout_route),
@@ -31,5 +30,5 @@ urlpatterns = [
     path('api/', include('favorites.urls')),
 ]
 
-# Set the custom 404 handler to use the function defined above
+# Set the custom 404 handler
 handler404 = custom_404
