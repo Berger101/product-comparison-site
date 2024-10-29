@@ -1,6 +1,10 @@
 # Product Comparison Site
 
-This site is a **Product Comparison Web Application** that allows users to browse, create, and manage products across various categories. Registered users can log in to compare products by viewing details, leaving comments, and favoriting products they like.
+This site is a **Product Comparison Web Application** that allows users to browse, create, and manage products across various categories. Registered users can log in to compare products by creating products, viewing details, leaving comments, rating and favoriting products they like.
+
+Access the site here <a href="https://product-comparison-site-20f390de390b.herokuapp.com/">Product Comparison Site</a>
+
+![Website Screenshot](frontend/src/assets/productcomparisonsite.png)
 
 ## Wireframes
 
