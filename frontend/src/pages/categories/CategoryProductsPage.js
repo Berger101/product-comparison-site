@@ -32,7 +32,7 @@ function CategoryProductsPage() {
   return (
     <Container>
       <Row className="justify-content-center">
-        <Col lg={13} className="py-2 p-0 p-lg-2 m-0">
+        <Col lg={12} className="py-2 p-0 p-lg-2 m-0">
           <h2 className="text-center mb-4">{categoryTitle}</h2>
           {hasLoaded ? (
             categoryProducts.results.length ? (
