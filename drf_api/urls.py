@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.urls import path, include
-# from django.views.generic import TemplateView
 from django.http import JsonResponse
 from django.shortcuts import render
 from .views import logout_route
