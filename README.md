@@ -14,8 +14,8 @@ Access the site here <a href="https://product-comparison-site-20f390de390b.herok
 
 - [Features](#features)
 - [CRUD Functionality](#crud-functionality)
-- [Design and Color Scheme](#design-and-color-scheme)
 - [Technologies Used](#technologies-used)
+- [Design and Color Scheme](#design-and-color-scheme)
 - [Testing](#testing)
 - [Deployment on Heroku](#deployment-on-heroku)
 - [Local Deployment](#local-deployment)
@@ -72,23 +72,6 @@ The site provides **full CRUD functionality** for products and comments:
 
 ---
 
-## Design and Color Scheme
-
-#### Color Scheme: Cool and Calming Palette
-The design uses a color palette with a calm, professional aesthetic:
-   - **Deep Blue (#264653)**: Primary background color, used for the navbar and footer.
-   - **Golden Yellow (#E9C46A)**: Accents for buttons, highlights, and icons.
-   - **Teal (#2A9D8F)**: Used in active elements, such as hovering over icons or navigation links.
-   - **Muted Orange (#F4A261)**: Accent color for alerts, buttons, and notifications.
-   - **Light Background (#f8f8f8)**: Main background for content, creating a clean and modern look.
-
-#### Layout and Typography
-   - **Font**: The primary font is *DM Sans*, chosen for its readability and modern appearance.
-   - **Grid System**: The app uses Bootstrap's grid system for a responsive layout that scales well across devices.
-   - **Images**: High-quality product images are used for each product entry, with placeholders for products without images.
-
----
-
 ### Technologies Used
 
 The following technologies are used to build and deploy the project:
@@ -120,6 +103,23 @@ The following technologies are used to build and deploy the project:
    - **cloudinary**: Integrates with Django to manage media files, providing cloud storage and retrieval.
    - **requests and requests-oauthlib**: Used to handle external HTTP requests and OAuth flows, facilitating secure API integrations.
    - **psycopg2-binary**: PostgreSQL adapter for Python, essential for connecting Django to the Postgres database.
+
+---
+
+## Design and Color Scheme
+
+#### Color Scheme: Cool and Calming Palette
+The design uses a color palette with a calm, professional aesthetic:
+   - **Deep Blue (#264653)**: Primary background color, used for the navbar and footer.
+   - **Golden Yellow (#E9C46A)**: Accents for buttons, highlights, and icons.
+   - **Teal (#2A9D8F)**: Used in active elements, such as hovering over icons or navigation links.
+   - **Muted Orange (#F4A261)**: Accent color for alerts, buttons, and notifications.
+   - **Light Background (#f8f8f8)**: Main background for content, creating a clean and modern look.
+
+#### Layout and Typography
+   - **Font**: The primary font is *DM Sans*, chosen for its readability and modern appearance.
+   - **Grid System**: The app uses Bootstrap's grid system for a responsive layout that scales well across devices.
+   - **Images**: High-quality product images are used for each product entry, with placeholders for products without images.
 
 ---
 
