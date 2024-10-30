@@ -66,9 +66,11 @@ The site provides **full CRUD functionality** for products and comments:
 3. **Update**
    - Users can edit products they've created, adjusting details like name, description, and price.
    - Profile information can be updated directly on the profile page.
+   - **Dropdown Menus for Editing:** Edit options for products, comments, and profile settings are provided through accessible dropdown menus.
 
 4. **Delete**
    - Users can delete products and comments they have created.
+   - **Dropdown Menus for Deleting:** The delete functionality is accessible through dropdown menus with the same accessibility enhancements as the edit options, ensuring that both actions are easily accessible.
 
 ---
 
