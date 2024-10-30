@@ -29,12 +29,16 @@
   object-fit: contain;
 }
 
+.text-muted-contrast {
+  color: #495057;
+}
+
 * {
   box-sizing: border-box;
 }
 
 a {
-  color: #2A9D8F; /* Teal */
+  color: #20716F; /* Teal */
   transition: color ease-in-out 0.3s;
 }
 
@@ -78,7 +82,7 @@ figure {
   background: #f1f1f1;
 }
 *::-webkit-scrollbar-thumb {
-  background: #2A9D8F; /* Teal */
+  background: #20716F; /* Teal */
 }
 *::-webkit-scrollbar-thumb:hover {
   background: #264653; /* Deep Blue */
