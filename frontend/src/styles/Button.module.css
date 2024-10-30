@@ -17,11 +17,11 @@
 
 .Button:hover:active,
 .Button:active {
-  background-color: #2A9D8F !important; /* Teal */
+  background-color: #20716F !important; /* Teal */
 }
 
 .Button:focus {
-  background-color: #2A9D8F; /* Teal */
+  background-color: #20716F; /* Teal */
 }
 
 .Wide {

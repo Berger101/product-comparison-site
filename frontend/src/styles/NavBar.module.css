@@ -1,6 +1,6 @@
 .NavBar {
   background-color: #264653; /* Deep Blue */
-  border: 1px solid #2A9D8F; /* Teal */
+  border: 1px solid #20716F; /* Teal */
 }
 
 .NavLink {
@@ -15,7 +15,7 @@
 }
 
 .Active i {
-  color: #2A9D8F; /* Teal */
+  color: #20716F; /* Teal */
 }
 
 .NavIcon {
