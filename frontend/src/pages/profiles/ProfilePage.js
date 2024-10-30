@@ -5,8 +5,7 @@ import Container from "react-bootstrap/Container";
 import Asset from "../../components/Asset";
 import styles from "../../styles/ProfilePage.module.css";
 import appStyles from "../../App.module.css";
-import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import { useParams, useNavigate } from "react-router";
+import { useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import {
   useFavoritesData,
@@ -25,8 +24,6 @@ function ProfilePage() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [profileProducts, setProfileProducts] = useState({ results: [] });
 
-  const currentUser = useCurrentUser();
-  const navigate = useNavigate();
   const { id } = useParams();
 
   const { setFavoriteData } = useSetFavoritesData();
@@ -35,14 +32,14 @@ function ProfilePage() {
   const [profile] = pageProfile.results;
 
   useEffect(() => {
-    const fetchData = async (profileId) => {
+    const fetchData = async () => {
       try {
         const config = getAuthHeaders();
 
         const [{ data: pageProfile }, { data: profileProducts }] =
           await Promise.all([
-            axiosReq.get(`/profiles/${profileId}/`, config),
-            axiosReq.get(`/products/?owner__profile=${profileId}`, config),
+            axiosReq.get(`/profiles/${id}/`, config),
+            axiosReq.get(`/products/?owner__profile=${id}`, config),
           ]);
 
         setFavoriteData((prevState) => ({
@@ -56,14 +53,8 @@ function ProfilePage() {
       }
     };
 
-    // If current user's profile ID does not match the URL ID, redirect and fetch their profile data
-    if (currentUser?.profile_id && currentUser.profile_id !== Number(id)) {
-      navigate(`/profiles/${currentUser.profile_id}`);
-      fetchData(currentUser.profile_id); // Fetch the correct profile data after redirection
-    } else if (currentUser?.profile_id === Number(id)) {
-      fetchData(id); // Fetch data only if IDs match
-    }
-  }, [id, setFavoriteData, currentUser, navigate]);
+    fetchData();
+  }, [id, setFavoriteData]);
 
   // Render the profile and product components as before
   const mainProfile = (
