@@ -325,6 +325,8 @@ const Product = (props) => {
         <Link
           onClick={handleFavoriteClick}
           className="text-decoration-none me-2"
+          aria-label={isFavorited ? "Unfavorite this item" : "Favorite this item"}
+          title={isFavorited ? "Unfavorite this product" : "Favorite this product"}
         >
           <i
             className={
