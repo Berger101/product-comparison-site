@@ -156,7 +156,7 @@ Testing for the application includes **manual testing** and **automated tests** 
 7. **Accessibility Testing**
    - Used tools like Lighthouse and WAVE to test accessibility.
 
-![Website Screenshot](assets/images/lighthouse.png)
+![Website Screenshot](frontend/src/assets/lighthouse.png)
 
 8. **Performance Testing**
    - Used tools like Google PageSpeed Insights to test page load times and performance.
