@@ -43,6 +43,7 @@ const Footer = () => {
                 href="https://www.facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit our Facebook page"
               >
                 <i className="fab fa-facebook"></i>
               </a>
@@ -50,6 +51,7 @@ const Footer = () => {
                 href="https://www.twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit our Twitter profile"
               >
                 <i className="fab fa-twitter"></i>
               </a>
@@ -57,6 +59,7 @@ const Footer = () => {
                 href="https://www.instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit our Instagram profile"
               >
                 <i className="fab fa-instagram"></i>
               </a>
