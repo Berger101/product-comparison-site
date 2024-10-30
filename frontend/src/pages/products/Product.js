@@ -334,7 +334,7 @@ const Product = (props) => {
             }
           ></i>
         </Link>
-        <span className="text-muted">{updated_at}</span>
+        <span className="text-muted-contrast">{updated_at}</span>
         <Link to={`/products/${id}`}>
           <i className="far fa-comments me-1"></i> {comments_count}
         </Link>
